@@ -10,7 +10,9 @@ SET version=0.21%yy%.%mm%%dd%.%hh%%min%
 
 IF NOT "%1" == "" SET version=%1
 
-echo %version% > CurrentVersion.txt
+echo ===============================
+echo %version% 
+echo ===============================
 
 del *.bak
 
@@ -43,4 +45,4 @@ dotnet nuget push ..\..\Package\ZzzLab.DBClient.%version%.nupkg --api-key oy2dit
 
 start chrome https://www.nuget.org/packages/ZzzLab.DBClient/
 
-IF "%1" == "" timeout /t 120
+IF "%1" == "" timeout /t 20

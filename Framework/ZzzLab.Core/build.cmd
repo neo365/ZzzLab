@@ -44,4 +44,4 @@ dotnet nuget push ..\..\Package\ZzzLab.Core.%version%.nupkg --api-key oy2dit4qzg
 
 start chrome https://www.nuget.org/packages/ZzzLab.Core/
 
-IF "%1" == "" timeout /t 120
+IF "%1" == "" timeout /t 20

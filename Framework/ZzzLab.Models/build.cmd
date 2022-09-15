@@ -10,7 +10,9 @@ SET version=0.21%yy%.%mm%%dd%.%hh%%min%
 
 IF NOT "%1" == "" SET version=%1
 
-echo %version% > CurrentVersion.txt
+echo ===============================
+echo %version% 
+echo ===============================
 
 del *.bak
 

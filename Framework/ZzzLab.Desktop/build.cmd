@@ -21,8 +21,9 @@ git pull --progress
 cd .\src
 
 dotnet list package
-dotnet add package Quartz
+
 dotnet add package ZzzLab.Core
+
 dotnet list package
 
 cd ..
@@ -36,8 +37,8 @@ dotnet publish -p:Version=%version%
 dotnet pack --output ..\..\..\Package -p:Version=%version%
 cd ..
 
-dotnet nuget push ..\..\Package\ZzzLab.Scheduler.%version%.nupkg --api-key oy2dit4qzg43qivpgmsq7ortttcenjrurd3bjg5khrqage --source https://api.nuget.org/v3/index.json
+dotnet nuget push ..\..\Package\ZzzLab.Desktop.%version%.nupkg --api-key oy2dit4qzg43qivpgmsq7ortttcenjrurd3bjg5khrqage --source https://api.nuget.org/v3/index.json
 
-start chrome https://www.nuget.org/packages/ZzzLab.Scheduler/
+start chrome https://www.nuget.org/packages/ZzzLab.Desktop/
 
-IF "%1" == "" timeout /t 120
+IF "%1" == "" timeout /t 20
