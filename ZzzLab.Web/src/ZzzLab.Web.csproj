@@ -1,0 +1,41 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+
+		<RootNamespace>ZzzLab</RootNamespace>
+		<Company>ZzzLab Co., ltd.</Company>
+		<Authors>neo365</Authors>
+		<Product>ZzzLab Web Framework</Product>
+		<PackageProjectUrl>www.ZzzLab.net/Lib/Web</PackageProjectUrl>
+		<Copyright>neo365</Copyright>
+		<RootNamespace>ZzzLab.Web</RootNamespace>
+		<RepositoryUrl>https://github.com/neo365/ZzzLab.Web.git</RepositoryUrl>
+		<DebugType>portable</DebugType>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<RepositoryType>git</RepositoryType>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<FrameworkReference Include="Microsoft.AspNetCore.App" />
+	</ItemGroup>
+	
+	<ItemGroup>
+		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.8" />
+		<PackageReference Include="Microsoft.AspNetCore.Http" Version="2.2.2" />
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+		<PackageReference Include="Portable.BouncyCastle" Version="1.9.0" />
+		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+		<PackageReference Include="Swashbuckle.AspNetCore.Filters" Version="7.0.5" />
+		<PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" Version="6.4.0" />
+		<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.22.0" />
+		<PackageReference Include="ZzzLab.Core" Version="0.2122.1840.2304" />
+		<PackageReference Include="ZzzLab.Models" Version="0.2122.1840.2304" />
+	</ItemGroup>
+	
+	<ItemGroup>
+	  <Folder Include="Crypt\" />
+	</ItemGroup>
+</Project>

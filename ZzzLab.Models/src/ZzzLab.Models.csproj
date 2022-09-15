@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+	<Company>ZzzLab Co., ltd.</Company>
+	<Authors>neo365</Authors>
+	<PackageId>ZzzLab.Models</PackageId>
+	<Product>ZzzLab Models Framework</Product>
+	<PackageProjectUrl>www.ZzzLab.net/Lib/Models</PackageProjectUrl>
+	<Copyright>neo365</Copyright>
+	<RootNamespace>ZzzLab</RootNamespace>
+	<IsPublishable>True</IsPublishable>
+	<GenerateDocumentationFile>True</GenerateDocumentationFile>
+	<NoWarn>$(NoWarn);1591</NoWarn>
+	<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+	<PackageLicenseExpression>MIT</PackageLicenseExpression>
+	<PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
+	<DocumentationFile></DocumentationFile>
+	<RepositoryUrl>https://github.com/neo365/ZzzLab.Models.git</RepositoryUrl>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="ZzzLab.Core" Version="0.2122.1840.2304" />
+  </ItemGroup>
+
+</Project>

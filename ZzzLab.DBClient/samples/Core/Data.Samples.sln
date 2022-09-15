@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32228.430
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleSample", "Console\ConsoleSample.csproj", "{C232CAED-452E-4934-9282-83177C04C7D8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{60E737CD-B2A9-4FA5-83F7-93CF1450B7B6}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZzzLab.DBClient", "..\..\src\ZzzLab.DBClient.csproj", "{5C2D95A1-8C60-4176-BAEA-0B7F6CA420B1}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C232CAED-452E-4934-9282-83177C04C7D8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C232CAED-452E-4934-9282-83177C04C7D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C232CAED-452E-4934-9282-83177C04C7D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C232CAED-452E-4934-9282-83177C04C7D8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5C2D95A1-8C60-4176-BAEA-0B7F6CA420B1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5C2D95A1-8C60-4176-BAEA-0B7F6CA420B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5C2D95A1-8C60-4176-BAEA-0B7F6CA420B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5C2D95A1-8C60-4176-BAEA-0B7F6CA420B1}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {14A1EB09-246D-4B7C-A6B2-4362BD9908F5}
+	EndGlobalSection
+EndGlobal

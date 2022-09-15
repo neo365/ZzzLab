@@ -1,0 +1,10 @@
+﻿[*.cs]
+
+# IDE0090: 'new(...)' 사용
+csharp_style_implicit_object_creation_when_type_is_apparent = false
+
+# IDE0057: 범위 연산자 사용
+csharp_style_prefer_range_operator = false
+
+# IDE0017: 개체 초기화 단순화
+dotnet_style_object_initializer = false

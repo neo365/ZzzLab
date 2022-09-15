@@ -1,0 +1,34 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>netstandard2.0</TargetFramework>
+		<Company>ZzzLab Co., ltd.</Company>
+		<Authors>neo365</Authors>
+		<PackageId>ZzzLab.DBClient</PackageId>
+		<Product>ZzzLab DBClient Framework</Product>
+		<PackageProjectUrl>www.ZzzLab.net/Lib/DBClient</PackageProjectUrl>
+		<Copyright>neo365</Copyright>
+		<RootNamespace>ZzzLab.Data</RootNamespace>
+		<IsPublishable>True</IsPublishable>
+		<GenerateDocumentationFile>True</GenerateDocumentationFile>
+		<NoWarn>$(NoWarn);1591</NoWarn>
+		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+		<ProduceReferenceAssembly>False</ProduceReferenceAssembly>
+		<RepositoryUrl>https://github.com/neo365/ZzzLab.DataBase.git</RepositoryUrl>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+	  <Optimize>False</Optimize>
+	</PropertyGroup>
+	
+	<ItemGroup>
+		<PackageReference Include="Npgsql" Version="6.0.6" />
+		<PackageReference Include="NSQLFormatter" Version="2.0.0" />
+		<PackageReference Include="Oracle.ManagedDataAccess.Core" Version="2.19.160" />
+		<PackageReference Include="System.Configuration.ConfigurationManager" Version="6.0.0" />
+		<PackageReference Include="System.Data.SqlClient" Version="4.8.3" />
+		<PackageReference Include="ZzzLab.Core" Version="0.2122.1840.2304" />
+	</ItemGroup>
+</Project>

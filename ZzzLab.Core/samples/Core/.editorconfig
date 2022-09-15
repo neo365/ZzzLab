@@ -1,0 +1,7 @@
+﻿[*.cs]
+
+# IDE0090: 'new(...)' 사용
+csharp_style_implicit_object_creation_when_type_is_apparent = false
+
+# IDE0063: 간단한 'using' 문 사용
+csharp_prefer_simple_using_statement = false

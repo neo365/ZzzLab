@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32228.430
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZzzLab.Office", "ZzzLab.Office.csproj", "{E1719741-6E6C-4827-8836-D221A205347F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E1719741-6E6C-4827-8836-D221A205347F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E1719741-6E6C-4827-8836-D221A205347F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E1719741-6E6C-4827-8836-D221A205347F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E1719741-6E6C-4827-8836-D221A205347F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3D19EDDF-D85C-4C5F-B5F9-1FADA77D696C}
+	EndGlobalSection
+EndGlobal

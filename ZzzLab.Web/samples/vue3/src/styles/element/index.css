@@ -1,0 +1,21 @@
+:root {
+    --app-header-height:50px;
+    --app-header-font-size:1.3rem;
+
+    --app-nav-height:30px;
+    --app-nav-font-size:1.3rem;
+
+    --app-menu-width:200px;
+    --app-menu-font-size:1.3rem;
+    --app-menu-width-collapse:35px;
+
+    --app-main-padding:10px;
+
+    --app-footer-height:25px;
+    --app-footer-font-size:0.5rem;
+
+    --el-menu-base-level-padding: 5px;
+    --el-menu-level-padding: 5px;
+    /*--el-aside-width:300px;*/
+    /*--el-header-height:50px;*/
+}
