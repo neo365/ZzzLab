@@ -13,8 +13,8 @@ IF NOT "%1" == "" SET version=%1
 
 del *.bak
 
-if EXIST .\package\ (
-    del /Q .\package\*.*
+if EXIST ..\package\ (
+    del /Q ..\package\*.*
 )
 
 cd ZzzLab.Core
