@@ -1,12 +1,15 @@
 @echo off
 
-SET yy=%DATE:~2,2%
-SET /a mm=%DATE:~5,2% + 10
-SET dd=%DATE:~8,2%
+SET /a dt=%DATE:-=% + 1010
+SET yy=%dt:~2,2%
+SET mm=%dt:~4,2%
+SET dd=%dt:~6,2%
 SET /a hh=%TIME:~0,2% + 10
 SET min=%TIME:~3,2%
 
 SET version=0.21%yy%.%mm%%dd%.%hh%%min%
+
+IF NOT "%1" == "" SET version=%1
 
 del *.bak
 
