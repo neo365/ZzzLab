@@ -13,10 +13,9 @@ IF NOT "%1" == "" SET version=%1
 
 del *.bak
 
-if EXIST ..\package\ (
-    del /Q ..\package\*.*
+if EXIST .\package\ (
+    del /Q .\package\*.*
 )
-
 
 cd ZzzLab.Core
 call .\build.cmd %version%
@@ -46,4 +45,4 @@ cd ZzzLab.Web
 call .\build.cmd %version%
 cd ..
 
-timeout /t 120
+timeout /t 20
