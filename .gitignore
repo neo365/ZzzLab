@@ -352,3 +352,4 @@ MigrationBackup/
 #append Ignore List
 /*.bak
 /dist
+.idea/
