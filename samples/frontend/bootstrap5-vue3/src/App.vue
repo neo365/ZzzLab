@@ -1,30 +1,58 @@
 <template>
-  <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </nav>
   <router-view/>
 </template>
+<script>
+export default {
+  name: "app",
+  components: {},
+  props: {},
+  data: () => ({}),
+  computed: {},
+  watch: {},
+  beforeCreate() {
+  },
+  created() {
+  },
+  beforeMount() {
+    this.init();
+  },
+  mounted() {
+  },
+  beforeUpdate() {
+  },
+  updated() {
+  },
+  methods: {
+    init() {
+    }
+  },
+};
+</script>
 
 <style>
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'Noto Sans KR', "Nanum Gothic", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+  font-size: 1rem;
+  /*width: 100vw;*/
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-nav {
-  padding: 30px;
+body::-webkit-scrollbar {
+  width: 5px;  /* 스크롤바의 너비 */
 }
 
-nav a {
-  font-weight: bold;
-  color: #2c3e50;
+body::-webkit-scrollbar-thumb {
+  height: 10%; /* 스크롤바의 길이 */
+  background: #217af4; /* 스크롤바의 색상 */
+
+  border-radius: 10px;
 }
 
-nav a.router-link-exact-active {
-  color: #42b983;
+body::-webkit-scrollbar-track {
+  background: rgba(33, 122, 244, .1);  /*스크롤바 뒷 배경 색상*/
 }
 </style>
