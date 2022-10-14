@@ -35,7 +35,7 @@ dotnet publish -p:Version=%version%
 dotnet pack --output ..\..\..\Package -p:Version=%version%
 cd ..
 
-dotnet nuget push ..\..\Package\ZzzLab.Models.%version%.nupkg --api-key oy2dit4qzg43qivpgmsq7ortttcenjrurd3bjg5khrqage --source https://api.nuget.org/v3/index.json
+dotnet nuget push ..\..\Package\ZzzLab.Models.%version%.nupkg --api-key oy2obbaz5hmwbmexdheqsju4x6crlfce5bfckjimj6csfu --source https://api.nuget.org/v3/index.json
 
 start chrome https://www.nuget.org/packages/ZzzLab.Models/
 
