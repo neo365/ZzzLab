@@ -24,11 +24,11 @@
 	</PropertyGroup>
 	
 	<ItemGroup>
-		<PackageReference Include="Npgsql" Version="6.0.6" />
+		<PackageReference Include="Npgsql" Version="6.0.7" />
 		<PackageReference Include="NSQLFormatter" Version="2.0.0" />
 		<PackageReference Include="Oracle.ManagedDataAccess.Core" Version="2.19.160" />
 		<PackageReference Include="System.Configuration.ConfigurationManager" Version="6.0.1" />
 		<PackageReference Include="System.Data.SqlClient" Version="4.8.3" />
-		<PackageReference Include="ZzzLab.Core" Version="0.2122.1925.2209" />
+		<PackageReference Include="ZzzLab.Core" Version="0.2122.1925.2323" />
 	</ItemGroup>
 </Project>
