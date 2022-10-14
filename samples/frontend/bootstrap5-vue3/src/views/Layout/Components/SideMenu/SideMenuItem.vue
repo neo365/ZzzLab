@@ -3,12 +3,14 @@
     <el-sub-menu v-if="(menuItem.children && menuItem.children.length > 0)" :key="i" :index="menuItem.path" :item="menuItem">
       <template #title>
         <i v-if="menuItem.icon" :class="menuItem.icon"></i>
+        <i v-else class="fa-solid fa-circle-plus"></i>
         <span>{{ menuItem.text }}</span>
       </template>
       <SideMenuItem :menuItems="menuItem.children"></SideMenuItem>
     </el-sub-menu>
     <el-menu-item v-else :key="menuItem.path" :index="menuItem.path" :item="menuItem">
       <i v-if="menuItem.icon" :class="menuItem.icon"></i>
+      <i v-else class="fa-solid fa-circle"></i>
       <template #title>{{ menuItem.text }}</template>
     </el-menu-item>
   </template>

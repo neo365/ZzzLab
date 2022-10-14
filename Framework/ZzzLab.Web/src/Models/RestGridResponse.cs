@@ -8,6 +8,12 @@ namespace ZzzLab.Web.Models
         /// <summary>
         /// Grid Item
         /// </summary>
+        [JsonProperty(PropertyName = "headers")]
+        public virtual IEnumerable<object>? Headers { set; get; }
+
+        /// <summary>
+        /// Grid Item
+        /// </summary>
         [JsonProperty(PropertyName = "items")]
         public virtual IEnumerable<T>? Items { set; get; }
 

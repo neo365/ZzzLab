@@ -8,7 +8,7 @@ import store from './store'
 app.use(store)
 
 import axios from 'axios' // [axios]
-axios.defaults.baseURL = 'http://localhost:8888'
+axios.defaults.baseURL = 'http://localhost:8089'
 app.config.globalProperties.$http = axios;
 
 // Install fortawesome
@@ -33,6 +33,14 @@ import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
     app.component(key, component)
 }
+
+
+// import DataTable from 'datatables.net-vue3'
+// app.use(DataTable)
+//import DataTableBs5 from 'datatables.net-bs5'
+//DataTable.use(DataTableBs5);
+
+import 'datatables.net-bs5/css/dataTables.bootstrap5.min.css';
 
 // Install custom components
 import ZBButton from './components/bootstrap5/ZBButton'

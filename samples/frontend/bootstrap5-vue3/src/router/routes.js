@@ -47,6 +47,12 @@ const routes = [
                 meta: {requiresAuth: false},
                 component: () => import('@/views/Samples/Buttons.vue')
             },
+            {
+                path: '/samples/datatables',
+                name: 'datatables',
+                meta: {requiresAuth: false},
+                component: () => import('@/views/Samples/DataTables.vue')
+            },
         ]
     },
     {

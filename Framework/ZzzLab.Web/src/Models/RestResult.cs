@@ -241,6 +241,9 @@ namespace ZzzLab.Web.Models
             => Fail(ex);
 
         public static IActionResult Grid<T>(IEnumerable<T> data, int recordsTotal = -1, int recordsFiltered = -1)
+            => Grid(Enumerable.Empty<object>(), data, recordsTotal, recordsFiltered);
+
+        public static IActionResult Grid<T>(IEnumerable<object>? headers, IEnumerable<T> data, int recordsTotal = -1, int recordsFiltered = -1)
         {
             if (data == null || data.Any() == false)
             {
@@ -252,6 +255,7 @@ namespace ZzzLab.Web.Models
             {
                 Success = true,
                 StatusCode = (int)HttpStatusCode.OK,
+                Headers = headers,
                 Items = data,
                 RecordsTotal = (recordsTotal < 0 ? data.Count() : recordsTotal),
                 RecordsFiltered = (recordsFiltered < 0 ? data.Count() : recordsFiltered),
@@ -264,10 +268,17 @@ namespace ZzzLab.Web.Models
         {
             if (table == null || table.Rows.Count == 0) return Empty();
 
+            List<string> list = new List<string>();
+            foreach(DataColumn c in table.Columns)
+            {
+                list.Add(c.ColumnName);
+            }
+
             RestGridResponse<dynamic> res = new RestGridResponse<dynamic>()
             {
                 Success = true,
                 StatusCode = (int)HttpStatusCode.OK,
+                Headers = list,
                 Items = table.ToModeling(),
                 RecordsTotal = (recordsTotal < 0 ? table.Rows.Count : recordsTotal),
                 RecordsFiltered = (recordsFiltered < 0 ? table.Rows.Count : recordsFiltered)
