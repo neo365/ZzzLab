@@ -1,0 +1,24 @@
+:root {
+    --app-header-height:50px;
+    --app-header-font-size:1.3rem;
+
+    --app-nav-height:30px;
+    --app-nav-font-size:1.3rem;
+
+    --app-menu-width:201px;
+    --app-menu-font-size:1.3rem;
+    --app-menu-width-collapse:34px;
+
+    --app-main-padding:12px;
+
+    --app-footer-height:25px;
+    --app-footer-font-size:0.5rem;
+    --z-border-radius-round: 20px;
+    --app-main-height: calc(100vh - var(--app-footer-height) - var(--app-header-height))
+}
+
+.isEllipsis {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}

@@ -1,0 +1,57 @@
+{
+  "items": [
+    {
+      "id": "console-view",
+      "parentId": null,
+      "icon": "fa-solid fa-terminal",
+      "title": "디버깅 콘솔",
+      "link": "/Debug/Console"
+    },
+    {
+      "id": "postechreview",
+      "parentId": null,
+      "icon": "fa-solid fa-database",
+      "title": "포스텍 데이터 베이스 조회",
+      "link": "/debug/postech"
+    },
+    {
+      "id": "eailog",
+      "parentId": null,
+      "icon": "fa-solid fa-database",
+      "title": "EAI 로그 조회",
+      "link": "/debug/eai"
+    },
+    {
+      "id": "iftolims",
+      "parentId": null,
+      "icon": "fas fa-arrow-right",
+      "title": "I/F To Lims"
+    },
+    {
+      "id": "limstoif",
+      "parentId": null,
+      "icon": "fas fa-arrow-left",
+      "title": "Lims To I/F "
+    },
+    {
+      "id": "samples",
+      "parentId": null,
+      "icon": "fa-solid fa-flask",
+      "title": "샘플"
+    },
+    {
+      "id": "samples-buttons",
+      "parentId": "samples",
+      "icon": "fas fa-mouse",
+      "title": "버튼",
+      "link": "/samples/buttons"
+    },
+    {
+      "id": "samples-datatables",
+      "parentId": "samples",
+      "icon": "fas fa-th",
+      "title": "DataTables",
+      "link": "/samples/datatables"
+    }
+  ]
+}
