@@ -48,15 +48,17 @@ const emitter = mitt();
 app.config.globalProperties.emitter = emitter
 
 // install session
-// import ZLSession from '@/modules/ZLSession'
-// app.use(ZLSession,  { persist: true })
+import ZLSession from '@/modules/ZLSession'
+app.use(ZLSession,  { persist: true })
 
 // install Cookies
 import VueCookies from 'vue-cookies'
 // default options config: { expires: '1d', path: '/', domain: '', secure: '', sameSite: 'Lax' }
 app.use(VueCookies, {})
 
-// import './plugins/SignalRHub.js'
+import DatePicker from 'vue-datepicker-next';
+app.component(DatePicker.name, DatePicker)
+import 'vue-datepicker-next/index.css';
 
 
 import './plugins/Prototype.js'
