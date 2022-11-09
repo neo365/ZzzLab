@@ -68,19 +68,7 @@ export default {
   },
 };
 </script>
-<style lang="scss">
-.bg {
-  background-image: url("~@/assets/Images/Main/bg_p.gif");
-  background-repeat: repeat;
-}
-</style>
-
 <style scoped>
-.flex-grow {
-  flex-grow: 1;
-}
-
-
 /* =====================================
 Header
 ======================================== */
@@ -104,6 +92,10 @@ header.app {
 
 header.app .el-menu-demo {
   height: var(--app-header-height);
+}
+
+.flex-grow {
+  flex-grow: 1;
 }
 
 /* =====================================

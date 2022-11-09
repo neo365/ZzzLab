@@ -15,7 +15,9 @@ npm install --save vue-router
 npm install --save vuex
 
 ## 부트스트랩5 설치
-npm install --save bootstrap
+<!--npm install --save bootstrap -->
+
+npm install --save bootstrap bootstrap-vue-3 @popperjs/core
 
 npm install --save bootstrap-icons
 

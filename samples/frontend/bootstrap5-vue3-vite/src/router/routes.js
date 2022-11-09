@@ -5,7 +5,7 @@ import ErrorPageLayout from '../views/ErrorPages/ErrorPageLayout.vue';
 const routes = [
     {
         path: '/',
-        redirect: 'debug/Console',
+        redirect: 'Dashboard',
         component: DockLayout,
         meta: {requiresAuth: true},
         children: [
@@ -13,7 +13,7 @@ const routes = [
                 path: '/Dashboard',
                 name: 'Dashboard',
                 meta: {requiresAuth: false},
-                component: () => import('../views/Dashboard.vue')
+                component: () => import('../views/Pages/Dashboard.vue')
             },
             {
                 path: '/samples/buttons',
@@ -29,13 +29,13 @@ const routes = [
             },
             {
                 path: '/debug/console',
-                name: 'Console',
+                name: 'console',
                 meta: {requiresAuth: false},
                 component: () => import('../views/Debug/ConsoleView.vue')
             },
             {
                 path: '/debug/postech',
-                name: 'Postech',
+                name: 'postech',
                 meta: {requiresAuth: false},
                 component: () => import('../views/Debug/PostechSearch.vue')
             },

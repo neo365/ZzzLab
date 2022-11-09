@@ -6,6 +6,8 @@
              :data="items"
              :options="comOptions"
   />
+
+  <z-button @click="redrawGrid()">test</z-button>
 </template>
 <script>
 import DataTable from 'datatables.net-vue3'

@@ -9,7 +9,7 @@ app.use(router)
 import store from './store'
 app.use(store)
 
-console.log(import.meta.env.VITE_APP_SERIVE_URL);
+console.log(import.meta.env.VITE_APP_BASE_URL);
 
 import axios from 'axios' // [axios]
 axios.defaults.baseURL = import.meta.env.VITE_APP_SERIVE_URL
@@ -21,6 +21,10 @@ import '@fortawesome/fontawesome-free/js/all.js'
 // install bootstrap
 import "bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
+
+import BootstrapVue3 from 'bootstrap-vue-3'
+app.use(BootstrapVue3)
+import 'bootstrap-vue-3/dist/bootstrap-vue-3.css'
 import './styles/bootstrap/index.css'
 
 // Install bootstrap icons

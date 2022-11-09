@@ -6,12 +6,11 @@
 
 <script>
 export default {
-  name: "z-col",
+  name: "z-container",
   components: {},
   props: {
     class: {type: String, default: ''},
-    size: {type: String, default: ''},
-    order: {type: String, default: ''},
+    size: {type: String, default: null},
   },
   data: () => ({}),
   computed: {
@@ -19,7 +18,15 @@ export default {
       return this.$slots.default ? true : false;
     },
     mainClass: function () {
-      return 'col ' + this.class;
+      let customClass = '';
+
+      if(!this.size) {
+        customClass = 'container-' + this.size + ' ';
+      } else {
+        customClass = 'container ';
+      }
+
+      return customClass + this.class;
     }
   },
   watch: {},
