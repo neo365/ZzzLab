@@ -52,3 +52,12 @@ npm install --save datatables.net-rowreorder
 [비공식]
 
 npm install --save datatables.net-colresize-unofficial
+
+## datepicker 설치
+npm install --save vue-datepicker-next
+
+## uuid
+npm install --save vue-uuid
+
+## Cookies
+npm install --save vue-cookies
