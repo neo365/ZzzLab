@@ -12,7 +12,7 @@ app.use(store)
 console.log(import.meta.env.VITE_APP_BASE_URL);
 
 import axios from 'axios' // [axios]
-axios.defaults.baseURL = import.meta.env.VITE_APP_SERIVE_URL
+axios.defaults.baseURL = import.meta.env.VITE_APP_BASE_URL
 app.config.globalProperties.$http = axios;
 
 // Install fortawesome
