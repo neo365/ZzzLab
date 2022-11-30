@@ -47,7 +47,7 @@ export default {
   methods: {
     init() {
       this.$http({
-        url: "./menu.json",
+        url: "/menu.json",
         method: 'GET'
       }).then(
           result => {

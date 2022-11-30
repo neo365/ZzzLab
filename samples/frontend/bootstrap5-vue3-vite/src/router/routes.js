@@ -27,24 +27,6 @@ const routes = [
                 meta: {requiresAuth: false},
                 component: () => import('../views/Samples/DataTables.vue')
             },
-            {
-                path: '/debug/console',
-                name: 'console',
-                meta: {requiresAuth: false},
-                component: () => import('../views/Debug/ConsoleView.vue')
-            },
-            {
-                path: '/debug/postech',
-                name: 'postech',
-                meta: {requiresAuth: false},
-                component: () => import('../views/Debug/PostechSearch.vue')
-            },
-            {
-                path: '/debug/eai',
-                name: 'Eai',
-                meta: {requiresAuth: false},
-                component: () => import('../views/Debug/EaiLog.vue')
-            },
         ]
     },
     {

@@ -70,7 +70,7 @@ export default {
   -webkit-transform: translate(-50%, -50%);
   -ms-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
-  font-size: 252px;
+  font-size: 220px;
   font-weight: 900;
   margin: 0px;
   color: #262626;
@@ -86,6 +86,17 @@ export default {
 #error-pages .error .error-content h3 {
   font-family: 'Cabin', sans-serif;
   position: relative;
+  font-size: 16px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #262626;
+  margin: 0px;
+  letter-spacing: 3px;
+  padding-left: 6px;
+}
+
+#error-pages .error .error-message h3 {
+  font-family: 'Cabin', sans-serif;
   font-size: 16px;
   font-weight: 700;
   text-transform: uppercase;
