@@ -24,6 +24,7 @@
     "datatables.net-colresize-unofficial": "^1.7.0",
     "datatables.net-responsive": "^2.3.0",
     "datatables.net-rowreorder": "^1.2.8",
+    "datatables.net-select": "^1.5.0",
     "datatables.net-vue3": "^1.0.0",
     "element-plus": "^2.2.17",
     "jquery": "^3.6.1",

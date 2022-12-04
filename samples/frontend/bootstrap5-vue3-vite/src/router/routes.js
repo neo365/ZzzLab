@@ -47,6 +47,17 @@ const routes = [
         ]
     },
     {
+        path: '/redirect',
+        component: DockLayout,
+        hidden: true,
+        children: [
+            {
+                path: '/redirect/:path*',
+                component: () => import('../views/redirect.vue'),
+            },
+        ],
+    },
+    {
         path: '/',
         component: ErrorPageLayout,
         children: [

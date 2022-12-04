@@ -49,6 +49,8 @@ npm install --save datatables.net-responsive
 
 npm install --save datatables.net-rowreorder
 
+npm install --save datatables.net-select
+
 [비공식]
 
 npm install --save datatables.net-colresize-unofficial
