@@ -98,6 +98,4 @@ ZLSession.install = function (Vue, options) {
     }
 };
 
-//module.exports = ZLSession;
-
-export default ZLSession;
+module.exports = ZLSession;

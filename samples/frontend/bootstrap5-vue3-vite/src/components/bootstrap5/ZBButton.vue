@@ -1,14 +1,8 @@
 <template>
-  <component :is="computedTag"
-             :class=computedClass
-             :type=computedType class="btn z-button"
-             :value="value"
-             :disabled="computedDisabled"
-             data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-content="Disabled popover">
-    <span v-if="loading == true" class="spinner-border me-1" :class="computedSpinerClass" role="status" aria-hidden="true"></span>
-    <i v-if="icon != '' && loading == false"  :class="this.iconClass"></i>
-    <slot />
-  </component>
+  <button :class=mainClass :type=mainType>
+    <i v-if="icon != ''" :class="this.iconClass"></i>
+    <slot/>
+  </button>
 </template>
 
 <script>
@@ -16,63 +10,65 @@ export default {
   name: "z-button",
   components: {},
   props: {
-    tag: {type: String, default: 'button'},
-    type: {type: String, default: 'button'},
-    small: {type: Boolean, default: false},
-    large: {type: Boolean, default: false},
-    variant: {type: String, default: 'secondary'},
+    type: {type: String, default: ''},
+    submit: {type: Boolean, default: false},
+    reset: {type: Boolean, default: false},
+    size: {type: String, default: 'small'},
     icon: {type: String, default: ''},
-    squared: {type: Boolean, default: false},
-    pill: {type: Boolean, default: false},
-    loading: {type: Boolean, default: false},
-    value: {type: String, default: null},
+    class: {type: String, default: ''},
+    outline: {type: Boolean, default: false},
+    round: {type: Boolean, default: false},
   },
   data: () => ({}),
   computed: {
     isExistSlot: function () {
       return this.$slots.default ? true : false;
     },
-    computedLoading: function () {
-      console.log(this.loading)
-      return this.loading;
-    },
-    computedDisabled: function () {
-      if(this.loading) return true;
-
-      return false;
-    },
-    computedTag: function () {
-      if (this.tag) return this.tag;
+    mainType: function () {
+      if (this.submit) return "submit";
+      else if (this.reset) return "reset";
       else return "button";
     },
-    computedType: function () {
-      if (this.type) return this.type;
-      else return "button";
-    },
-    computedClass: function () {
-      let btnClass = '';
+    mainClass: function () {
 
-      if (this.variant) btnClass += ' btn-' + (this.variant);
+      let btnClass = 'btn z-button';
 
-      if (this.large) btnClass += ' btn-lg';
-      else if (this.small) btnClass += ' btn-sm';
-      else btnClass += ' btn-md';
+      switch (this.type) {
+        case "primary":
+        case "secondary":
+        case "success":
+        case "danger":
+        case "warning":
+        case "info":
+        case "light":
+        case "dark":
+        case "link":
+          btnClass += ' btn-' + (this.outline ? 'outline-' : '') + this.type;
+          break;
 
-      if (this.squared) btnClass += ' is-squared';
-      else if (this.pill) btnClass += this.$slots.default ? ' is-round' : ' is-circle';
+        default:
+          break;
+      }
 
-      return btnClass;
+      switch (this.size) {
+        case "small":
+          btnClass += ' btn-sm';
+          break;
+
+        case "large":
+          btnClass += ' btn-lg';
+          break;
+
+        default:
+          break;
+      }
+
+      if (this.round) btnClass += this.$slots.default ? ' is-round' : ' is-circle';
+
+      return this.class + ' ' + btnClass;
     },
     iconClass: function () {
       return this.$props.icon + (this.$slots.default ? ' pe-1' : '');
-    },
-    computedSpinerClass: function() {
-      let style = '';
-      if (this.large) style += ' spinner-border-lg';
-      else if (this.small) style += ' spinner-border-xs';
-      else style += ' spinner-border-sm';
-
-      return style;
     }
   },
   watch: {},
@@ -103,21 +99,5 @@ export default {
 
 .z-button.is-round {
   border-radius: var(--z-border-radius-round);
-}
-
-.z-button.is-squared {
-  border-radius: 0;
-}
-
-.spinner-border-xs {
-  --bs-spinner-width: var(--bs-btn-font-size);
-  --bs-spinner-height: var(--bs-spinner-width);
-  --bs-spinner-border-width:calc(var(--bs-spinner-width)/5);
-}
-
-.spinner-border-lg {
-  --bs-spinner-width: var(--bs-btn-font-size);
-  --bs-spinner-height: var(--bs-spinner-width);
-  --bs-spinner-border-width:calc(var(--bs-spinner-width)/5);
 }
 </style>

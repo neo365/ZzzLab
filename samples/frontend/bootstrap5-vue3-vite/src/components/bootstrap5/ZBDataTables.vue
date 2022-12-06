@@ -1,24 +1,20 @@
 <template>
-  <DataTable :id="computedId"
+  <DataTable :id="comId"
              ref="zdatatable"
-             class="table"
-             :class="computedClass"
-             :columns="computedHeaders"
-             :data="computedItems"
-             :options="computedOptions"
+             :class="comClass"
+             :columns="comHeaders"
+             :data="items"
+             :options="comOptions"
   />
 
   <z-button @click="redrawGrid()">test</z-button>
-  <z-button @click="copyExcel()">test</z-button>
 </template>
 <script>
 import DataTable from 'datatables.net-vue3'
 import DataTableBs5 from 'datatables.net-bs5'
-
-import DataTableRowReorder from 'datatables.net-rowreorder'
 import DataTableColReorder from 'datatables.net-colreorder'
-// import DataTableSelect from 'datatables.net-select'
 import DataTableResponsive from 'datatables.net-responsive'
+import DataTableRowReorder from 'datatables.net-rowreorder'
 import DataTableColResize from 'datatables.net-colresize-unofficial'
 //import DataTableDefault from '@/components/dataTables.default.js'
 
@@ -38,26 +34,23 @@ export default {
     class: {type: String, default: ''},
     hover: {type: Boolean, default: true},
     striped: {type: Boolean, default: true},
-    rowReorder: {type: Boolean, default: false},
-    colReorder: {type: Boolean, default: false},
-    colResizeble: {type: Boolean, default: false},
-    responsive: {type: Boolean, default: false},
   },
   data: () => ({
     tableObject: null
   }),
   computed: {
-    computedId: function () {
+    comId: function () {
+      console.log('comId', this.id);
       return this.id;
     },
-    computedClass: function () {
-      let customClass = '';
+    comClass: function () {
+      let customClass = 'table';
       if (this.hover) customClass += ' table-hover';
       if (this.striped) customClass += ' table-striped';
 
       return customClass + ' ' + this.class;
     },
-    computedHeaders: function () {
+    comHeaders: function () {
       let mainHreaders = [];
 
       this.headers.forEach(function (value) {
@@ -78,7 +71,7 @@ export default {
 
       return mainHreaders;
     },
-    computedOptions: function () {
+    comOptions: function () {
       let config = this.options;
       config.ordering = !!this.headers.find(x => x.orderable)
       config.initComplete = function (settings, json) {
@@ -86,41 +79,37 @@ export default {
         // const api = new jquery.fn.dataTable.Api(settings);
         // console.log('initComplete2', api);
       }
-      config.select = {
-        style: 'os',
-        items: 'cell'
-      }
 
       if(!config.language) {
         config.language = {
-            emptyTable: "데이터가 없습니다.",
-            info: "전체 _TOTAL_ 개",//"Showing _START_ to _END_ of _TOTAL_ 개의 항목",
-            infoEmpty: "",//"Showing 0 to 0 of 0 entries",
-            infoFiltered: "(총 _MAX_ 개)", //"(filtered from _MAX_ total entries)",
-            infoPostFix: "",
-            decimal: ",",
-            thousands: ",",
-            lengthMenu: '<span class="dataTables_lengthMenu">페이지당 줄수</span> _MENU_', //Show _MENU_ entries,
-            loadingRecords: "읽는중...",
-            processing: "처리중...", //"Processing...",
-            search: '<span class="dataTables_search">검색</span> : ', //"Search:",
-            zeroRecords: "검색 결과가 없습니다", //"No matching records found",
-            paginate: {
+          emptyTable: "데이터가 없습니다.",
+              info: "전체 _TOTAL_ 개",//"Showing _START_ to _END_ of _TOTAL_ 개의 항목",
+              infoEmpty: "",//"Showing 0 to 0 of 0 entries",
+              infoFiltered: "(총 _MAX_ 개)", //"(filtered from _MAX_ total entries)",
+              infoPostFix: "",
+              decimal: ",",
+              thousands: ",",
+              lengthMenu: '<span class="dataTables_lengthMenu">페이지당 줄수</span> _MENU_', //Show _MENU_ entries,
+              loadingRecords: "읽는중...",
+              processing: "처리중...", //"Processing...",
+              search: '<span class="dataTables_search">검색</span> : ', //"Search:",
+              zeroRecords: "검색 결과가 없습니다", //"No matching records found",
+              paginate: {
             first: "처음", //"First",
-            last: "마지막",//"Last",
-            next: "다음",//"Next",
-            previous: "이전" //"Previous"
+                last: "마지막",//"Last",
+                next: "다음",//"Next",
+                previous: "이전" //"Previous"
           },
           aria: {
             sortAscending: ": 오름차순 정렬", //": activate to sort column ascending",
-            sortDescending: ": 내림차순 정렬", //": activate to sort column descending"
+                sortDescending: ": 내림차순 정렬", //": activate to sort column descending"
           }
         }
       }
 
       return config;
     },
-    computedItems: function () {
+    comItems: function () {
       return this.items;
     },
 
@@ -132,21 +121,19 @@ export default {
   },
   beforeMount() {
     DataTable.use(DataTableBs5);
-    // DataTable.use(DataTableSelect);
-
-    if(this.rowReorder) DataTable.use(DataTableRowReorder);
-    if(this.colReorder) DataTable.use(DataTableColReorder);
-    if(this.responsive) DataTable.use(DataTableResponsive);
-
-    if(this.colResizeble) DataTable.use(DataTableColResize);
+    DataTable.use(DataTableColReorder);
+    DataTable.use(DataTableResponsive);
+    DataTable.use(DataTableRowReorder);
+    DataTable.use(DataTableColResize);
     //DataTable.use(DataTableDefault);
+
+
 
     this.init();
   },
   mounted() {
     this.tableObject = this.$refs.zdatatable.dt();
-    // this.tableObject.cells( { selected: true } ).data();
-    // this.tableObject.rows( '.important', { selected: true } ).data();
+    console.log('beforeMount', this.$refs.zdatatable.dt());
 
     window.addEventListener('resize', this.resizeGrid);
     window.addEventListener(
@@ -157,8 +144,6 @@ export default {
         },
         {once: true}
     );
-
-    window.addEventListener("paste", this.paste, event);
   },
   beforeUpdate() {
   },
@@ -166,7 +151,6 @@ export default {
   },
   beforeUnmount() {
     window.removeEventListener('resize', this.resizeGrid);
-    window.removeEventListener('paste');
   },
   unmounted() {
   },
@@ -175,22 +159,11 @@ export default {
     },
     resizeGrid() {
       this.redrawGrid();
+      console.log('resizeGrid')
     },
     redrawGrid() {
       this.tableObject.draw();
     },
-    copy() {
-    },
-    paste(e) {
-      var paste = e.clipboardData && e.clipboardData.getData ?
-          e.clipboardData.getData('text/plain') :                // Standard
-          window.clipboardData && window.clipboardData.getData ?
-              window.clipboardData.getData('Text') :                 // MS
-              false;
-      if (paste) {
-        console.log("gogo", paste)
-      }
-    }
   },
 };
 </script>

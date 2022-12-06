@@ -1,4 +1,5 @@
 <template>
+  <el-scrollbar class="menu-scrollbar z-sidemenu">
     <el-menu
         :collapse="collapse"
         :default-active="activeMenu"
@@ -8,6 +9,7 @@
     >
       <SideMenuItem :menuItems="menuTree"/>
     </el-menu>
+  </el-scrollbar>
 </template>
 
 <script>
@@ -45,7 +47,7 @@ export default {
   methods: {
     init() {
       this.$http({
-        url: "/menu.json",
+        url: "./menu.json",
         method: 'GET'
       }).then(
           result => {
@@ -103,11 +105,6 @@ export default {
 
 
 <style scoped>
-.el-menu {
-  --el-menu-item-height:40px;
-  --el-menu-item-font-size:12px;
-}
-
 .menu-scrollbar {
   height: calc(100vh - var(--app-header-height) - var(--app-nav-height) - 1px);
   border-right: solid 0px #e6e6e6;

@@ -33,22 +33,15 @@ namespace ConsoleSample
                 Logger.Debug(DB.SelectValue("SELECT SYSDATE FROM DUAL"));
             }
 
-            //Logger.Info($"[Test] {DBClient.CheckOnline("RIST_LIMS")}");
-
-            //QueryParameterCollection parameters = new QueryParameterCollection
-            //{
-            //    { "UUID", "FE78BB8A-B838-4357-AE99-C5FB73E999BF" },
-            //};
-
             QueryParameterCollection parameters = new QueryParameterCollection
             {
                 { "log_id", Guid.NewGuid().ToString() },
                 { "machine_name", Environment.MachineName },
-                { "date_log", "2022-0905 13:21:00" },
+                { "date_log", DateTime.Now.To24Hours() },
                 { "log_level", "Debug" },
-                { "stacktrace","stacktracestacktracestacktracestacktracestacktrace" },
+                { "stacktrace","stacktrace" },
                 { "logger", "test" },
-                { "message","messagemessagemessagemessagemessage" },
+                { "message","message" },
             };
 
 
@@ -56,7 +49,7 @@ namespace ConsoleSample
                 + "INSERT INTO debug_logger ("
                 + " log_id,  machine_name, date_log, stacktrace, log_level, logger, message "
                 + " ) VALUES( "
-                + " :log_id, :machine_name, :date_log, :stacktrace, :log_level, :logger, :message "
+                + " #{log_id}, #{machine_name}, #{date_log}, #{stacktrace}, #{log_level}, #{logger}, #{message}"
                 + " ) ";
 
 

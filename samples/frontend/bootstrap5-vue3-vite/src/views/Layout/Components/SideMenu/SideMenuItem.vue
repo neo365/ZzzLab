@@ -35,10 +35,12 @@ export default {
   updated() {},
   methods: {
     init() {
+      console.log(this.menuItems);
     },
   }
 }
 </script>
+
 
 <style scoped>
 .el-sub-menu .b-icon,

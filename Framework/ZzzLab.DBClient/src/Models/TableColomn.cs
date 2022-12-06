@@ -14,11 +14,17 @@ namespace ZzzLab.Data.Models
         public string DataType { set; get; }
 
         public string DataLength { set; get; }
+
         public string DataPrecision { set; get; }
+
         public string ConstraintType { set; get; }
+
         public string RefSchemaName { set; get; }
+
         public string RefDataBaseName { get; private set; }
+
         public string RefTableName { set; get; }
+
         public string RefColumnName { get; private set; }
 
         [Required]

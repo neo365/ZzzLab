@@ -26,11 +26,13 @@ namespace ZzzLab.Data
 
         void CrearDBConnection(IDbConnection conn);
 
+        string GetVersion();
+
         /// <summary>
         /// 연결테스트
         /// </summary>
         /// <returns>연결성공 여부</returns>
-        bool ConnectionTest(int timeout = 5);
+        bool ConnectionTest();
 
         /// <summary>
         /// Database Select

@@ -36,7 +36,7 @@ namespace ZzzLab.Data
 
         #region TEST
 
-        public virtual bool ConnectionTest(int timeout = 5)
+        public virtual bool ConnectionTest()
         {
             IDbConnection conn = null;
             try
@@ -55,6 +55,9 @@ namespace ZzzLab.Data
 
             return false;
         }
+
+        public virtual string GetVersion()
+            => string.Empty;
 
         #endregion TEST
 

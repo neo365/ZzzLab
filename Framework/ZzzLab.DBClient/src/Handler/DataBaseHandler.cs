@@ -68,8 +68,11 @@ namespace ZzzLab.Data
         public void CrearDBConnection(IDbConnection connection)
             => this.Handler.CrearDBConnection(connection);
 
-        public bool ConnectionTest(int timeout = 5)
-            => this.Handler.ConnectionTest(timeout);
+        public bool ConnectionTest()
+            => this.Handler.ConnectionTest();
+
+        public string GetVersion() 
+            => this.Handler.GetVersion();
 
         public DataTable Select(string commandText)
             => this.Handler.Select(commandText);

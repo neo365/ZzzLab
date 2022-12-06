@@ -1,5 +1,5 @@
 <template>
-  <div ref="container" :class=computedClasses>
+  <div :class=mainClass>
     <slot/>
   </div>
 </template>
@@ -10,21 +10,23 @@ export default {
   components: {},
   props: {
     class: {type: String, default: ''},
-    fluid: {type: Object, default: false}
+    size: {type: String, default: null},
   },
   data: () => ({}),
   computed: {
     isExistSlot: function () {
       return this.$slots.default ? true : false;
     },
-    computedClasses: function () {
+    mainClass: function () {
       let customClass = '';
-      
-      if(this.fluid === false) customClass += 'container';
-      else if(this.fluid === true) customClass += 'container-fluid';
-      else if(typeof this.fluid === 'string') customClass += `container-${this.fluid.toString()}`;
 
-      return customClass + ' ' +this.class;
+      if(!this.size) {
+        customClass = 'container-' + this.size + ' ';
+      } else {
+        customClass = 'container ';
+      }
+
+      return customClass + this.class;
     }
   },
   watch: {},

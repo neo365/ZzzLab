@@ -23,23 +23,9 @@
   </header>
   <aside class="app" :class="{ 'is-collapse' : isCollapse }">
     <SideMenu :collapse="isCollapse" @toggle="sideMenuToggle" @selected="sideMenuSelect"/>
-    <SideMenu :collapse="isCollapse" @toggle="sideMenuToggle" @selected="sideMenuSelect"/>
   </aside>
   <main class="app " :class="{ 'is-collapse' : isCollapse }">
-    <component :is="linkPath" />
-    <el-tabs
-        type="card"
-        class="demo-tabs"
-    >
-      <el-tab-pane
-          v-for="item in editableTabs"
-          :key="item.name"
-          :label="item.title"
-          :name="item.name"
-      >
-        <router-view/>
-      </el-tab-pane>
-    </el-tabs>
+    <div><router-view/></div>
 
   </main>
   <footer class="app">
@@ -57,18 +43,6 @@ export default {
   },
   data: () => ({
     isCollapse: false,
-    editableTabs :[
-      {
-        title: 'Tab 1',
-        name: '1',
-        content: 'Tab 1 content',
-      },
-      {
-        title: 'Tab 2',
-        name: '2',
-        content: 'Tab 2 content',
-      },
-    ],
   }),
   computed: {
   },
@@ -89,14 +63,6 @@ export default {
     },
     sideMenuSelect(keyPath) {
       console.log(keyPath)
-    },
-    addTab(targetName) {
-      const newTabName = 'test'
-      this.editableTabs.push({
-        title: 'New Tab',
-        name: newTabName
-      })
-      this.$router.push('../Samples/Buttons.vue')
     }
 
   },

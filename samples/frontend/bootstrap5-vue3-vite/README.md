@@ -15,16 +15,10 @@ npm install --save vue-router
 npm install --save vuex
 
 ## 부트스트랩5 설치
-<!--npm install --save bootstrap -->
-
-npm install --save bootstrap bootstrap-vue-3 @popperjs/core
-
-npm install --save bootstrap-icons
+npm install --save bootstrap bootstrap-vue-3 @popperjs/core bootstrap-icons
 
 ## element-plus 설치
-npm install --save element-plus
-
-npm install --save @element-plus/icons-vue
+npm install --save element-plus @element-plus/icons-vue
 
 ## 아이콘팩 설치
 npm install --save @fortawesome/fontawesome-free
@@ -49,8 +43,6 @@ npm install --save datatables.net-responsive
 
 npm install --save datatables.net-rowreorder
 
-npm install --save datatables.net-select
-
 [비공식]
 
 npm install --save datatables.net-colresize-unofficial
@@ -62,4 +54,19 @@ npm install --save vue-datepicker-next
 npm install --save vue-uuid
 
 ## Cookies
-npm install --save vue-cookies
+npm install --save js-cookie
+
+## CSS Pre-processors
+
+[.scss and .sass]
+
+npm add -D sass
+
+[.less]
+
+npm add -D less
+
+[.styl and .stylus]
+
+npm add -D stylus
+

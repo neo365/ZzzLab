@@ -48,6 +48,11 @@ namespace ZzzLab.Data
 
         #endregion Connection
 
+        #region Version
+        public override string GetVersion()
+            => SelectValue("SELECT VERSION()")?.ToString();
+        #endregion
+
         #region Select
 
         public override object SelectValue(Query query)
