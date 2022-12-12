@@ -3,12 +3,21 @@ import { createRouter, createWebHistory } from 'vue-router'
 import routes from './routes';
 
 
-const router = createRouter({
-  //history: createWebHashHistory(),
+const createCustomRouter = () => createRouter({
+  // mode: 'history', // require service support
   history: createWebHistory(),
+  scrollBehavior: () => ({ y: 0 }),
   routes: routes,
   linkActiveClass: 'active',
 })
+
+const router = createCustomRouter()
+// Detail see: https://github.com/vuejs/vue-router/issues/1234#issuecomment-357941465
+export function resetRouter() {
+  const newRouter = createCustomRouter()
+  router.matcher = newRouter.matcher // reset router
+}
+
 
 // router.beforeEach((to, from, next) => {
 //   if (to.matched.some(record => record.meta.requiresAuth)) {

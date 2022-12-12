@@ -1,12 +1,12 @@
 {
   "name": "vue3-bootstrap5-vite",
+  "version": "0.1.0",
   "private": true,
-  "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite --host --port 8081 --mode devel",
-    "serve": "vite --host --port 8081 --mode serve",
-    "build": "vite build --mode prod",
+    "dev": "vite --host --mode development --port 8081",
+    "serve": "vite --host--mode production --port 8081 ",
+    "build": "vite build --mode staging",
     "preview": "vite preview"
   },
   "dependencies": {
@@ -28,8 +28,8 @@
     "jquery": "^3.6.1",
     "js-cookie": "^3.0.1",
     "mitt": "^3.0.0",
+    "screenfull": "^6.0.2",
     "vue": "^3.2.41",
-    "vue-cookies": "^1.8.1",
     "vue-datepicker-next": "^1.0.2",
     "vue-router": "^4.1.6",
     "vue-uuid": "^3.0.0",
@@ -39,5 +39,6 @@
     "@vitejs/plugin-vue": "^3.2.0",
     "sass": "^1.56.1",
     "vite": "^3.2.3"
-  }
+  },
+  "license": "MIT"
 }
