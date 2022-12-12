@@ -10,16 +10,23 @@ export default {
   data: () => ({}),
   computed: {},
   watch: {},
-  beforeCreate() {},
-  created() {},
+  beforeCreate() {
+  },
+  created() {
+  },
   beforeMount() {
     this.init();
   },
-  mounted() {},
-  beforeUpdate() {},
-  updated() {},
-  beforeUnmount () {},
-  unmounted () {},
+  mounted() {
+  },
+  beforeUpdate() {
+  },
+  updated() {
+  },
+  beforeUnmount() {
+  },
+  unmounted() {
+  },
   methods: {
     init() {
       this.$session.set('userId', 'debug_session')

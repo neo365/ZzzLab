@@ -1,7 +1,7 @@
 <template>
-    <div id="error-pages">
-      <router-view/>
-    </div>
+  <div id="error-pages">
+    <router-view/>
+  </div>
 </template>
 
 <script>
@@ -12,16 +12,23 @@ export default {
   data: () => ({}),
   computed: {},
   watch: {},
-  beforeCreate() {},
-  created() {},
+  beforeCreate() {
+  },
+  created() {
+  },
   beforeMount() {
     this.init();
   },
-  mounted() {},
-  beforeUpdate() {},
-  updated() {},
-  beforeUnmount () {},
-  unmounted () {},
+  mounted() {
+  },
+  beforeUpdate() {
+  },
+  updated() {
+  },
+  beforeUnmount() {
+  },
+  unmounted() {
+  },
   methods: {
     init() {
     },
@@ -79,7 +86,7 @@ export default {
   margin-left: -20px;
 }
 
-#error-pages .error .error-content h1>span {
+#error-pages .error .error-content h1 > span {
   text-shadow: -8px 0px 0px #fff;
 }
 
@@ -109,6 +116,7 @@ export default {
   #error-pages .error .error-content {
     height: 200px;
   }
+
   #error-pages .error .error-content h1 {
     font-size: 200px;
   }
@@ -118,11 +126,13 @@ export default {
   #error-pages .error .error-content {
     height: 162px;
   }
+
   #error-pages .error .error-content h1 {
     font-size: 162px;
     height: 150px;
     line-height: 162px;
   }
+
   .error h2 {
     font-size: 16px;
   }

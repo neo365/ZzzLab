@@ -5,7 +5,9 @@
       <h1><span>4</span><span>0</span><span>4</span></h1>
     </div>
     <h2>권한이 없는 페이지에 접근하셨습니다. 문제가 지속될경우 관리자에세 문의 하세요.</h2>
-    <p><Copyright/></p>
+    <p>
+      <Copyright/>
+    </p>
   </div>
 </template>
 
