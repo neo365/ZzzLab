@@ -9,7 +9,7 @@ app.use(router)
 import store from './store'
 app.use(store)
 
-console.log(import.meta.env.VITE_APP_BASE_URL);
+import './plugins/Prototype.js'
 
 import axios from 'axios' // [axios]
 axios.defaults.baseURL = import.meta.env.VITE_APP_SERIVE_URL
@@ -48,20 +48,12 @@ const emitter = mitt();
 app.config.globalProperties.emitter = emitter
 
 // install session
-import ZLSession from '@/modules/ZLSession'
-app.use(ZLSession,  { persist: true })
-
-// install Cookies
-import VueCookies from 'vue-cookies'
-// default options config: { expires: '1d', path: '/', domain: '', secure: '', sameSite: 'Lax' }
-app.use(VueCookies, {})
+// import ZLSession from '@/modules/ZLSession'
+// app.use(ZLSession,  { persist: true })
 
 import DatePicker from 'vue-datepicker-next';
 app.component(DatePicker.name, DatePicker)
 import 'vue-datepicker-next/index.css';
-
-
-import './plugins/Prototype.js'
 
 //Install custom components
 import ZBButton from './components/bootstrap5/ZBButton.vue'
@@ -79,4 +71,3 @@ app.component(Copyright.name, Copyright);
 import './styles/index.css'
 
 app.mount('#app')
-

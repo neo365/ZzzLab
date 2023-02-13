@@ -54,7 +54,7 @@ npm install --save vue-datepicker-next
 npm install --save vue-uuid
 
 ## Cookies
-npm install --save js-cookie
+npm install --save vue-cookies
 
 ## CSS Pre-processors
 

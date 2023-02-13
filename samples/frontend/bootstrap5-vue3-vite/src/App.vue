@@ -39,7 +39,6 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-size: 1rem;
-  /*width: 100vw;*/
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -50,13 +49,13 @@ body::-webkit-scrollbar {
 }
 
 body::-webkit-scrollbar-thumb {
-  height: 10%;
-  background: #217af4;
+  height: 10%; /* ��ũ�ѹ��� ���� */
+  background: #217af4; /* ��ũ�ѹ��� ���� */
 
   border-radius: 10px;
 }
 
 body::-webkit-scrollbar-track {
-  background: rgba(33, 122, 244, .1);
+  background: rgba(33, 122, 244, .1);  /*��ũ�ѹ� �� ��� ����*/
 }
 </style>

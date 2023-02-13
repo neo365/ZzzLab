@@ -1,6 +1,6 @@
-import DummyLayout from '../views/Layout/DummyLayout.vue';
-import DockLayout from '../views/Layout/DockLayout.vue';
-import ErrorPageLayout from '../views/ErrorPages/ErrorPageLayout.vue';
+import DummyLayout from '../Layout/DummyLayout.vue';
+import DockLayout from '../Layout/DockLayout.vue';
+import ErrorPageLayout from '../Layout/ErrorPageLayout.vue';
 
 const routes = [
     {
@@ -14,7 +14,14 @@ const routes = [
                 name: 'Dashboard',
                 meta: {requiresAuth: false},
                 component: () => import('../views/Pages/Dashboard.vue')
-            },
+            }
+        ]
+    },
+    {
+        path: '/',
+        component: DockLayout,
+        meta: {requiresAuth: true},
+        children: [
             {
                 path: '/samples/buttons',
                 name: 'buttons',
@@ -26,25 +33,7 @@ const routes = [
                 name: 'datatables',
                 meta: {requiresAuth: false},
                 component: () => import('../views/Samples/DataTables.vue')
-            },
-            {
-                path: '/debug/console',
-                name: 'console',
-                meta: {requiresAuth: false},
-                component: () => import('../views/Debug/ConsoleView.vue')
-            },
-            {
-                path: '/debug/postech',
-                name: 'postech',
-                meta: {requiresAuth: false},
-                component: () => import('../views/Debug/PostechSearch.vue')
-            },
-            {
-                path: '/debug/eai',
-                name: 'Eai',
-                meta: {requiresAuth: false},
-                component: () => import('../views/Debug/EaiLog.vue')
-            },
+            }
         ]
     },
     {
@@ -65,16 +54,47 @@ const routes = [
         ]
     },
     {
-        path: '/',
-        component: ErrorPageLayout,
+        path: '/error',
+        component: () => import('../layout/DummyLayout'),
+        redirect: 'noRedirect',
+        name: 'ErrorPages',
+        meta: {
+            title: 'Error Pages',
+            icon: '404'
+        },
         children: [
             {
-                path: '/:pathMatch(.*)*',
-                name: 'NotFound',
-                component: () => import('../views/ErrorPages/NotFoundPage.vue')
+                path: '401',
+                component: () => import('../views/errorPages/Unauthorized.vue'),
+                name: 'Page401',
+                meta: { title: '401', noCache: true }
             },
+            {
+                path: '404',
+                component: () => import('../views/errorPages/NotFoundPage.vue'),
+                name: 'Page404',
+                meta: { title: '404', noCache: true }
+            },
+            {
+                path: '500',
+                component: () => import('../views/errorPages/InternalServerError.vue'),
+                name: 'Page500',
+                meta: { title: '500', noCache: true }
+            }
         ]
     },
+    { path: '/:catchAll(.*)', redirect: '/error/404', hidden: true },
+    // {
+    //     path: '/',
+    //     component: ErrorPageLayout,
+    //     children: [
+    //         {
+    //             path: '/:pathMatch(.*)*',
+    //             name: 'NotFound',
+    //             component: () => import('../views/errorPages/NotFoundPage.vue')
+    //         },
+    //     ]
+    // },
 ]
 
 export default routes;
