@@ -37,7 +37,7 @@ dotnet publish -p:Version=%version%
 dotnet pack --output ..\..\..\Package -p:Version=%version%
 cd ..
 
-dotnet nuget push ..\..\Package\ZzzLab.Desktop.%version%.nupkg --api-key oy2obbaz5hmwbmexdheqsju4x6crlfce5bfckjimj6csfu --source https://api.nuget.org/v3/index.json
+dotnet nuget push ..\..\Package\ZzzLab.Desktop.%version%.nupkg --api-key oy2mb7dv62spjbm32sfqgw7orhg5lvzerejkzivvbj2iha --source https://api.nuget.org/v3/index.json
 
 start chrome https://www.nuget.org/packages/ZzzLab.Desktop/
 
