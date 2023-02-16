@@ -3,8 +3,8 @@
     <el-menu
         :collapse="collapse"
         :default-active="activeMenu"
-        @open="handleOpen"
         @close="handleClose"
+        @open="handleOpen"
         @select="handleSelect"
     >
       <SideMenuItem :menuItems="menuTree"/>
@@ -97,7 +97,7 @@ export default {
 
       console.log('handleSelect => find:', node.link);
 
-      this.$router.push({ path: node.link });
+      this.$router.push({path: node.link});
     }
   }
 }

@@ -1019,7 +1019,7 @@ namespace ZzzLab
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="str"></param>
         /// <param name="patterns"></param>

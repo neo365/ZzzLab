@@ -1,84 +1,84 @@
 <template>
-  Dashboard<br />
-  Dashboard<br />
-  Dashboard<br />
-  Dashboard<br />
-  Dashboard<br />
-  Dashboard<br />
-  Dashboard<br />
-  Dashboard<br />
-  Dashboard<br />
-  Dashboard<br />
-  Dashboard<br />
-  Dashboard<br />
-  Dashboard<br />
-  Dashboard<br />
-  Dashboard<br />
-  Dashboard<br />
-  Dashboard<br />
-  Dashboard<br />
-  Dashboard<br />
-  Dashboard<br />
-  Dashboard<br />
-  Dashboard<br />
-  Dashboard<br />
-  Dashboard<br />
-  Dashboard<br />
-  Dashboard<br />
-  Dashboard<br />
-  Dashboard<br />
-  Dashboard<br />
-  Dashboard<br />
-  Dashboard<br />
-  Dashboard<br />
-  Dashboard<br />
-  Dashboard<br />
-  Dashboard<br />
-  Dashboard<br />
-  Dashboard<br />
-  Dashboard<br />
-  Dashboard<br />
-  Dashboard<br />
-  Dashboard<br />
-  Dashboard<br />
-  Dashboard<br />
-  Dashboard<br />
-  Dashboard<br />
-  Dashboard<br />
-  Dashboard<br />
-  Dashboard<br />
-  Dashboard<br />
-  Dashboard<br />
-  Dashboard<br />
-  Dashboard<br />
-  Dashboard<br />
-  Dashboard<br />
-  Dashboard<br />
-  Dashboard<br />
-  Dashboard<br />
-  Dashboard<br />
-  Dashboard<br />
-  Dashboard<br />
-  Dashboard<br />
-  Dashboard<br />
-  Dashboard<br />
-  Dashboard<br />
-  Dashboard<br />
-  Dashboard<br />
-  Dashboard<br />
-  Dashboard<br />
-  Dashboard<br />
-  Dashboard<br />
-  Dashboard<br />
-  Dashboard<br />
-  Dashboard<br />
-  Dashboard<br />
-  Dashboard<br />
-  Dashboard<br />
-  Dashboard<br />
-  Dashboard<br />
-  Dashboard<br />
-  Dashboard<br />
+  Dashboard<br/>
+  Dashboard<br/>
+  Dashboard<br/>
+  Dashboard<br/>
+  Dashboard<br/>
+  Dashboard<br/>
+  Dashboard<br/>
+  Dashboard<br/>
+  Dashboard<br/>
+  Dashboard<br/>
+  Dashboard<br/>
+  Dashboard<br/>
+  Dashboard<br/>
+  Dashboard<br/>
+  Dashboard<br/>
+  Dashboard<br/>
+  Dashboard<br/>
+  Dashboard<br/>
+  Dashboard<br/>
+  Dashboard<br/>
+  Dashboard<br/>
+  Dashboard<br/>
+  Dashboard<br/>
+  Dashboard<br/>
+  Dashboard<br/>
+  Dashboard<br/>
+  Dashboard<br/>
+  Dashboard<br/>
+  Dashboard<br/>
+  Dashboard<br/>
+  Dashboard<br/>
+  Dashboard<br/>
+  Dashboard<br/>
+  Dashboard<br/>
+  Dashboard<br/>
+  Dashboard<br/>
+  Dashboard<br/>
+  Dashboard<br/>
+  Dashboard<br/>
+  Dashboard<br/>
+  Dashboard<br/>
+  Dashboard<br/>
+  Dashboard<br/>
+  Dashboard<br/>
+  Dashboard<br/>
+  Dashboard<br/>
+  Dashboard<br/>
+  Dashboard<br/>
+  Dashboard<br/>
+  Dashboard<br/>
+  Dashboard<br/>
+  Dashboard<br/>
+  Dashboard<br/>
+  Dashboard<br/>
+  Dashboard<br/>
+  Dashboard<br/>
+  Dashboard<br/>
+  Dashboard<br/>
+  Dashboard<br/>
+  Dashboard<br/>
+  Dashboard<br/>
+  Dashboard<br/>
+  Dashboard<br/>
+  Dashboard<br/>
+  Dashboard<br/>
+  Dashboard<br/>
+  Dashboard<br/>
+  Dashboard<br/>
+  Dashboard<br/>
+  Dashboard<br/>
+  Dashboard<br/>
+  Dashboard<br/>
+  Dashboard<br/>
+  Dashboard<br/>
+  Dashboard<br/>
+  Dashboard<br/>
+  Dashboard<br/>
+  Dashboard<br/>
+  Dashboard<br/>
+  Dashboard<br/>
 </template>
 
 <script>
@@ -89,18 +89,24 @@ export default {
   data: () => ({}),
   computed: {},
   watch: {},
-  beforeCreate() {},
-  created() {},
+  beforeCreate() {
+  },
+  created() {
+  },
   beforeMount() {
     this.init();
   },
   mounted() {
-      this.emitter.on('DebugMessage',this.getDebugMessage)
+    this.emitter.on('DebugMessage', this.getDebugMessage)
   },
-  beforeUpdate() {},
-  updated() {},
-  beforeUnmount () {},
-  unmounted () {},
+  beforeUpdate() {
+  },
+  updated() {
+  },
+  beforeUnmount() {
+  },
+  unmounted() {
+  },
   methods: {
     init() {
     },

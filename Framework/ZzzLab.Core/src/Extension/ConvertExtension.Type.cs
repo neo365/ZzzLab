@@ -436,13 +436,26 @@ namespace ZzzLab
         public static dynamic ToDynamic(this IDictionary<string, object> dictionary)
             => dictionary.Aggregate(new ExpandoObject() as IDictionary<string, object>, (a, p) => { a.Add(p); return a; });
 
-        public static IEnumerable<T> ToEnumerable<T>(this T value)
+        #region IEnumerable
+
+        public static IEnumerable<T> ToIEnumerable<T>(this T value)
         {
-            IList<T> list = new List<T>();
+            if (value == null) throw new ArgumentNullException(nameof(value));
 
-            list.Add(value);
+            IList<T> list = new List<T>(1) { value };
 
-            return list;
+            return list.ToArray<T>();
         }
+
+        public static IEnumerable<T> ToIEnumerable<T>(params T[] collection)
+        {
+            if (collection == null || collection.Any() == false) return Enumerable.Empty<T>();
+
+            List<T> list = new List<T>(collection.Length);
+            list.AddRange(collection);
+            return list.ToArray<T>();
+        }
+
+        #endregion IEnumerable
     }
 }

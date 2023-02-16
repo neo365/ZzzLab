@@ -7,12 +7,12 @@
       class="table-bordered table-condensed nowrap"
   />
 
-<!--  <DataTable-->
-<!--      :columns="headers"-->
-<!--      :options="options"-->
-<!--      :data="items"-->
-<!--      class="table table-hover table-striped"-->
-<!--  />-->
+  <!--  <DataTable-->
+  <!--      :columns="headers"-->
+  <!--      :options="options"-->
+  <!--      :data="items"-->
+  <!--      class="table table-hover table-striped"-->
+  <!--  />-->
 </template>
 
 <script>
@@ -80,10 +80,15 @@ export default {
           hasBoundCheck: true,
           minBoundClass: 'dt-colresizable-bound-min',
           maxBoundClass: 'dt-colresizable-bound-max',
-          isResizable: function (column) { return true; },
-          onResize: function (column) { },
-          onResizeEnd: function (column, columns) { },
-          getMinWidthOf: function ($thNode) { }
+          isResizable: function (column) {
+            return true;
+          },
+          onResize: function (column) {
+          },
+          onResizeEnd: function (column, columns) {
+          },
+          getMinWidthOf: function ($thNode) {
+          }
         },
         //responsive: true,
         rowReorder: true,
@@ -98,7 +103,7 @@ export default {
           result => {
             if (result.data !== null) {
               //this.items =Object.freeze(result.data.data);
-              this.items =result.data.data;
+              this.items = result.data.data;
             }
           }
       );

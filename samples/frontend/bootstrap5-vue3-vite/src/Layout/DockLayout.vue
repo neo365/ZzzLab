@@ -6,26 +6,29 @@
       </el-button>
     </div>
     <div>Debugging for RIST<i class="fa-solid fa-spider ms-1"></i></div>
-    <div class="flex-grow" />
+    <div class="flex-grow"/>
     <div class="dropdown">
-      <button class="btn dropdown-toggle z-dropdown" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+      <button id="dropdownMenuButton1" aria-expanded="false" class="btn dropdown-toggle z-dropdown" data-bs-toggle="dropdown"
+              type="button">
         <i class="fa-solid fa-gear"></i>
       </button>
-      <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+      <ul aria-labelledby="dropdownMenuButton1" class="dropdown-menu">
         <li><a class="dropdown-item" href="#">Action</a></li>
         <li><a class="dropdown-item" href="#">Another action</a></li>
         <li><a class="dropdown-item" href="#">Something else here</a></li>
       </ul>
-      <button class="btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+      <button aria-expanded="false" class="btn" data-bs-toggle="dropdown" type="button">
         <i class="fa-solid fa-right-from-bracket"></i>
       </button>
     </div>
   </header>
-  <aside class="app" :class="{ 'is-collapse' : isCollapse }">
-    <SideMenu :collapse="isCollapse" @toggle="sideMenuToggle" @selected="sideMenuSelect"/>
+  <aside :class="{ 'is-collapse' : isCollapse }" class="app">
+    <SideMenu :collapse="isCollapse" @selected="sideMenuSelect" @toggle="sideMenuToggle"/>
   </aside>
-  <main class="app " :class="{ 'is-collapse' : isCollapse }">
-    <div><router-view/></div>
+  <main :class="{ 'is-collapse' : isCollapse }" class="app ">
+    <div>
+      <router-view/>
+    </div>
 
   </main>
   <footer class="app">
@@ -35,7 +38,12 @@
 </template>
 <script>
 
+<<<<<<<< HEAD:samples/frontend/bootstrap5-vue3-vite/src/Layout/DockLayout.vue
 import SideMenu from '@/Layout/Components/SideMenu/index.vue'
+========
+import SideMenu from '@/views/Layout/Components/SideMenu/index.vue'
+
+>>>>>>>> 5ba714bff1db928d04604d396696fc206a8228a8:samples/frontend/bootstrap5-vue3-vite/src/views/Layout/DockLayout.vue
 export default {
   name: "DockLayout",
   components: {
@@ -44,17 +52,21 @@ export default {
   data: () => ({
     isCollapse: false,
   }),
-  computed: {
-  },
+  computed: {},
   watch: {},
-  beforeCreate() {},
-  created() {},
+  beforeCreate() {
+  },
+  created() {
+  },
   beforeMount() {
     this.init();
   },
-  mounted() {},
-  beforeUpdate() {},
-  updated() {},
+  mounted() {
+  },
+  beforeUpdate() {
+  },
+  updated() {
+  },
   methods: {
     init() {
     },
@@ -64,7 +76,6 @@ export default {
     sideMenuSelect(keyPath) {
       console.log(keyPath)
     }
-
   },
 };
 </script>
@@ -74,17 +85,17 @@ Header
 ======================================== */
 header.app {
   position: fixed;
-  top:0;
+  top: 0;
   left: 0;
   right: 0;
   padding: 0 10px;
-  margin:0;
-  width:100vw;
+  margin: 0;
+  width: 100vw;
   height: var(--app-header-height);
-  line-height:var(--app-header-height) ;
+  line-height: var(--app-header-height);
   border-bottom: solid 1px #e6e6e6;
   box-sizing: border-box;
-  background-image: radial-gradient(transparent 1px,#ffffff 1px);
+  background-image: radial-gradient(transparent 1px, #ffffff 1px);
   background-size: 4px 4px;
   backdrop-filter: saturate(50%) blur(4px);
   -webkit-backdrop-filter: saturate(50%) blur(4px);
@@ -103,35 +114,36 @@ header.app .el-menu-demo {
 ======================================== */
 aside.app {
   position: fixed;
-  top: var(--app-header-height) ;
+  top: var(--app-header-height);
   bottom: 0;
   left: 0;
-  width:var(--app-menu-width);
+  width: var(--app-menu-width);
   overflow-x: hidden;
   overflow-y: auto;
   border-right: solid 1px #e6e6e6;
   -webkit-transition: 0.5s;
   transition: 0.5s;
   box-sizing: border-box;
-  background-color:  white;
+  background-color: white;
 }
 
 .collapse-icon {
-  width:var(--app-menu-width-collapse);
+  width: var(--app-menu-width-collapse);
   padding: 0;
 }
 
 aside.app.is-collapse {
   width: var(--app-menu-width-collapse);
 }
+
 /* =====================================
     main
 ======================================== */
 
 main.app {
   max-height: 100vh;
-  margin: 0  0 0 var(--app-menu-width);
-  padding: calc(var(--app-main-padding) + var(--app-header-height)) var(--app-main-padding) var(--app-footer-height) var(--app-main-padding) ;
+  margin: 0 0 0 var(--app-menu-width);
+  padding: calc(var(--app-main-padding) + var(--app-header-height)) var(--app-main-padding) var(--app-footer-height) var(--app-main-padding);
   overflow-x: auto;
   overflow-y: auto;
   -webkit-transition: 0.5s;
@@ -164,7 +176,7 @@ footer.app {
   flex-direction: row-reverse;
   -webkit-transition: 0.5s;
   transition: 0.5s;
-  background-image: radial-gradient(transparent 1px,#ffffff 1px);
+  background-image: radial-gradient(transparent 1px, #ffffff 1px);
   background-size: 4px 4px;
   backdrop-filter: saturate(50%) blur(4px);
   -webkit-backdrop-filter: saturate(50%) blur(4px);

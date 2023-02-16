@@ -1,12 +1,41 @@
 <template>
-    <div id="error-pages">
-      <router-view/>
-    </div>
+  <div id="error-pages">
+    <router-view/>
+  </div>
 </template>
 
 <script>
 export default {
   name: "ErrorPageLayout",
+<<<<<<<< HEAD:samples/frontend/bootstrap5-vue3-vite/src/Layout/ErrorPageLayout.vue
+========
+  components: {},
+  props: {},
+  data: () => ({}),
+  computed: {},
+  watch: {},
+  beforeCreate() {
+  },
+  created() {
+  },
+  beforeMount() {
+    this.init();
+  },
+  mounted() {
+  },
+  beforeUpdate() {
+  },
+  updated() {
+  },
+  beforeUnmount() {
+  },
+  unmounted() {
+  },
+  methods: {
+    init() {
+    },
+  },
+>>>>>>>> 5ba714bff1db928d04604d396696fc206a8228a8:samples/frontend/bootstrap5-vue3-vite/src/views/ErrorPages/ErrorPageLayout.vue
 };
 </script>
 <style scoped>
@@ -57,8 +86,13 @@ export default {
   margin: 0 0 0 -20px;
 }
 
+<<<<<<<< HEAD:samples/frontend/bootstrap5-vue3-vite/src/Layout/ErrorPageLayout.vue
 #error-pages .error .error-content h1>span {
   text-shadow: -8px 0 0 #fff;
+========
+#error-pages .error .error-content h1 > span {
+  text-shadow: -8px 0px 0px #fff;
+>>>>>>>> 5ba714bff1db928d04604d396696fc206a8228a8:samples/frontend/bootstrap5-vue3-vite/src/views/ErrorPages/ErrorPageLayout.vue
 }
 
 #error-pages .error .error-content h3 {
@@ -87,6 +121,7 @@ export default {
   #error-pages .error .error-content {
     height: 200px;
   }
+
   #error-pages .error .error-content h1 {
     font-size: 200px;
   }
@@ -96,11 +131,13 @@ export default {
   #error-pages .error .error-content {
     height: 162px;
   }
+
   #error-pages .error .error-content h1 {
     font-size: 162px;
     height: 150px;
     line-height: 162px;
   }
+
   .error h2 {
     font-size: 16px;
   }

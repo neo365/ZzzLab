@@ -1,6 +1,7 @@
 <template>
   <template v-for="(menuItem, i) in menuItems">
-    <el-sub-menu v-if="(menuItem.children && menuItem.children.length > 0)" :key="i" :index="menuItem.id" :item="menuItem">
+    <el-sub-menu v-if="(menuItem.children && menuItem.children.length > 0)" :key="i" :index="menuItem.id"
+                 :item="menuItem">
       <template #title>
         <i v-if="menuItem.icon" :class="menuItem.icon"></i>
         <i v-else class="fa-solid fa-circle-plus"></i>
@@ -26,13 +27,17 @@ export default {
     }
   },
   computed: {},
-  created() {},
+  created() {
+  },
   beforeMount() {
     this.init();
   },
-  mounted() {},
-  beforeUpdate() {},
-  updated() {},
+  mounted() {
+  },
+  beforeUpdate() {
+  },
+  updated() {
+  },
   methods: {
     init() {
       //console.log(this.menuItems);

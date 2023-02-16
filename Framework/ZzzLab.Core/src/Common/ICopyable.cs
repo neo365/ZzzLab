@@ -2,7 +2,7 @@
 
 namespace ZzzLab
 {
-    public interface ICopyable: ICloneable
+    public interface ICopyable : ICloneable
     {
         object CopyTo(object target);
 

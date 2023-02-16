@@ -1,13 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Text;
-using ZzzLab.IO;
 
-namespace System.IO
+namespace ZzzLab.IO
 {
-    public static class FileExtension
+    public static partial class FileExtension
     {
         public static bool Save(this string s, string filePath, bool overwrite = true, Encoding encoding = null, int secondsToWait = 0)
         {

@@ -2,7 +2,7 @@ using System;
 
 namespace ZzzLab.Diagnostics
 {
-    public struct Stopwatch
+    public readonly struct Stopwatch
     {
         private static readonly double TimestampToTicks = TimeSpan.TicksPerSecond / (double)System.Diagnostics.Stopwatch.Frequency;
 

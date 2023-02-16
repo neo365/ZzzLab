@@ -1,5 +1,5 @@
 <template>
-  로그아웃
+  <router-view/>
 </template>
 
 <script>
