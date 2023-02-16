@@ -23,6 +23,16 @@ namespace ZzzLab.Office.PDF
         /// <returns></returns>
         public static IEnumerable<PDFImage> ToImages(byte[] bytes, ImageType imageType = ImageType.PNG, Scale scale = Scale.High, IEnumerable<int> pagenumbers = null)
         {
+            ImageFormat format;
+            switch (imageType)
+            {
+                case ImageType.JPG: format = ImageFormat.Jpeg; break;
+                case ImageType.PNG: format = ImageFormat.Png; break;
+                case ImageType.BMP: format = ImageFormat.Bmp; break;
+                case ImageType.GIF: format = ImageFormat.Gif; break;
+                default: throw new NotSupportedException("Not Support file Format");
+            }
+
             PdfReader.AllowOpenWithFullPermissions = true;
             PdfReader reader = new PdfReader(bytes);
             List<PDFImage> list = new List<PDFImage>();
@@ -30,10 +40,12 @@ namespace ZzzLab.Office.PDF
             {
                 if ((pagenumbers == null || pagenumbers.Any() == false || (pagenumbers.Any() && pagenumbers.Contains(i))))
                 {
-                    PDFImage img = new PDFImage();
-                    img.PageNumber = i;
-                    img.Data = GetPdfImage(ExtractPdfPageStream(reader, i), imageType, scale);
-                    img.Resolution = scale;
+                    PDFImage img = new PDFImage
+                    {
+                        PageNumber = i,
+                        Data = GetPdfImage(ExtractPdfPageStream(reader, i), format, scale),
+                        Resolution = scale
+                    };
 
                     list.Add(img);
                 }
@@ -73,24 +85,29 @@ namespace ZzzLab.Office.PDF
         {
             if (bytes == null || bytes.Length == 0) throw new ArgumentNullException();
 
-            ImageFormat format = ImageFormat.Png;
-            switch (imageType)
+            //ImageFormat format = ImageFormat.Png;
+            //switch (imageType)
+            //{
+            //    case ImageType.JPG: format = ImageFormat.Jpeg; break;
+            //    case ImageType.PNG: format = ImageFormat.Png; break;
+            //    case ImageType.BMP: format = ImageFormat.Bmp; break;
+            //    case ImageType.GIF: format = ImageFormat.Gif; break;
+            //    default: throw new NotSupportedException("Not Support file Format");
+            //}
+
+            if(imageType == ImageType.JPG 
+                || imageType == ImageType.PNG
+                || imageType == ImageType.BMP
+                || imageType == ImageType.GIF)
             {
-                case ImageType.JPG: format = ImageFormat.Jpeg; break;
-                case ImageType.PNG: format = ImageFormat.Png; break;
-                case ImageType.BMP: format = ImageFormat.Bmp; break;
-                case ImageType.GIF: format = ImageFormat.Gif; break;
-                default: throw new NotSupportedException("Not Support file Format");
+                // Do Nothing
+            }
+            else
+            {
+                throw new NotSupportedException("Not Support file Format");
             }
 
             IEnumerable<PDFImage> images = ToImages(bytes, imageType, scale, pagenumbers);
-
-            //ImageCodecInfo jpgEncoder = GetEncoder(format);
-            //Encoder myEncoder = Encoder.Quality;
-            //EncoderParameters myEncoderParameters = new EncoderParameters(1);
-
-            //EncoderParameter myEncoderParameter = new EncoderParameter(myEncoder, GetCompression(CompressionLevel.High));
-            //myEncoderParameters.Param[0] = myEncoderParameter;
 
             foreach (PDFImage image in images)
             {
@@ -149,7 +166,7 @@ namespace ZzzLab.Office.PDF
         //    return null;
         //}
 
-        private static byte[] GetPdfImage(byte[] pdf, ImageType imageType = ImageType.PNG, Scale resolution = Scale.High)
+        private static byte[] GetPdfImage(byte[] pdf, ImageFormat imageFormat, Scale resolution = Scale.High)
         {
             using (var pdfDocument = new PDFiumSharp.PdfDocument(pdf))
             {
@@ -162,7 +179,7 @@ namespace ZzzLab.Office.PDF
 
                     using (MemoryStream ms = new MemoryStream())
                     {
-                        image.Save(ms, ImageFormat.Png);
+                        image.Save(ms, imageFormat);
 
                         pdfDocument.Close();
 

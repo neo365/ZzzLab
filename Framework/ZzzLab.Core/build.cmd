@@ -27,7 +27,6 @@ dotnet add package System.ComponentModel.Annotations
 dotnet add package System.Text.Json
 dotnet add package Portable.BouncyCastle
 dotnet add package BCrypt.Net-Next
-dotnet add package System.Drawing.Common
 dotnet add package Microsoft.CSharp
 
 dotnet list package

@@ -71,7 +71,7 @@ namespace ZzzLab.Data
         public bool ConnectionTest()
             => this.Handler.ConnectionTest();
 
-        public string GetVersion() 
+        public string GetVersion()
             => this.Handler.GetVersion();
 
         public DataTable Select(string commandText)

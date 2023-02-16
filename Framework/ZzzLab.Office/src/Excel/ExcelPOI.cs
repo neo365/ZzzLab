@@ -553,7 +553,7 @@ namespace ZzzLab.Office.Excel
             using (FileStream filestream = File.Create(this.FilePath))
             {
                 ReloadHSSFFormula();
-                this.Excel.Write(filestream);
+                this.Excel.Write(filestream, true);
             }
 
             return true;
@@ -564,7 +564,7 @@ namespace ZzzLab.Office.Excel
             if (Excel == null) throw new InvalidOperationException("Excel is Close");
 
             ReloadHSSFFormula();
-            this.Excel.Write(stream);
+            this.Excel.Write(stream, true);
 
             return true;
         }
@@ -577,7 +577,7 @@ namespace ZzzLab.Office.Excel
             using (FileStream filestream = File.Create(filepath))
             {
                 ReloadHSSFFormula();
-                this.Excel.Write(filestream);
+                this.Excel.Write(filestream, true);
             }
 
             return true;

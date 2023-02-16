@@ -269,7 +269,7 @@ namespace ZzzLab.Web.Models
             if (table == null || table.Rows.Count == 0) return Empty();
 
             List<string> list = new List<string>();
-            foreach(DataColumn c in table.Columns)
+            foreach (DataColumn c in table.Columns)
             {
                 list.Add(c.ColumnName);
             }

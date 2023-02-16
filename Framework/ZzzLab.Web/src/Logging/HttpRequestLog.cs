@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Http;
 using System.Text;
 using ZzzLab.Net.Http;
-using ZzzLab.Web.Auth;
 
 namespace ZzzLab.Web.Logging
 {

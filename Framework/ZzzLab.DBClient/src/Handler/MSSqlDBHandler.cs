@@ -227,11 +227,11 @@ namespace ZzzLab.Data
                                 resultcount++;
                             }
 
-                            if (cmd.Transaction != null) cmd.Transaction.Commit(); // 트랜잭션commit
+                            cmd.Transaction?.Commit(); // 트랜잭션commit
                         }
                         catch
                         {
-                            if (cmd.Transaction != null) cmd.Transaction.Rollback(); // 에러발생시rollback
+                            cmd.Transaction?.Rollback(); // 에러발생시rollback
                             cmd.Cancel();
                             throw;
                         }

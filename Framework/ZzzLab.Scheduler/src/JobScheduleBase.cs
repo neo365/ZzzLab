@@ -1,5 +1,4 @@
 ﻿using Quartz;
-using System;
 using System.Threading.Tasks;
 
 namespace ZzzLab.Scheduler
@@ -10,7 +9,7 @@ namespace ZzzLab.Scheduler
     {
         public abstract string Key { get; }
 
-        public virtual string Group { get; } =  "Default";
+        public virtual string Group { get; } = "Default";
 
         public abstract string Name { get; }
 

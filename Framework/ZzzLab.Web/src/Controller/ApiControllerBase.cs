@@ -5,7 +5,7 @@ using ZzzLab.Web.Models;
 
 namespace ZzzLab.Web.Controller
 {
-    [Produces("application/json")]    
+    [Produces("application/json")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(RestItemResponse<object>))]
     [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(RestErrorResult))]
     [ProducesResponseType(StatusCodes.Status403Forbidden, Type = typeof(RestErrorResult))]
@@ -100,7 +100,7 @@ namespace ZzzLab.Web.Controller
         /// <returns></returns>
         [NonAction]
         public virtual string? GetReferer()
-            => this.Request.GetHeader("Referer"); 
+            => this.Request.GetHeader("Referer");
 
         /// <summary>
         /// 접속 IP를 가져온다.

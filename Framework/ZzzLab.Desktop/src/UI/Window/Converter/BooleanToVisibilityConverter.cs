@@ -20,7 +20,7 @@
 
         public override object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            return value is Visibility && (Visibility)value == Visibility.Visible ? true : (object)false;
+            return value is Visibility visibility && visibility == Visibility.Visible ? true : (object)false;
         }
 
         public bool InvertVisibility { get; set; } = false;

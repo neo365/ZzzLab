@@ -2,7 +2,7 @@
 
 namespace ZzzLab.Models.Auth
 {
-    public class BaseUserEntity: ICopyable, ICloneable
+    public class BaseUserEntity : ICopyable, ICloneable
     {/// <summary>
      /// 사용자 아이디
      /// </summary>

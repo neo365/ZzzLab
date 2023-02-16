@@ -1,5 +1,4 @@
 ﻿using Quartz;
-using ZzzLab.Logging;
 
 namespace ZzzLab.Scheduler
 {

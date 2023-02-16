@@ -9,8 +9,7 @@ namespace System.Windows
 
         private static void AlwaysScrollToEndChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            ScrollViewer? scroll = sender as ScrollViewer;
-            if (scroll != null)
+            if (sender is ScrollViewer scroll)
             {
                 bool alwaysScrollToEnd = (e.NewValue != null) && (bool)e.NewValue;
                 if (alwaysScrollToEnd)
@@ -25,20 +24,19 @@ namespace System.Windows
 
         public static bool GetAlwaysScrollToEnd(ScrollViewer scroll)
         {
-            if (scroll == null) { throw new ArgumentNullException("scroll"); }
+            if (scroll == null) { throw new ArgumentNullException(nameof(scroll)); }
             return (bool)scroll.GetValue(AlwaysScrollToEndProperty);
         }
 
         public static void SetAlwaysScrollToEnd(ScrollViewer scroll, bool alwaysScrollToEnd)
         {
-            if (scroll == null) { throw new ArgumentNullException("scroll"); }
+            if (scroll == null) { throw new ArgumentNullException(nameof(scroll)); }
             scroll.SetValue(AlwaysScrollToEndProperty, alwaysScrollToEnd);
         }
 
         private static void ScrollChanged(object sender, ScrollChangedEventArgs e)
         {
-            ScrollViewer? scroll = sender as ScrollViewer;
-            if (scroll == null) { throw new InvalidOperationException("The attached AlwaysScrollToEnd property can only be applied to ScrollViewer instances."); }
+            if (sender is not ScrollViewer scroll)  throw new InvalidOperationException("The attached AlwaysScrollToEnd property can only be applied to ScrollViewer instances."); 
 
             // User scroll event : set or unset autoscroll mode
             if (e.ExtentHeightChange == 0) { _autoScroll = scroll.VerticalOffset == scroll.ScrollableHeight; }

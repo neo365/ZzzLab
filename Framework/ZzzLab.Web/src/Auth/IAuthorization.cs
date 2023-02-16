@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Http;
-using ZzzLab.Models.Auth;
 
 namespace ZzzLab.Web.Auth
 {
