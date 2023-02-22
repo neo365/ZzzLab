@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+	<Company>ZzzLab Co., ltd.</Company>
+	<Authors>neo365</Authors>
+	<PackageId>ZzzLab.Diff</PackageId>
+	<Product>ZzzLab Diff Framework</Product>
+	<PackageProjectUrl>www.ZzzLab.net/Lib/Diff</PackageProjectUrl>
+	<Copyright>neo365</Copyright>
+	<RootNamespace>ZzzLab</RootNamespace>
+	<IsPublishable>True</IsPublishable>
+	<GenerateDocumentationFile>True</GenerateDocumentationFile>
+	<NoWarn>$(NoWarn);1591</NoWarn>
+	<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+	<PackageLicenseExpression>MIT</PackageLicenseExpression>
+	<PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
+	<DocumentationFile></DocumentationFile>
+	<RepositoryUrl>https://github.com/neo365/ZzzLab.git</RepositoryUrl>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Drawing.Common" Version="7.0.0" />
+    <PackageReference Include="ZzzLab.Core" Version="0.2123.1226.2420" />
+  </ItemGroup>
+
+</Project>
