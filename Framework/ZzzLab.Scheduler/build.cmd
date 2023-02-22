@@ -36,8 +36,11 @@ dotnet publish -p:Version=%version%
 dotnet pack --output ..\..\..\Package -p:Version=%version%
 cd ..
 
-dotnet nuget push ..\..\Package\ZzzLab.Scheduler.%version%.nupkg --api-key oy2mb7dv62spjbm32sfqgw7orhg5lvzerejkzivvbj2iha --source https://api.nuget.org/v3/index.json
+IF NOT "%2" == "" {
+    SET ApiToken=%2
+    dotnet nuget push ..\..\Package\ZzzLab.Scheduler.%version%.nupkg --api-key %ApiToken% --source https://api.nuget.org/v3/index.json
+}
 
 start chrome https://www.nuget.org/packages/ZzzLab.Scheduler/
 
-IF "%1" == "" timeout /t 120
+IF "%1" == "" timeout /t 20
