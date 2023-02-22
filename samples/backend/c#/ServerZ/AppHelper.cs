@@ -15,19 +15,14 @@ namespace ZzzLab.MicroServer
 
             AppLogger.Message += (s, e) =>
             {
-                Debug.WriteLine(e.ToString());
-                Console.WriteLine(e.ToString());
-                NotifyHub.DebugMessage(e.ToString());
+                string message = $"[{e.Level} | {e.LogDateTime.To24Hours()}] {e.Value}";
+
+                Debug.WriteLine(message);
+                Console.WriteLine(message);
+                NotifyHub.DebugMessage(message);
             };
 
             return AppLogger;
-        }
-
-        internal static void LoggerPrint(object sender, LogEventArgs e)
-        {
-            Debug.WriteLine(e.ToString());
-            Console.WriteLine(e.ToString());
-            NotifyHub.DebugMessage(e.ToString());
         }
     }
 }

@@ -13,7 +13,7 @@ namespace ZzzLab.Web.Builder
         /// <returns>IHostApplicationLifetime</returns>
         /// <exception cref="ArgumentNullException">IHostApplicationLifetime</exception>
         /// <exception cref="InvalidTypeException">ILifetimeJob 이 아닐경우</exception>
-        public static IHostApplicationLifetime UseLifetime<T>(this IHostApplicationLifetime lifetime)
+        public static ILifetimeJob UseLifetime<T>(this IHostApplicationLifetime lifetime)
         {
             if (lifetime == null) throw new ArgumentNullException(nameof(lifetime));
 
@@ -25,7 +25,7 @@ namespace ZzzLab.Web.Builder
             }
             else throw new InvalidTypeException(typeof(T));
 
-            return lifetime;
+            return job;
         }
     }
 }

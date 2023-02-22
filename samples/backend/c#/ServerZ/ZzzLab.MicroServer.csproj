@@ -1,5 +1,4 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
 	  <!--AssemblyName>$(MSBuildProjectName)</AssemblyName-->
 	<AssemblyName>ServerZ</AssemblyName>
@@ -10,7 +9,9 @@
     <UseWindowsForms>True</UseWindowsForms>
     <StartupObject>ZzzLab.MicroServer.App</StartupObject>
 	<GenerateDocumentationFile>True</GenerateDocumentationFile>
-	<NoWarn>$(NoWarn);1591</NoWarn>    
+	<NoWarn>$(NoWarn);1591</NoWarn>
+	<ApplicationIcon>Images\app.ico</ApplicationIcon>
+	<ImplicitUsings>disable</ImplicitUsings>    
   </PropertyGroup>
 
   <ItemGroup>

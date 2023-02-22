@@ -11,8 +11,6 @@ namespace ZzzLab.Web
     {
         internal static IHostApplicationLifetime? HostLifetime { set; get; }
 
-        internal static bool IsStarted => HostLifetime != null;
-
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
                 .UseWindowsService()
@@ -49,8 +47,6 @@ namespace ZzzLab.Web
         { 
             HostLifetime?.StopApplication();
             Thread.Sleep(1000);
-            HostLifetime = null;
-
         }
 
         public static void RestartServer()

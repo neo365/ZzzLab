@@ -70,11 +70,11 @@ namespace ZzzLab.MicroServer
             {
                 SetSplashScreen("프로그램 시작중", 1);
 
-                Process[] processList = Process.GetProcessesByName("LabStdI");
+                Process[] processList = Process.GetProcessesByName("ServerZ");
 
                 if (processList != null && processList.Length > 1)
                 {
-                    Forms.MessageBoxEx.Error("LabStd™가 이미 실행중입니다. 프로그램을 종료합니다.");
+                    Forms.MessageBoxEx.Error($"{AppConstant.DisplayName}가 이미 실행중입니다. 프로그램을 종료합니다.");
                     Environment.Exit(-1);
 
                     Process.GetCurrentProcess().Kill();
