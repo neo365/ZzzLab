@@ -42,11 +42,12 @@ dotnet publish -p:Version=%version%
 dotnet pack --output ..\..\..\Package -p:Version=%version%
 cd ..
 
-IF NOT "%2" == "" {
+IF NOT "%2" == "" (
     SET ApiToken=%2
     dotnet nuget push ..\..\Package\ZzzLab.Web.%version%.nupkg --api-key %ApiToken% --source https://api.nuget.org/v3/index.json
-}
+    start chrome https://www.nuget.org/packages/ZzzLab.Web/
+)
 
-start chrome https://www.nuget.org/packages/ZzzLab.Web/
+
 
 IF "%1" == "" timeout /t 120
