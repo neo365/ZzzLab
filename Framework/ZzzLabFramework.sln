@@ -17,7 +17,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZzzLab.Scheduler", "ZzzLab.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZzzLab.Web", "ZzzLab.Web\src\ZzzLab.Web.csproj", "{CF8A4F8C-D9CF-493D-B2B3-587A27EEF2E1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZzzLab.Diff", "..\ZzzLab.Diff\ZzzLab.Diff.csproj", "{F701722F-916B-4090-9EC1-FB1A064A06E2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZzzLab.Diff", "ZzzLab.Diff\src\ZzzLab.Diff.csproj", "{F701722F-916B-4090-9EC1-FB1A064A06E2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
