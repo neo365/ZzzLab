@@ -11,6 +11,8 @@ SET version=0.21%yy%.%mm%%dd%.%hh%%min%
 
 IF NOT "%1" == "" SET version=%1
 
+SET ApiToken=oy2n22elobltt6ijytwacsfbnandbavurhio2hmr7tdf34
+
 del *.bak
 
 if EXIST ..\package\ (
@@ -18,31 +20,31 @@ if EXIST ..\package\ (
 )
 
 cd ZzzLab.Core
-call .\build.cmd %version%
+call .\build.cmd %version% %ApiToken%
 cd ..
 
 cd ZzzLab.Models
-call .\build.cmd %version%
+call .\build.cmd %version% %ApiToken%
 cd ..
 
 cd ZzzLab.DBClient
-call .\build.cmd %version%
+call .\build.cmd %version% %ApiToken%
 cd ..
 
 cd ZzzLab.Scheduler
-call .\build.cmd %version%
+call .\build.cmd %version% %ApiToken%
 cd ..
 
 cd ZzzLab.Desktop
-call .\build.cmd %version%
+call .\build.cmd %version% %ApiToken%
 cd ..
 
 cd ZzzLab.Office
-call .\build.cmd %version%
+call .\build.cmd %version% %ApiToken%
 cd ..
 
 cd ZzzLab.Web
-call .\build.cmd %version%
+call .\build.cmd %version% %ApiToken%
 cd ..
 
 timeout /t 20
