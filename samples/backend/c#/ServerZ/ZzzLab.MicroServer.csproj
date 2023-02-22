@@ -1,0 +1,54 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+	  <!--AssemblyName>$(MSBuildProjectName)</AssemblyName-->
+	<AssemblyName>ServerZ</AssemblyName>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net7.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+    <UseWindowsForms>True</UseWindowsForms>
+    <StartupObject>ZzzLab.MicroServer.App</StartupObject>
+	<GenerateDocumentationFile>True</GenerateDocumentationFile>
+	<NoWarn>$(NoWarn);1591</NoWarn>    
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Hosting.WindowsServices" Version="7.0.0" />
+    <PackageReference Include="ZzzLab.DBClient" Version="0.2123.1226.2420" />
+    <PackageReference Include="ZzzLab.Desktop" Version="0.2123.1226.2420" />
+    <PackageReference Include="ZzzLab.Office" Version="0.2122.2024.2332" />
+    <PackageReference Include="ZzzLab.Scheduler" Version="0.2123.1226.2420" />
+    <PackageReference Include="ZzzLab.Web" Version="0.2123.1226.2420" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Images\app.ico" />
+    <Resource Include="Images\ic_debug.png" />
+    <Resource Include="Images\ic_exit.png" />
+    <Resource Include="Images\ic_swagger.png" />
+    <Resource Include="Images\logo.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Agreement.info">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\Config.conf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\SQL\USERS.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="WwwRoot\Images\logo.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="WwwRoot\index.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Modules\" />
+  </ItemGroup>
+</Project>
