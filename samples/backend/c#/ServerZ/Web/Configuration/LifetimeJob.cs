@@ -16,6 +16,9 @@ namespace ZzzLab.Web.Configuration
 
         public virtual void OnAppStopped() => this.OnStopped();
 
+        public void Stop()
+            => Lifetime?.StopApplication();
+
         #region EVENT
 
         public event ServerStatusChangeEventHandler? StatusChanged;

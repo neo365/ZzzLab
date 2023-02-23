@@ -6,6 +6,8 @@ namespace ZzzLab.Web.Middelware
     {
         IHostApplicationLifetime? Lifetime { get; }
 
+        event ServerStatusChangeEventHandler? StatusChanged;
+
         /// <summary>
         /// 웹앱이 시작될때 호출된다.
         /// </summary>
