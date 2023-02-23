@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Extensions.Logging;
+using System;
 using System.Runtime.CompilerServices;
 
 namespace ZzzLab.Logging

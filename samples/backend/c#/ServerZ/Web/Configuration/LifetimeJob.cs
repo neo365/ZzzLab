@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Hosting;
 using System;
 using System.ComponentModel;
+using ZzzLab.Event;
 using ZzzLab.Web.Middelware;
 
 namespace ZzzLab.Web.Configuration

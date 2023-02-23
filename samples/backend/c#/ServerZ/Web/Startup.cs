@@ -127,9 +127,8 @@ namespace ZzzLab.Web
             }
 #endif
 
-            // lifeTime :  Global.asx 와 같은 역할을 함.
-            lifetime.UseLifetime<LifetimeJob>();
-            WebHostHelper.HostLifetime = lifetime;
+            // lifeTime :  Global.asx 와 같은 역할을 함.            
+            WebHostHelper.HostLifetimeJob = lifetime.UseLifetime<LifetimeJob>(); ;
 #if false
             // Http Logger
             app.UseHttpLogging<HttpLoggerCommand>();

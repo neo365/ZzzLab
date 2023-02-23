@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using Microsoft.Extensions.Logging;
+using System.Diagnostics;
 
 namespace ZzzLab.Logging
 {
@@ -8,16 +9,16 @@ namespace ZzzLab.Logging
         {
             switch (level)
             {
-                case TraceLevel.Off: return LogLevel.Off;
+                case TraceLevel.Off: return LogLevel.None;
                 case TraceLevel.Verbose: return LogLevel.Debug;
-                case TraceLevel.Info: return LogLevel.Info;
+                case TraceLevel.Info: return LogLevel.Information;
                 case TraceLevel.Warning: return LogLevel.Warning;
                 case TraceLevel.Error: return LogLevel.Error;
                 default:
                     break;
             }
 
-            return LogLevel.Fatal;
+            return LogLevel.Critical;
         }
     }
 }

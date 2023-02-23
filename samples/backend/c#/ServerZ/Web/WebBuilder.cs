@@ -4,29 +4,38 @@ using Microsoft.Extensions.Logging;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
+using ZzzLab.Web.Configuration;
+using ZzzLab.Web.Middelware;
 
 namespace ZzzLab.Web
 {
     internal class WebHostHelper
     {
-        private static IHostApplicationLifetime? _HostLifetime { set; get; }
-        internal static IHostApplicationLifetime? HostLifetime
+        private static ILifetimeJob? _HostLifetimeJob;
+        internal static ILifetimeJob? HostLifetimeJob
         {
             set
             {
                 if(value != null)
                 {
-                    value.
+                   //value.
                 }
 
-                _HostLifetime = value;
+                _HostLifetimeJob = value;
             }
-            get => _HostLifetime;
+            get => _HostLifetimeJob;
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
                 .UseWindowsService()
+                .ConfigureLogging(loggingBuilder =>
+                {
+                    loggingBuilder.ClearProviders();
+                    loggingBuilder.AddConsole();
+
+                    loggingBuilder.AddProvider();
+                })
                 .ConfigureWebHostDefaults(configure =>
                 {
                     AppConstant.WebPort = Configurator.Get("WebPort")?.ToIntNullable() ?? AppConstant.BASE_WEBPORT;
@@ -37,7 +46,7 @@ namespace ZzzLab.Web
                     {
                         logging.AddEventLog(options =>
                         {
-                            options.SourceName = "RistService";
+                            options.SourceName = AppConstant.AppName;
                         });
                     });
 #if false
@@ -51,21 +60,19 @@ namespace ZzzLab.Web
 #endif
                 });
 
-        public static void StartServer()
+        public static void Start()
         {
             Task.Run(() => WebHostHelper.CreateHostBuilder(System.Environment.GetCommandLineArgs()).Build().Run());
         }
 
-        public static void StopServer()
-        {
-            _HostLifetime?.StopApplication();
-        }
+        public static void Stop()
+            => _HostLifetimeJob?.Stop();
 
-        public static void RestartServer()
+        public static void Restart()
         {
-            StopServer();
+            Stop();
             Thread.Sleep(1000);
-            StartServer();
+            Start();
         }
     }
 }

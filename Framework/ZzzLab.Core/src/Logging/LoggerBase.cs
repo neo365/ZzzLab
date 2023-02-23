@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using Microsoft.Extensions.Logging;
 
 namespace ZzzLab.Logging
 {
@@ -25,7 +26,7 @@ namespace ZzzLab.Logging
             => Log(LogLevel.Debug, value, methodName);
 
         public virtual void Info(object value, [CallerMemberName] string methodName = null)
-            => Log(LogLevel.Info, value, methodName);
+            => Log(LogLevel.Information, value, methodName);
 
         public virtual void Warning(object value, [CallerMemberName] string methodName = null)
             => Log(LogLevel.Warning, value, methodName);
@@ -34,7 +35,10 @@ namespace ZzzLab.Logging
             => Log(LogLevel.Error, value, methodName);
 
         public virtual void Fatal(object value, [CallerMemberName] string methodName = null)
-            => Log(LogLevel.Fatal, value, methodName);
+            => Log(LogLevel.Critical, value, methodName);
+
+        public virtual void Critical(object value, [CallerMemberName] string methodName = null)
+            => Log(LogLevel.Critical, value, methodName);
 
         public abstract void Log(LogLevel level,
                     object value,

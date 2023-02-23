@@ -87,15 +87,15 @@ namespace ZzzLab.MicroServer.Context
                     switch (cmd.ToLower())
                     {
                         case "start":
-                            WebHostHelper.StartServer();
+                            WebHostHelper.Start();
                             break;
 
                         case "restart":
-                            WebHostHelper.RestartServer();
+                            WebHostHelper.Restart();
                             break;
 
                         case "stop":
-                            WebHostHelper.StopServer();
+                            WebHostHelper.Stop();
                             break;
 
                         default:
@@ -128,7 +128,7 @@ namespace ZzzLab.MicroServer.Context
             };
         }
 
-        internal bool OpenURL(string url)
+        internal static bool OpenURL(string url)
         {
             try
             {

@@ -19,8 +19,6 @@ namespace ZzzLab.MicroServer
         private SplashScreenWindow? SplashWindow;
         public static MainWindow? BaseWindow { private set; get; }
 
-        internal static Task? WebTask { get; private set; }
-
         public App() : base()
         {
             Logger.Info($"{AppConstant.AppName} Start: GUI Mode");
@@ -83,7 +81,7 @@ namespace ZzzLab.MicroServer
 
                 SetSplashScreen("웹 서비스 구동중", 60);
 
-                WebHostHelper.StartServer();
+                WebHostHelper.Start();
 
                 SetSplashScreen("구동중", 100);
 

@@ -25,7 +25,7 @@
     <PackageReference Include="ZzzLab.Desktop" Version="0.2123.1226.2420" />
     <PackageReference Include="ZzzLab.Office" Version="0.2123.1232.2801" />
     <PackageReference Include="ZzzLab.Scheduler" Version="0.2123.1232.2801" />
-    <PackageReference Include="ZzzLab.Web" Version="0.2123.1233.1856" />
+    <PackageReference Include="ZzzLab.Web" Version="0.2123.1233.2034" />
   </ItemGroup>
 
   <ItemGroup>
