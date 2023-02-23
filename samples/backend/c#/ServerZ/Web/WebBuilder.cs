@@ -4,7 +4,7 @@ using Microsoft.Extensions.Logging;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
-using ZzzLab.Web.Configuration;
+using ZzzLab.Logging;
 using ZzzLab.Web.Middelware;
 
 namespace ZzzLab.Web
@@ -12,13 +12,14 @@ namespace ZzzLab.Web
     internal class WebHostHelper
     {
         private static ILifetimeJob? _HostLifetimeJob;
+
         internal static ILifetimeJob? HostLifetimeJob
         {
             set
             {
-                if(value != null)
+                if (value != null)
                 {
-                   //value.
+                    //value.
                 }
 
                 _HostLifetimeJob = value;
@@ -34,7 +35,7 @@ namespace ZzzLab.Web
                     loggingBuilder.ClearProviders();
                     loggingBuilder.AddConsole();
 
-                    loggingBuilder.AddProvider();
+                    loggingBuilder.AddCustomLogger<PrintLogger>();
                 })
                 .ConfigureWebHostDefaults(configure =>
                 {

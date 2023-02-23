@@ -21,11 +21,11 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Hosting.WindowsServices" Version="7.0.0" />
-    <PackageReference Include="ZzzLab.DBClient" Version="0.2123.1232.2801" />
-    <PackageReference Include="ZzzLab.Desktop" Version="0.2123.1226.2420" />
-    <PackageReference Include="ZzzLab.Office" Version="0.2123.1232.2801" />
-    <PackageReference Include="ZzzLab.Scheduler" Version="0.2123.1232.2801" />
-    <PackageReference Include="ZzzLab.Web" Version="0.2123.1233.2034" />
+    <PackageReference Include="ZzzLab.DBClient" Version="0.2123.1233.2855" />
+    <PackageReference Include="ZzzLab.Desktop" Version="0.2123.1233.2855" />
+    <PackageReference Include="ZzzLab.Office" Version="0.2123.1233.2855" />
+    <PackageReference Include="ZzzLab.Scheduler" Version="0.2123.1233.2855" />
+    <PackageReference Include="ZzzLab.Web" Version="0.2123.1233.2552" />
   </ItemGroup>
 
   <ItemGroup>

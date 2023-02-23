@@ -7,9 +7,9 @@ namespace ZzzLab.MicroServer
 {
     internal class AppHelper
     {
-        internal static ILogger AppLogger { private set; get; } = new PrintLogger("PrintOut");
+        internal static IZLogger AppLogger { private set; get; } = new PrintLogger("PrintOut");
 
-        internal static ILogger GetAppLogger(string name = "PrintOut")
+        internal static IZLogger GetAppLogger(string name = "PrintOut")
         {
             AppLogger = new PrintLogger(name);
 
