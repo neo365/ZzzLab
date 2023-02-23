@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Hosting;
+using ZzzLab.Event;
 
 namespace ZzzLab.Web.Middelware
 {
