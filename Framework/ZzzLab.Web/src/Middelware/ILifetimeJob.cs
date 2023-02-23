@@ -20,5 +20,10 @@ namespace ZzzLab.Web.Middelware
         /// 웹앱이 종료 할때 호출된다.
         /// </summary>
         void OnAppStopping();
+
+        /// <summary>
+        /// 웹앱을 종료한다.
+        /// </summary>
+        public void Stop();
     }
 }
