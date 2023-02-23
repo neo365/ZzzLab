@@ -1,7 +1,11 @@
-﻿namespace ZzzLab.Web.Middelware
+﻿using Microsoft.Extensions.Hosting;
+
+namespace ZzzLab.Web.Middelware
 {
     public interface ILifetimeJob
     {
+        IHostApplicationLifetime? Lifetime { get; }
+
         /// <summary>
         /// 웹앱이 시작될때 호출된다.
         /// </summary>

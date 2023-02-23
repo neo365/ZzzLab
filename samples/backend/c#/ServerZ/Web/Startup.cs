@@ -129,7 +129,7 @@ namespace ZzzLab.Web
 
             // lifeTime :  Global.asx 와 같은 역할을 함.
             lifetime.UseLifetime<LifetimeJob>();
-            WebBuilder.HostLifetime = lifetime;
+            WebHostHelper.HostLifetime = lifetime;
 #if false
             // Http Logger
             app.UseHttpLogging<HttpLoggerCommand>();

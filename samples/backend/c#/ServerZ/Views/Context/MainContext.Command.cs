@@ -87,15 +87,15 @@ namespace ZzzLab.MicroServer.Context
                     switch (cmd.ToLower())
                     {
                         case "start":
-                            WebBuilder.StartServer();
+                            WebHostHelper.StartServer();
                             break;
 
                         case "restart":
-                            WebBuilder.RestartServer();
+                            WebHostHelper.RestartServer();
                             break;
 
                         case "stop":
-                            WebBuilder.StopServer();
+                            WebHostHelper.StopServer();
                             break;
 
                         default:

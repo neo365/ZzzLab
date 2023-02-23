@@ -14,6 +14,20 @@
         WindowStyle="None"
         AllowsTransparency="True"
         Background="Transparent" Icon="/Images/app.ico">
+    <Window.Resources>
+        <Style x:Key="EnableDisableImageStyle" TargetType="{x:Type Image}">
+            <Style.Triggers>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Opacity" Value="0.2"/>
+                    <Setter Property="BitmapEffect">
+                        <Setter.Value>
+                            <BlurBitmapEffect Radius="2.0" KernelType="Gaussian"/>
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
     <Border BorderThickness="1" BorderBrush="black" CornerRadius="5" Background="White">
         <Grid ScrollViewer.VerticalScrollBarVisibility="Disabled">
             <Grid.RowDefinitions>
@@ -72,7 +86,7 @@
                               CommandParameter="start"
                               IsEnabled="{Binding IsServerStoped}">
                             <MenuItem.Icon>
-                                <Image Source="/Images/ic_debug.png" />
+                                <Image Source="/Images/ic_start.png" Style="{StaticResource EnableDisableImageStyle}" />
                             </MenuItem.Icon>
                         </MenuItem>
                         <MenuItem Header="재시작"
@@ -80,7 +94,7 @@
                               CommandParameter="restart"
                               IsEnabled="{Binding IsServerStarted}">
                             <MenuItem.Icon>
-                                <Image Source="/Images/ic_debug.png" />
+                                <Image Source="/Images/ic_restart.png" Style="{StaticResource EnableDisableImageStyle}" />
                             </MenuItem.Icon>
                         </MenuItem>
                         <MenuItem Header="중지"
@@ -88,7 +102,7 @@
                               CommandParameter="stop"
                               IsEnabled="{Binding IsServerStarted}">
                             <MenuItem.Icon>
-                                <Image Source="/Images/ic_debug.png" />
+                                <Image Source="/Images/ic_stop.png" Style="{StaticResource EnableDisableImageStyle}"/>
                             </MenuItem.Icon>
                         </MenuItem>
                         <Separator />

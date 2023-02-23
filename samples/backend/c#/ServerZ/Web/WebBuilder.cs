@@ -7,9 +7,22 @@ using System.Threading.Tasks;
 
 namespace ZzzLab.Web
 {
-    internal class WebBuilder
+    internal class WebHostHelper
     {
-        internal static IHostApplicationLifetime? HostLifetime { set; get; }
+        private static IHostApplicationLifetime? _HostLifetime { set; get; }
+        internal static IHostApplicationLifetime? HostLifetime
+        {
+            set
+            {
+                if(value != null)
+                {
+                    value.
+                }
+
+                _HostLifetime = value;
+            }
+            get => _HostLifetime;
+        }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
@@ -40,13 +53,12 @@ namespace ZzzLab.Web
 
         public static void StartServer()
         {
-            Task.Run(() => WebBuilder.CreateHostBuilder(System.Environment.GetCommandLineArgs()).Build().Run());
+            Task.Run(() => WebHostHelper.CreateHostBuilder(System.Environment.GetCommandLineArgs()).Build().Run());
         }
 
         public static void StopServer()
-        { 
-            HostLifetime?.StopApplication();
-            Thread.Sleep(1000);
+        {
+            _HostLifetime?.StopApplication();
         }
 
         public static void RestartServer()

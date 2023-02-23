@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using ZzzLab.Event;
 using ZzzLab.MicroServer.Views;
 
 namespace ZzzLab.MicroServer.Context
@@ -10,6 +11,8 @@ namespace ZzzLab.MicroServer.Context
         public string? TargetName { set; get; }
 
         public string? AppVersion { set; get; }
+
+        public ServerStatus ServerStatus { set; get; }
 
         public bool IsServerStoped { set; get; } = false;
 

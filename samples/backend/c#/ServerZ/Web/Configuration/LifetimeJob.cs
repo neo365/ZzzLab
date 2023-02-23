@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Extensions.Hosting;
+using System;
 using System.ComponentModel;
 using ZzzLab.Event;
 using ZzzLab.Web.Middelware;
@@ -7,6 +8,8 @@ namespace ZzzLab.Web.Configuration
 {
     public class LifetimeJob : ILifetimeJob
     {
+        public IHostApplicationLifetime? Lifetime { get; }
+
         public virtual void OnAppStarted() => this.OnStarted();
 
         public virtual void OnAppStopping() => this.OnStopping();

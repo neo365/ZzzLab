@@ -12,7 +12,7 @@ namespace ZzzLab.Configuration
 
         public GlobalLoader()
         {
-            WatchFiles = Converter.ToIEnumerable(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"Assets\config.conf"));
+            WatchFiles = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"Assets\config.conf").ToIEnumerable();
         }
 
         public IEnumerable<KeyValuePair<string, string>>? Reader()

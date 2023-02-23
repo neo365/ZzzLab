@@ -83,7 +83,7 @@ namespace ZzzLab.MicroServer
 
                 SetSplashScreen("웹 서비스 구동중", 60);
 
-                WebBuilder.StartServer();
+                WebHostHelper.StartServer();
 
                 SetSplashScreen("구동중", 100);
 

@@ -10,7 +10,7 @@ namespace ZzzLab.MicroServer
         {
             Logger.Info($"{AppConstant.AppName} Start: Console Mode");
 
-            WebBuilder.CreateHostBuilder(args).Build().Run();
+            WebHostHelper.CreateHostBuilder(args).Build().Run();
         }
     }
 }

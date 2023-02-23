@@ -50,4 +50,4 @@ IF NOT "%2" == "" (
 
 
 
-IF "%1" == "" timeout /t 120
+IF "%1" == "" timeout /t 20
