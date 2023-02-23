@@ -49,6 +49,14 @@ cd ZzzLab.Web
 call .\build.cmd %version% %ApiToken%
 cd ..
 
+cd ZzzLab.Diff
+call .\build.cmd %version% %ApiToken%
+cd ..
+
+cd ZzzLab.Crawler
+call .\build.cmd %version% %ApiToken%
+cd ..
+
 git commit -a -m "Auto Build: "%version% &
 git push --progress
 
