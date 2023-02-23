@@ -104,9 +104,9 @@ namespace ZzzLab.Configuration
         /// <summary>
         /// 전역로거 추가.  구현 로직상 어쩔수 없이 로거간의 시간차가 존재하게 된다.
         /// </summary>
-        /// <param name="logger">ILogger</param>
+        /// <param name="logger">IZLogger</param>
         /// <exception cref="InitializeException">초기화가 되지 않았을 경우</exception>
-        public IConfigBuilder AddLogger(ILogger logger)
+        public IConfigBuilder AddLogger(IZLogger logger)
         {
             if (logger == null) throw new ArgumentNullException(nameof(logger));
 
@@ -119,9 +119,9 @@ namespace ZzzLab.Configuration
             return this;
         }
 
-        public IConfigBuilder AddLogger<T>(string name, LogEventHandler onMessage) where T : ILogger
+        public IConfigBuilder AddLogger<T>(string name, LogEventHandler onMessage) where T : IZLogger
         {
-            if (Activator.CreateInstance(typeof(T), name) is ILogger logger)
+            if (Activator.CreateInstance(typeof(T), name) is IZLogger logger)
             {
                 if (onMessage != null) logger.Message += onMessage;
 
@@ -138,9 +138,9 @@ namespace ZzzLab.Configuration
         /// <summary>
         /// 전역로거 제거
         /// </summary>
-        /// <param name="logger">ILogger</param>
+        /// <param name="logger">IZLogger</param>
         /// <exception cref="InitializeException">초기화가 되지 않았을 경우</exception>
-        public IConfigBuilder RemoveLogger(ILogger logger)
+        public IConfigBuilder RemoveLogger(IZLogger logger)
         {
             if (logger == null) throw new ArgumentNullException(nameof(logger));
 

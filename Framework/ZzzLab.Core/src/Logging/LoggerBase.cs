@@ -1,13 +1,13 @@
-﻿using System;
+﻿using Microsoft.Extensions.Logging;
+using System;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Reflection;
 using System.Runtime.CompilerServices;
-using Microsoft.Extensions.Logging;
 
 namespace ZzzLab.Logging
 {
-    public abstract class LoggerBase : ILogger
+    public abstract class LoggerBase : IZLogger
     {
         public virtual string Name { get; } = Assembly.GetExecutingAssembly().GetName().Name;
 
@@ -46,6 +46,17 @@ namespace ZzzLab.Logging
 
         public virtual void Log(TraceLevel level, object value, [CallerMemberName] string methodName = null)
             => Log(level.ToLogLevel(), value, methodName);
+
+        #region Microsoft.Extensions.Logging.ILogger
+
+        public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception exception, Func<TState, Exception, string> formatter)
+            => Log(logLevel, $"{formatter(state, exception)}");
+
+        public bool IsEnabled(LogLevel logLevel) => (PrintLevel <= logLevel);
+
+        public IDisposable BeginScope<TState>(TState state) => default;
+
+        #endregion Microsoft.Extensions.Logging.ILogger
 
         #region EVENT
 

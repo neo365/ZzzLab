@@ -3,7 +3,7 @@ using System;
 
 namespace ZzzLab.Logging
 {
-    public delegate void LogAppender(object sender, ILogger e);
+    public delegate void LogAppender(object sender, IZLogger e);
 
     public delegate void LogEventHandler(object sender, LogEventArgs e);
 

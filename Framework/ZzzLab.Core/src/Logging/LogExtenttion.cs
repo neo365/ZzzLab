@@ -1,4 +1,8 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Configuration;
+using System;
 using System.Diagnostics;
 
 namespace ZzzLab.Logging
@@ -19,6 +23,30 @@ namespace ZzzLab.Logging
             }
 
             return LogLevel.Critical;
+        }
+
+        public static ILoggingBuilder AddCustomLogger<TClass>(
+        this ILoggingBuilder builder)
+        {
+            builder.AddConfiguration();
+
+            builder.Services.TryAddEnumerable(
+                ServiceDescriptor.Singleton<ILoggerProvider, ZLoggerProvider<TClass>>());
+
+            LoggerProviderOptions.RegisterProviderOptions
+                <DummyLoggerConfiguration, ZLoggerProvider<TClass>>(builder.Services);
+
+            return builder;
+        }
+
+        public static ILoggingBuilder AddCustomLogger<TClass>(
+            this ILoggingBuilder builder,
+            Action<DummyLoggerConfiguration> configure)
+        {
+            builder.AddCustomLogger<TClass>();
+            builder.Services.Configure(configure);
+
+            return builder;
         }
     }
 }

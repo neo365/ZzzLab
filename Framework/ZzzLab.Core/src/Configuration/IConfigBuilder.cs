@@ -9,11 +9,11 @@ namespace ZzzLab.Configuration
 
         IConfigBuilder Use<T>(params object[] args) where T : IServiceBuilder;
 
-        IConfigBuilder AddLogger(ILogger logger);
+        IConfigBuilder AddLogger(IZLogger logger);
 
-        IConfigBuilder AddLogger<T>(string name, LogEventHandler onMessage) where T : ILogger;
+        IConfigBuilder AddLogger<T>(string name, LogEventHandler onMessage) where T : IZLogger;
 
-        IConfigBuilder RemoveLogger(ILogger logger);
+        IConfigBuilder RemoveLogger(IZLogger logger);
 
         IConfigBuilder AddWatcher(string filePath);
 

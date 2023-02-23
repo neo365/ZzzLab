@@ -3,7 +3,7 @@ using System.Runtime.CompilerServices;
 
 namespace ZzzLab.Logging
 {
-    public class NullLogger : LoggerBase, ILogger
+    public class NullLogger : LoggerBase, IZLogger
     {
         public NullLogger() : base()
         {

@@ -1,4 +1,5 @@
-﻿using ZzzLab.Logging;
+﻿using Microsoft.Extensions.Logging;
+using ZzzLab.Logging;
 
 namespace ZzzLab
 {

@@ -10,7 +10,7 @@ namespace ZzzLab.Helper.Execute
         /// <summary>
         /// 로거설정
         /// </summary>
-        ILogger Logger { get; }
+        IZLogger Logger { get; }
 
         /// <summary>
         /// Queue 실행시 실제 실행되는 함수

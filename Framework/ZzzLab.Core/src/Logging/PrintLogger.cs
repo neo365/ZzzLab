@@ -5,7 +5,7 @@ using System.Runtime.CompilerServices;
 
 namespace ZzzLab.Logging
 {
-    public class PrintLogger : LoggerBase, ILogger
+    public class PrintLogger : LoggerBase, IZLogger
     {
         public PrintLogger() : base()
         {

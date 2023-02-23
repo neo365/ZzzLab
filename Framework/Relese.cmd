@@ -1,5 +1,8 @@
 @echo off
 
+
+SET ApiToken=%1
+
 SET /a dt=%DATE:-=% + 1010
 SET yy=%dt:~2,2%
 SET mm=%dt:~4,2%
@@ -9,9 +12,8 @@ SET min=%TIME:~3,2%
 
 SET version=0.21%yy%.%mm%%dd%.%hh%%min%
 
-IF NOT "%1" == "" SET version=%1
+IF NOT "%2" == "" SET version=%2
 
-SET ApiToken=oy2n22elobltt6ijytwacsfbnandbavurhio2hmr7tdf34
 
 del *.bak
 
