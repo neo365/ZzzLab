@@ -4,9 +4,9 @@ namespace ZzzLab.Web.Logging
 {
     public abstract class HttpLoggerCommandBase : IHttpLoggerCommand
     {
-        public virtual ILogger Logger { get; } = new NullLogger();
+        public virtual IZLogger Logger { get; } = new NullLogger();
 
-        public HttpLoggerCommandBase(ILogger? logger = null)
+        public HttpLoggerCommandBase(IZLogger? logger = null)
         {
             if (logger != null) Logger = logger;
         }

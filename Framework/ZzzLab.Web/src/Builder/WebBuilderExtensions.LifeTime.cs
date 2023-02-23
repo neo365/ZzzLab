@@ -17,7 +17,7 @@ namespace ZzzLab.Web.Builder
         {
             if (lifetime == null) throw new ArgumentNullException(nameof(lifetime));
 
-            if (Activator.CreateInstance(typeof(T)) is ILifetimeJob job)
+            if (Activator.CreateInstance(typeof(T), lifetime) is ILifetimeJob job)
             {
                 lifetime.ApplicationStarted.Register(job.OnAppStarted);
                 lifetime.ApplicationStopping.Register(job.OnAppStopping);
