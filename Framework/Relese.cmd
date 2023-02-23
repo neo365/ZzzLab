@@ -19,6 +19,8 @@ if EXIST ..\package\ (
     del /Q ..\package\*.*
 )
 
+git pull --progress
+
 cd ZzzLab.Core
 call .\build.cmd %version% %ApiToken%
 cd ..
@@ -46,5 +48,9 @@ cd ..
 cd ZzzLab.Web
 call .\build.cmd %version% %ApiToken%
 cd ..
+
+cd ..
+git commit -a -m "Auto Build: "%version% &
+git push --progress
 
 timeout /t 20

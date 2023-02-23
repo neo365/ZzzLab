@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using ZzzLab.Desktop;
 
 namespace ZzzLab.UI.Controls
 {

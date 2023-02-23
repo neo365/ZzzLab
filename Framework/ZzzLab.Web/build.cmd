@@ -7,6 +7,7 @@ SET /a hh=%TIME:~0,2% + 10
 SET min=%TIME:~3,2%
 
 SET version=0.21%yy%.%mm%%dd%.%hh%%min%
+SET appName=ZzzLab.Web
 
 IF NOT "%1" == "" SET version=%1
 
@@ -16,38 +17,26 @@ echo ===============================
 
 del *.bak
 
-git pull --progress
-
 cd .\src
 
-dotnet list package
 dotnet add package Microsoft.AspNetCore.Authentication.JwtBearer   
-dotnet add package Microsoft.AspNetCore.Http                       
-dotnet add package Newtonsoft.Json                      
+dotnet add package Microsoft.AspNetCore.Http                   
 dotnet add package Swashbuckle.AspNetCore                   
 dotnet add package Swashbuckle.AspNetCore.Filters              
 dotnet add package Swashbuckle.AspNetCore.Newtonsoft      
 dotnet add package ZzzLab.Core
 dotnet add package ZzzLab.Models
+
 dotnet list package
-
-cd ..
-git commit -a -m "Auto Build: "%version% &
-git push --progress
-
-cd .\src
 
 dotnet clean
 dotnet publish -p:Version=%version%
 dotnet pack --output ..\..\..\Package -p:Version=%version%
-cd ..
 
 IF NOT "%2" == "" (
     SET ApiToken=%2
-    dotnet nuget push ..\..\Package\ZzzLab.Web.%version%.nupkg --api-key %ApiToken% --source https://api.nuget.org/v3/index.json
-    start chrome https://www.nuget.org/packages/ZzzLab.Web/
+    dotnet nuget push ..\..\..\Package\%appName%.%version%.nupkg --api-key %ApiToken% --source https://api.nuget.org/v3/index.json
+    start chrome https://www.nuget.org/packages/%appName%/
 )
-
-
 
 IF "%1" == "" timeout /t 20
