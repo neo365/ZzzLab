@@ -34,4 +34,6 @@ IF NOT "%2" == "" (
     start chrome https://www.nuget.org/packages/%appName%/
 )
 
+cd ..
+
 IF "%1" == "" timeout /t 20

@@ -49,7 +49,6 @@ cd ZzzLab.Web
 call .\build.cmd %version% %ApiToken%
 cd ..
 
-cd ..
 git commit -a -m "Auto Build: "%version% &
 git push --progress
 
