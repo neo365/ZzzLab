@@ -24,7 +24,7 @@ namespace ZzzLab.Net.Http
             client.DefaultRequestHeaders.Add("user-agent", userAgent);
         }
 
-        internal static HttpClientEx Create(string baseUrl = null, string userAgent = null)
+        public static HttpClientEx Create(string baseUrl = null, string userAgent = null)
             => new HttpClientEx(baseUrl, userAgent);
 
         /// <summary>
