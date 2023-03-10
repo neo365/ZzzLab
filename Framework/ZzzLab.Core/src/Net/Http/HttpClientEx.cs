@@ -9,19 +9,17 @@ namespace ZzzLab.Net.Http
 {
     public class HttpClientEx
     {
-        private HttpClient Client { set; get; }
+        private HttpClient Client { get; } = new HttpClient();
 
         public HttpClientEx(string baseUrl = null, string userAgent = null)
         {
-            HttpClient client = new HttpClient();
-
             if (string.IsNullOrWhiteSpace(baseUrl) == false)
             {
-                client.BaseAddress = new Uri(baseUrl);
+                Client.BaseAddress = new Uri(baseUrl);
             }
             if (string.IsNullOrWhiteSpace(userAgent)) userAgent = "ZzzLab Agent 0.1";
 
-            client.DefaultRequestHeaders.Add("user-agent", userAgent);
+            Client.DefaultRequestHeaders.Add("user-agent", userAgent);
         }
 
         public static HttpClientEx Create(string baseUrl = null, string userAgent = null)
