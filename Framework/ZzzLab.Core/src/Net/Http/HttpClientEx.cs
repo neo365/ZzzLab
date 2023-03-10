@@ -50,37 +50,10 @@ namespace ZzzLab.Net.Http
         public HttpResponseMessage Get(string url, IEnumerable<KeyValuePair<string, string>> parameters = null)
             => Task.Run(async () => await GetAsync(url, parameters)).Result;
 
-        public async Task<HttpResponseMessage> PostAsync(string url, IEnumerable<KeyValuePair<string, string>> parameters = null)
-        {
-            if (string.IsNullOrWhiteSpace(url)) throw new ArgumentNullException(nameof(url));
-
-            HttpContent content = null;
-
-            if (parameters != null && parameters.Any())
-            {
-                string queryString = "";
-                foreach (var item in parameters)
-                {
-                    queryString = $"&{HttpUtility.UrlEncode(item.Key)}={HttpUtility.UrlEncode(item.Value)}";
-                }
-                queryString = queryString.TrimStart('&');
-
-                content = new StringContent(queryString);
-                content.Headers.ContentType.MediaType = "application/x-www-form-urlencoded";
-            }
-
-            HttpResponseMessage res = await this.Client.PostAsync(url, content);
-            res.EnsureSuccessStatusCode();
-
-            return res;
-        }
-
-        public HttpResponseMessage Post(string url, IEnumerable<KeyValuePair<string, string>> parameters = null)
-            => Task.Run(async () => await PostAsync(url, parameters)).Result;
-
         public async Task<HttpResponseMessage> PostAsync(string url, string value, string mediaType = "application/text")
         {
             if (string.IsNullOrWhiteSpace(url)) throw new ArgumentNullException(nameof(url));
+            if (string.IsNullOrWhiteSpace(mediaType)) throw new ArgumentNullException(nameof(mediaType));
 
             StringContent content = new StringContent(value);
             content.Headers.ContentType.MediaType = mediaType;
@@ -89,19 +62,35 @@ namespace ZzzLab.Net.Http
             return response;
         }
 
-        public HttpResponseMessage Post(string url, string value, string mediaType = "application/text")
-            => Task.Run(async () => await PostAsync(url, value, mediaType)).Result;
+        public HttpResponseMessage Post(string url, IEnumerable<KeyValuePair<string, string>> parameters)
+            => Task.Run(async () => await PostAsync(url, ToQueryString(parameters), "application/x-www-form-urlencoded")).Result; 
 
-        public async Task<HttpResponseMessage> PostAsync<T>(string url, T value)
+        public HttpResponseMessage PostRaw<T>(string url, T obj, string mediaType = "application/text")
         {
-            if (string.IsNullOrWhiteSpace(url)) throw new ArgumentNullException(nameof(url));
+            string parameter = null;
+            if (obj is string value )
+            {
+                parameter = value;
+                if (string.IsNullOrWhiteSpace(mediaType)) mediaType = "application/text";
+            }
+            else if (typeof(T).Name.EqualsOrIgnoreCase("class"))
+            {
+                parameter = Json.JsonConvert.SerializeObject(obj);
+                if (string.IsNullOrWhiteSpace(mediaType)) mediaType = "application/json";
+            }
+            else if (obj is IEnumerable<KeyValuePair<string, object>> dic)
+            {
+                parameter = Json.JsonConvert.SerializeObject(dic);
+                if (string.IsNullOrWhiteSpace(mediaType)) mediaType = "application/json";
+            }
+            else
+            {
+                parameter = obj.ToString();
+                if (string.IsNullOrWhiteSpace(mediaType)) mediaType = "application/text";
+            }
 
-            HttpResponseMessage response = await this.Client.PostAsync(url, JsonContent.Create(value));
-            return response;
+            return Task.Run(async () => await PostAsync(url, parameter, mediaType)).Result;
         }
-
-        public HttpResponseMessage Post<T>(string url, T value)
-            => Task.Run(async () => await PostAsync(url, value)).Result;
 
         private string ToQueryString(IEnumerable<KeyValuePair<string, string>> parameters)
         {
