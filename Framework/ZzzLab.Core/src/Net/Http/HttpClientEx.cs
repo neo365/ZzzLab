@@ -63,31 +63,25 @@ namespace ZzzLab.Net.Http
         }
 
         public HttpResponseMessage Post(string url, IEnumerable<KeyValuePair<string, string>> parameters)
-            => Task.Run(async () => await PostAsync(url, ToQueryString(parameters), "application/x-www-form-urlencoded")).Result; 
+            => Task.Run(async () => await PostAsync(url, ToQueryString(parameters), "application/x-www-form-urlencoded")).Result;
 
-        public HttpResponseMessage PostRaw<T>(string url, T obj, string mediaType = "application/text")
+        public HttpResponseMessage PostRaw<T>(string url, string obj, string mediaType = null)
         {
+            if (string.IsNullOrWhiteSpace(mediaType)) mediaType = "application/text";
             string parameter = null;
-            if (obj is string value )
-            {
-                parameter = value;
-                if (string.IsNullOrWhiteSpace(mediaType)) mediaType = "application/text";
-            }
-            else if (typeof(T).Name.EqualsOrIgnoreCase("class"))
-            {
-                parameter = Json.JsonConvert.SerializeObject(obj);
-                if (string.IsNullOrWhiteSpace(mediaType)) mediaType = "application/json";
-            }
-            else if (obj is IEnumerable<KeyValuePair<string, object>> dic)
-            {
-                parameter = Json.JsonConvert.SerializeObject(dic);
-                if (string.IsNullOrWhiteSpace(mediaType)) mediaType = "application/json";
-            }
-            else
-            {
-                parameter = obj.ToString();
-                if (string.IsNullOrWhiteSpace(mediaType)) mediaType = "application/text";
-            }
+            if (obj is string value) parameter = value;
+            else parameter = obj.ToString();
+
+            return Task.Run(async () => await PostAsync(url, parameter, mediaType)).Result;
+        }
+
+        public HttpResponseMessage PostJson<T>(string url, T obj, string mediaType = null)
+        {
+            if (string.IsNullOrWhiteSpace(mediaType)) mediaType = "application/json";
+
+            string parameter = null;
+            if (obj is string value) parameter = value;
+            else parameter = Json.JsonConvert.SerializeObject(obj);
 
             return Task.Run(async () => await PostAsync(url, parameter, mediaType)).Result;
         }
