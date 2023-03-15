@@ -145,6 +145,21 @@ namespace ZzzLab.Web.Models
             return GetResult(res);
         }
 
+        public static IActionResult Fail(ExceptionInfo ex)
+        {
+            RestServerErrorResult res = new RestServerErrorResult()
+            {
+                StatusCode = (int)HttpStatusCode.InternalServerError,
+                Error = ex.Message,
+                ErrorDescription = HttpStatusCode.InternalServerError.ToStatusMessage(),
+                StackTrace = ex.StackTrace
+            };
+
+            //Logger.Fatal(ex);
+
+            return GetResult(res);
+        }
+
         public static IActionResult OkOrFail(bool success)
             => success ? Ok() : Fail();
 
