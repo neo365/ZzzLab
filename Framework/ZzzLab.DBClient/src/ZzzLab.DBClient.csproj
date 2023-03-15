@@ -29,6 +29,6 @@
 		<PackageReference Include="Oracle.ManagedDataAccess.Core" Version="2.19.160" />
 		<PackageReference Include="System.Configuration.ConfigurationManager" Version="7.0.0" />
 		<PackageReference Include="System.Data.SqlClient" Version="4.8.5" />
-		<PackageReference Include="ZzzLab.Core" Version="0.2123.1325.2636" />
+		<PackageReference Include="ZzzLab.Core" Version="0.2123.1325.2651" />
 	</ItemGroup>
 </Project>
