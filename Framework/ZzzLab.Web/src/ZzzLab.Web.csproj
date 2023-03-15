@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFramework>net6.0</TargetFramework>
+		<TargetFramework>net7.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 
@@ -23,14 +23,14 @@
 	</ItemGroup>
 	
 	<ItemGroup>
-		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.10" />
+		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.4" />
 		<PackageReference Include="Microsoft.AspNetCore.Http" Version="2.2.2" />
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
 		<PackageReference Include="Swashbuckle.AspNetCore.Filters" Version="7.0.6" />
 		<PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" Version="6.5.0" />
-		<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.22.0" />
-		<PackageReference Include="ZzzLab.Core" Version="0.2123.1320.2603" />
-		<PackageReference Include="ZzzLab.Models" Version="0.2123.1325.2609" />
+		<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.27.0" />
+		<PackageReference Include="ZzzLab.Core" Version="0.2123.1325.2636" />
+		<PackageReference Include="ZzzLab.Models" Version="0.2123.1325.2636" />
 	</ItemGroup>
 	
 	<ItemGroup>

@@ -8,6 +8,7 @@ using ZzzLab.Models.Auth;
 using ZzzLab.Net.Http;
 using ZzzLab.Web.Models.Auth;
 using JsonConvert = ZzzLab.Json.JsonConvert;
+using ZzzLab.ExceptionEx;
 
 namespace ZzzLab.Web.Models
 {
@@ -135,9 +136,9 @@ namespace ZzzLab.Web.Models
             RestServerErrorResult res = new RestServerErrorResult()
             {
                 StatusCode = (int)HttpStatusCode.InternalServerError,
-                Error = ex.Message,
+                ErrorMessage = ex.GetAllMessages(),
+                Error = ex.GetAllExceptionInfo(),
                 ErrorDescription = HttpStatusCode.InternalServerError.ToStatusMessage(),
-                StackTrace = ex.StackTrace
             };
 
             //Logger.Fatal(ex);
@@ -145,14 +146,14 @@ namespace ZzzLab.Web.Models
             return GetResult(res);
         }
 
-        public static IActionResult Fail(ExceptionInfo ex)
+        public static IActionResult Fail(IEnumerable<ExceptionInfo> collection)
         {
             RestServerErrorResult res = new RestServerErrorResult()
             {
                 StatusCode = (int)HttpStatusCode.InternalServerError,
-                Error = ex.Message,
+                ErrorMessage = collection.GetAllMessages(),
+                Error = collection,
                 ErrorDescription = HttpStatusCode.InternalServerError.ToStatusMessage(),
-                StackTrace = ex.StackTrace
             };
 
             //Logger.Fatal(ex);
@@ -242,7 +243,7 @@ namespace ZzzLab.Web.Models
             RestServerErrorResult res = new RestServerErrorResult()
             {
                 StatusCode = (int)statusCode,
-                Error = message,
+                ErrorMessage = message,
                 ErrorDescription = statusCode.ToStatusMessage()
             };
 

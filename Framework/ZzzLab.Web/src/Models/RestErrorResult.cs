@@ -1,6 +1,8 @@
 ﻿using Newtonsoft.Json;
 using System.Net;
 using System.Runtime.Serialization;
+using System.Text.Json.Serialization;
+using ZzzLab.ExceptionEx;
 
 namespace ZzzLab.Web.Models
 {
@@ -10,30 +12,35 @@ namespace ZzzLab.Web.Models
         /// <summary>
         /// 상태코드 Http 규약을 따른다.
         /// </summary>
+        [JsonPropertyName("statusCode")]
         [JsonProperty(PropertyName = "statusCode")]
         public override int StatusCode { get; set; } = (int)HttpStatusCode.InternalServerError;
 
         /// <summary>
-        /// 오류내용
+        /// 오류메세지
         /// </summary>
-        [JsonProperty(PropertyName = "error", NullValueHandling = NullValueHandling.Ignore)]
-        public virtual string? Error { set; get; }
+        [JsonPropertyName("errorMessage")]
+        [JsonProperty(PropertyName = "errorMessage", NullValueHandling = NullValueHandling.Ignore)]
+        public virtual string? ErrorMessage { set; get; }
 
         /// <summary>
         /// 오류설명
         /// </summary>
+        [JsonPropertyName("errorDescription")]
         [JsonProperty(PropertyName = "errorDescription", NullValueHandling = NullValueHandling.Ignore)]
         public virtual string? ErrorDescription { set; get; }
 
         /// <summary>
         /// 오류 참조 URL
         /// </summary>
+        [JsonPropertyName("errorUri")]
         [JsonProperty(PropertyName = "errorUri", NullValueHandling = NullValueHandling.Ignore)]
         public virtual string? ErrorUri { set; get; }
 
         /// <summary>
         /// 오류코드
         /// </summary>
+        [JsonPropertyName("errorCode")]
         [JsonProperty(PropertyName = "errorCode", NullValueHandling = NullValueHandling.Ignore)]
         public virtual string? ErrorCode { set; get; }
 

@@ -1,13 +1,16 @@
 ﻿using Newtonsoft.Json;
+using System.Text.Json.Serialization;
+using ZzzLab.ExceptionEx;
 
 namespace ZzzLab.Web.Models
 {
     public class RestServerErrorResult : RestErrorResult
     {
         /// <summary>
-        /// 호출계층구조
+        /// 오류명세
         /// </summary>
-        [JsonProperty(PropertyName = "stackTrace", NullValueHandling = NullValueHandling.Ignore)]
-        public virtual string? StackTrace { set; get; } = null;
+        [JsonPropertyName("error")]
+        [JsonProperty(PropertyName = "error", NullValueHandling = NullValueHandling.Ignore)]
+        public IEnumerable<ExceptionInfo> Error { set; get; } = Enumerable.Empty<ExceptionInfo>();
     }
 }

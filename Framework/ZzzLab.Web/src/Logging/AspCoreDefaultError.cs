@@ -31,7 +31,7 @@ namespace ZzzLab.Web.Logging
             {
                 TrakingId = TraceId ?? Guid.NewGuid().ToString(),
                 StatusCode = Status ?? StatusCodes.Status500InternalServerError,
-                Error = $"{Title} ({Type})",
+                ErrorMessage = $"{Title} ({Type})",
             };
 
             if (Errors != null && Errors.Count > 0)

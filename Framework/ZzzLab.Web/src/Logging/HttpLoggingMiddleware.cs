@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using System.Text;
 using ZzzLab.Diagnostics;
+using ZzzLab.ExceptionEx;
 using ZzzLab.Helper.Execute;
 using ZzzLab.Net.Http;
 using ZzzLab.Web.Models;
@@ -117,9 +118,9 @@ namespace ZzzLab.Web.Logging
                     RestServerErrorResult res = new RestServerErrorResult()
                     {
                         StatusCode = StatusCodes.Status500InternalServerError,
-                        Error = exception.Message,
+                        ErrorMessage = exception.GetAllMessages(),
+                        Error = exception.GetAllExceptionInfo(),
                         ErrorDescription = StatusCodes.Status500InternalServerError.ToStatusMessage(),
-                        StackTrace = exception.StackTrace
                     };
 
                     responseLog.Body = res.ToString();

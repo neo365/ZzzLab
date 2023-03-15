@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
+using ZzzLab.ExceptionEx;
 using ZzzLab.Net.Http;
 using ZzzLab.Web.Logging;
 using ZzzLab.Web.Middelware;
@@ -106,9 +107,9 @@ namespace ZzzLab.Web.Builder
                         RestServerErrorResult res = new RestServerErrorResult()
                         {
                             StatusCode = StatusCodes.Status500InternalServerError,
-                            Error = exception.Message,
+                            ErrorMessage = exception.GetAllMessages(),
+                            Error = exception.GetAllExceptionInfo(),
                             ErrorDescription = StatusCodes.Status500InternalServerError.ToStatusMessage(),
-                            StackTrace = exception.StackTrace
                         };
 
                         message = res.ToString();
