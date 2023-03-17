@@ -132,34 +132,10 @@ namespace ZzzLab.Web.Models
         }
 
         public static IActionResult Fail(Exception ex)
-        {
-            RestServerErrorResult res = new RestServerErrorResult()
-            {
-                StatusCode = (int)HttpStatusCode.InternalServerError,
-                ErrorMessage = ex.GetAllMessages(),
-                Error = ex.GetAllExceptionInfo(),
-                ErrorDescription = HttpStatusCode.InternalServerError.ToStatusMessage(),
-            };
-
-            //Logger.Fatal(ex);
-
-            return GetResult(res);
-        }
+            => Problem(ex);
 
         public static IActionResult Fail(IEnumerable<ExceptionInfo> collection)
-        {
-            RestServerErrorResult res = new RestServerErrorResult()
-            {
-                StatusCode = (int)HttpStatusCode.InternalServerError,
-                ErrorMessage = collection.GetAllMessages(),
-                Error = collection,
-                ErrorDescription = HttpStatusCode.InternalServerError.ToStatusMessage(),
-            };
-
-            //Logger.Fatal(ex);
-
-            return GetResult(res);
-        }
+            => Problem(collection);
 
         public static IActionResult OkOrFail(bool success)
             => success ? Ok() : Fail();
@@ -238,23 +214,50 @@ namespace ZzzLab.Web.Models
         public static IActionResult NotFound(string message)
             => Problem(HttpStatusCode.NotFound, message);
 
-        public static IActionResult Problem(HttpStatusCode statusCode, string? message)
+        public static IActionResult Problem(HttpStatusCode statusCode, string? message, string? description = null)
         {
             RestServerErrorResult res = new RestServerErrorResult()
             {
                 StatusCode = (int)statusCode,
                 ErrorMessage = message,
-                ErrorDescription = statusCode.ToStatusMessage()
+                ErrorDescription = description ?? statusCode.ToStatusMessage()
             };
 
             return GetResult(res);
         }
 
-        public static IActionResult Problem(string message)
-            => Problem(HttpStatusCode.InternalServerError, message);
+        public static IActionResult Problem(string message, string? description = null)
+            => Problem(HttpStatusCode.InternalServerError, message, description);
 
         public static IActionResult Problem(Exception ex)
-            => Fail(ex);
+        {
+            RestServerErrorResult res = new RestServerErrorResult()
+            {
+                StatusCode = (int)HttpStatusCode.InternalServerError,
+                ErrorMessage = ex.GetAllMessages(),
+                Error = ex.GetAllExceptionInfo(),
+                ErrorDescription = HttpStatusCode.InternalServerError.ToStatusMessage(),
+            };
+
+            //Logger.Fatal(ex);
+
+            return GetResult(res);
+        }
+
+        public static IActionResult Problem(IEnumerable<ExceptionInfo> collection)
+        {
+            RestServerErrorResult res = new RestServerErrorResult()
+            {
+                StatusCode = (int)HttpStatusCode.InternalServerError,
+                ErrorMessage = collection.GetAllMessages(),
+                Error = collection,
+                ErrorDescription = HttpStatusCode.InternalServerError.ToStatusMessage(),
+            };
+
+            //Logger.Fatal(ex);
+
+            return GetResult(res);
+        }
 
         public static IActionResult Grid<T>(IEnumerable<T> data, int recordsTotal = -1, int recordsFiltered = -1)
             => Grid(Enumerable.Empty<object>(), data, recordsTotal, recordsFiltered);

@@ -38,12 +38,9 @@
 </template>
 <script>
 
-<<<<<<<< HEAD:samples/frontend/bootstrap5-vue3-vite/src/Layout/DockLayout.vue
-import SideMenu from '@/Layout/Components/SideMenu/index.vue'
-========
-import SideMenu from '@/views/Layout/Components/SideMenu/index.vue'
 
->>>>>>>> 5ba714bff1db928d04604d396696fc206a8228a8:samples/frontend/bootstrap5-vue3-vite/src/views/Layout/DockLayout.vue
+import SideMenu from '@/Layout/Components/SideMenu/index.vue'
+
 export default {
   name: "DockLayout",
   components: {
