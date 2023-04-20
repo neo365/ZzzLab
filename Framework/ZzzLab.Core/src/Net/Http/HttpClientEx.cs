@@ -93,7 +93,7 @@ namespace ZzzLab.Net.Http
                 string queryString = "";
                 foreach (var item in parameters)
                 {
-                    queryString = $"&{HttpUtility.UrlEncode(item.Key)}={HttpUtility.UrlEncode(item.Value)}";
+                    queryString += $"&{HttpUtility.UrlEncode(item.Key)}={HttpUtility.UrlEncode(item.Value)}";
                 }
                 return queryString.TrimStart('&');
             }

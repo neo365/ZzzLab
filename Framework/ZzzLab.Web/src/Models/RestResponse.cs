@@ -1,4 +1,6 @@
 ﻿using Newtonsoft.Json;
+using System.Text.Json.Serialization;
+using System.Xml.Serialization;
 
 namespace ZzzLab.Web.Models
 {
@@ -8,12 +10,16 @@ namespace ZzzLab.Web.Models
         /// 성공여부
         /// </summary>
         [JsonProperty(PropertyName = "success")]
+        [JsonPropertyName("success")]
+        [XmlElement(ElementName = "success")]
         public virtual bool Success { set; get; } = true;
 
         /// <summary>
         /// 전달메세지
         /// </summary>
         [JsonProperty(PropertyName = "message")]
+        [JsonPropertyName("message")]
+        [XmlElement(ElementName = "message")]
         public virtual string? Message { set; get; }
 
         #region To Convertor

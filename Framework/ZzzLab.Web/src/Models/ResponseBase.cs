@@ -1,5 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System.Net;
+using System.Text.Json.Serialization;
+using System.Xml.Serialization;
 
 namespace ZzzLab.Web.Models
 {
@@ -9,24 +11,32 @@ namespace ZzzLab.Web.Models
         /// 상태코드 Http 규약을 따른다.
         /// </summary>
         [JsonProperty(PropertyName = "statusCode")]
+        [JsonPropertyName("statusCode")]
+        [XmlElement(ElementName = "statusCode")]
         public virtual int StatusCode { get; set; } = (int)HttpStatusCode.OK;
 
         /// <summary>
         /// 로그추척 ID
         /// </summary>
         [JsonProperty(PropertyName = "trakingId")]
+        [JsonPropertyName("trakingId")]
+        [XmlElement(ElementName = "trakingId")]
         public virtual string TrakingId { get; set; } = Guid.NewGuid().ToString();
 
         /// <summary>
         /// 연결 서버
         /// </summary>
         [JsonProperty(PropertyName = "host")]
+        [JsonPropertyName("host")]
+        [XmlElement(ElementName = "host")]
         public virtual string Host => System.Environment.MachineName;
 
         /// <summary>
         /// Response Time
         /// </summary>
         [JsonProperty(PropertyName = "currentTime")]
+        [JsonPropertyName("currentTime")]
+        [XmlElement(ElementName = "currentTime")]
         public virtual DateTime CurrentTime { get; } = DateTime.Now;
 
         internal ResponseBase()

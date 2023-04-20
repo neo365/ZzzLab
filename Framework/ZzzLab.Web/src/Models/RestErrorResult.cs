@@ -2,6 +2,7 @@
 using System.Net;
 using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
+using System.Xml.Serialization;
 using ZzzLab.ExceptionEx;
 
 namespace ZzzLab.Web.Models
@@ -14,6 +15,7 @@ namespace ZzzLab.Web.Models
         /// </summary>
         [JsonPropertyName("statusCode")]
         [JsonProperty(PropertyName = "statusCode")]
+        [XmlElement(ElementName = "statusCode")]
         public override int StatusCode { get; set; } = (int)HttpStatusCode.InternalServerError;
 
         /// <summary>
@@ -21,6 +23,7 @@ namespace ZzzLab.Web.Models
         /// </summary>
         [JsonPropertyName("errorMessage")]
         [JsonProperty(PropertyName = "errorMessage", NullValueHandling = NullValueHandling.Ignore)]
+        [XmlElement(ElementName = "errorMessage")]
         public virtual string? ErrorMessage { set; get; }
 
         /// <summary>
@@ -28,6 +31,7 @@ namespace ZzzLab.Web.Models
         /// </summary>
         [JsonPropertyName("errorDescription")]
         [JsonProperty(PropertyName = "errorDescription", NullValueHandling = NullValueHandling.Ignore)]
+        [XmlElement(ElementName = "errorDescription")]
         public virtual string? ErrorDescription { set; get; }
 
         /// <summary>
@@ -35,6 +39,7 @@ namespace ZzzLab.Web.Models
         /// </summary>
         [JsonPropertyName("errorUri")]
         [JsonProperty(PropertyName = "errorUri", NullValueHandling = NullValueHandling.Ignore)]
+        [XmlElement(ElementName = "errorUri")]
         public virtual string? ErrorUri { set; get; }
 
         /// <summary>
@@ -42,9 +47,17 @@ namespace ZzzLab.Web.Models
         /// </summary>
         [JsonPropertyName("errorCode")]
         [JsonProperty(PropertyName = "errorCode", NullValueHandling = NullValueHandling.Ignore)]
+        [XmlElement(ElementName = "errorCode")]
         public virtual string? ErrorCode { set; get; }
 
-        #region ToString
+        #region To Convertor
+
+        /// <summary>
+        /// 처리 결과값을 json으로 리턴한다.
+        /// </summary>
+        /// <returns>json string</returns>
+        public override string ToJson(JsonSerializerSettings? settings = null)
+            => JsonConvert.SerializeObject(this, settings);
 
         /// <summary>
         /// 처리 결과값을 json으로 리턴한다.
@@ -53,6 +66,6 @@ namespace ZzzLab.Web.Models
         public override string ToString()
             => JsonConvert.SerializeObject(this);
 
-        #endregion ToString
+        #endregion To Convertor
     }
 }
