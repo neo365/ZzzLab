@@ -18,6 +18,8 @@ namespace ZzzLab.Data.Configuration
 
         public string Password { set; get; }
 
+        public int Timeout { set; get; } = 60;
+
         [JsonConverter(typeof(StringEnumConverter))]
         public DataBaseType ServerType { set; get; }
 
@@ -27,7 +29,7 @@ namespace ZzzLab.Data.Configuration
         { }
 
         public string GetConnectionString()
-            => DBClient.CreateConnectionString(this.ServerType, this.Host, this.Port, this.Database, this.UserId, this.Password);
+            => DBClient.CreateConnectionString(this.ServerType, this.Host, this.Port, this.Database, this.UserId, this.Password, this.Timeout);
 
         public override string ToString()
                 => $"{Name} | {ConnectionString}";

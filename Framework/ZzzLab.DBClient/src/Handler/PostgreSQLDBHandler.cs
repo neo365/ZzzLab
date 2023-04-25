@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Threading;
 using ZzzLab.Data.Models;
 
 namespace ZzzLab.Data
@@ -26,8 +27,8 @@ namespace ZzzLab.Data
 
         #region Connectionstring
 
-        internal static string CreateConnectionString(string host, int port, string database, string userid, string password)
-            => $"Host={host};Port={port};Database={database};User ID={userid};Password={password};";
+        internal static string CreateConnectionString(string host, int port, string database, string userid, string password, int timeout = 60)
+            => $"Host={host};Port={port};Database={database};User ID={userid};Password={password};Timeout={timeout}";
 
         #endregion Connectionstring
 

@@ -17,7 +17,7 @@ namespace ZzzLab.Net.Http
             {
                 Client.BaseAddress = new Uri(baseUrl);
             }
-            if (string.IsNullOrWhiteSpace(userAgent)) userAgent = "ZzzLab Agent 0.1";
+            if (string.IsNullOrWhiteSpace(userAgent)) userAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36";
 
             Client.DefaultRequestHeaders.Add("user-agent", userAgent);
         }

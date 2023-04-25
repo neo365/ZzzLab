@@ -29,7 +29,7 @@ namespace ZzzLab.Data
 
         #region Connectionstring
 
-        internal static string CreateConnectionString(string host, int port, string database, string userid, string password)
+        internal static string CreateConnectionString(string host, int port, string database, string userid, string password, int timeout = 60)
             => $"Data Source={host},{port};Network Library=DBMSSOCN;Initial Catalog = {database}; User ID ={userid}; Password={password};";
 
         #endregion Connectionstring

@@ -31,7 +31,7 @@ namespace ZzzLab.Data
 
         #region Connectionstring
 
-        internal static string CreateConnectionString(string host, int port, string serviceName, string userid, string password)
+        internal static string CreateConnectionString(string host, int port, string serviceName, string userid, string password, int timeout = 60)
             => $"Data Source=(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST={host})(PORT={port}))(CONNECT_DATA=(SERVICE_NAME={serviceName})));User Id ={userid}; Password={password};";
 
         #endregion Connectionstring
