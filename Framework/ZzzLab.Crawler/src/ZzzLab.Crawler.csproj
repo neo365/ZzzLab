@@ -8,7 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="HtmlAgilityPack" Version="1.11.46" />
-    <PackageReference Include="ZzzLab.Core" Version="0.2123.1435.2321" />
+    <PackageReference Include="ZzzLab.Core" Version="0.2123.1438.2716" />
   </ItemGroup>
 
 </Project>

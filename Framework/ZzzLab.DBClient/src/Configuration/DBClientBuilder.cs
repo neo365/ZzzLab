@@ -6,8 +6,6 @@ namespace ZzzLab.Data.Configuration
 {
     internal class DBClientBuilder : IServiceBuilder, IDisposable
     {
-        private bool disposedValue;
-
         internal static SQLCollection Queries { set; get; }
 
         internal static IDBConfigurationLoader BaseReader { get; set; }
@@ -63,6 +61,8 @@ namespace ZzzLab.Data.Configuration
             => Load(configBuilder, args);
 
         #region IDisposable
+
+        private bool disposedValue = false;
 
         protected virtual void Dispose(bool disposing)
         {

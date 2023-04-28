@@ -5,6 +5,23 @@ namespace ZzzLab.Web.Configuration
 {
     public static class WebBuilderExtention
     {
+        public static IConfigBuilder UseWebConfig<T>(this IConfigBuilder configBuilder) where T : IWebConfigurationLoader
+        {
+            if (Activator.CreateInstance(typeof(T)) is IWebConfigurationLoader reader)
+            {
+                configBuilder.Use(new WebConfigBuilder(reader));
+            }
+            else throw new InvalidTypeException(typeof(T));
+
+            return configBuilder;
+        }
+
+        public static IConfigBuilder UseWebConfig(this IConfigBuilder configBuilder, IWebConfigurationLoader reader)
+        {
+            configBuilder.Use(new WebConfigBuilder(reader));
+            return configBuilder;
+        }
+
         public static IConfigBuilder UseWebAuth<T>(this IConfigBuilder configBuilder) where T : IAuthorization
         {
             if (Activator.CreateInstance(typeof(T)) is IAuthorization auth)

@@ -14,15 +14,6 @@ namespace ZzzLab.Web.Models
         [XmlElement(ElementName = "item")]
         public virtual T? Item { set; get; }
 
-        /// <summary>
-        /// 이전버젼 호환성 유지를 위해
-        /// </summary>
-        [Obsolete]
-        [JsonProperty(PropertyName = "data")]
-        [JsonPropertyName("data")]
-        [XmlElement(ElementName = "data")]
-        public virtual T? Data => Item;
-
         #region To Convertor
 
         /// <summary>
