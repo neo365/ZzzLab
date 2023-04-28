@@ -23,15 +23,6 @@ namespace ZzzLab.Web.Models
         public virtual IEnumerable<T>? Items { set; get; }
 
         /// <summary>
-        /// 이전버젼 호환성 유지를 위해
-        /// </summary>
-        [Obsolete]
-        [JsonProperty(PropertyName = "data")]
-        [JsonPropertyName("data")]
-        [XmlElement(ElementName = "data")]
-        public virtual IEnumerable<T>? Data => Items;
-
-        /// <summary>
         /// RecordsTotal
         /// </summary>
         [JsonProperty(PropertyName = "recordsTotal")]

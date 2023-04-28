@@ -7,18 +7,18 @@ namespace ZzzLab.Web.Configuration
     {
         public static IConfigBuilder UseWebConfig<T>(this IConfigBuilder configBuilder) where T : IWebConfigurationLoader
         {
-            if (Activator.CreateInstance(typeof(T)) is IWebConfigurationLoader reader)
+            if (Activator.CreateInstance(typeof(T)) is IWebConfigurationLoader loader)
             {
-                configBuilder.Use(new WebConfigBuilder(reader));
+                configBuilder.Use(new WebConfigBuilder(loader));
             }
             else throw new InvalidTypeException(typeof(T));
 
             return configBuilder;
         }
 
-        public static IConfigBuilder UseWebConfig(this IConfigBuilder configBuilder, IWebConfigurationLoader reader)
+        public static IConfigBuilder UseWebConfig(this IConfigBuilder configBuilder, IWebConfigurationLoader loader)
         {
-            configBuilder.Use(new WebConfigBuilder(reader));
+            configBuilder.Use(new WebConfigBuilder(loader));
             return configBuilder;
         }
 
