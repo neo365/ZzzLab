@@ -6,7 +6,7 @@ using System.Reflection;
 
 namespace ZzzLab.Data
 {
-    public static class DataBaseExtension
+    public static partial class DataBaseExtension
     {
         public static bool IsNull(DataTable datatable) => (datatable == null || datatable.Rows.Count == 0);
 
