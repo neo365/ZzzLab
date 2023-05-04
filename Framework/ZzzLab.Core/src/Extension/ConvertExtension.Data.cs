@@ -22,7 +22,7 @@ namespace ZzzLab
         /// <returns></returns>
         /// <exception cref="InvalidCastException"></exception>
         public static short ToShort(this DataRow row, string columnName)
-            => ToShortNullable(row, columnName) ?? throw new InvalidCastException();
+            => ToShortNullable(row, columnName) ?? throw new InvalidCastException($"columnName: {columnName}");
 
         /// <summary>
         /// Datarow Value To short (int16)
@@ -32,7 +32,7 @@ namespace ZzzLab
         /// <returns></returns>
         /// <exception cref="InvalidCastException"></exception>
         public static short ToShort(this DataRow row, int columnIndex)
-            => ToShortNullable(row, columnIndex) ?? throw new InvalidCastException();
+            => ToShortNullable(row, columnIndex) ?? throw new InvalidCastException($"columnIndex: {columnIndex}");
 
         /// <summary>
         /// Datarow Value To short (int16)
@@ -74,7 +74,7 @@ namespace ZzzLab
         /// <param name="columnName"></param>
         /// <returns></returns>
         public static ushort ToUShort(this DataRow row, string columnName)
-            => ToUShortNullable(row, columnName) ?? throw new InvalidCastException();
+            => ToUShortNullable(row, columnName) ?? throw new InvalidCastException($"columnName: {columnName}");
 
         /// <summary>
         /// Datarow Value To ushort (uint16)
@@ -83,7 +83,7 @@ namespace ZzzLab
         /// <param name="columnIndex"></param>
         /// <returns></returns>
         public static ushort ToUShort(this DataRow row, int columnIndex)
-            => ToUShortNullable(row, columnIndex) ?? throw new InvalidCastException();
+            => ToUShortNullable(row, columnIndex) ?? throw new InvalidCastException($"columnIndex: {columnIndex}");
 
         /// <summary>
         /// Datarow Value To ushort (uint16)
@@ -119,10 +119,10 @@ namespace ZzzLab
         #region int
 
         public static int ToInt(this DataRow row, string columnName)
-            => ToIntNullable(row, columnName) ?? throw new InvalidCastException();
+            => ToIntNullable(row, columnName) ?? throw new InvalidCastException($"columnName: {columnName}");
 
         public static int ToInt(this DataRow row, int columnIndex)
-            => ToIntNullable(row, columnIndex) ?? throw new InvalidCastException();
+            => ToIntNullable(row, columnIndex) ?? throw new InvalidCastException($"columnIndex: {columnIndex}");
 
         public static int? ToIntNullable(this DataRow row, string columnName)
         {
@@ -146,10 +146,10 @@ namespace ZzzLab
         #region uint
 
         public static uint ToUInt(this DataRow row, string columnName)
-            => ToUIntNullable(row, columnName) ?? throw new InvalidCastException();
+            => ToUIntNullable(row, columnName) ?? throw new InvalidCastException($"columnName: {columnName}");
 
         public static uint ToUInt(this DataRow row, int columnIndex)
-            => ToUIntNullable(row, columnIndex) ?? throw new InvalidCastException();
+            => ToUIntNullable(row, columnIndex) ?? throw new InvalidCastException($"columnIndex: {columnIndex}");
 
         public static uint? ToUIntNullable(this DataRow row, string columnName)
         {
@@ -173,10 +173,10 @@ namespace ZzzLab
         #region long
 
         public static long ToLong(this DataRow row, string columnName)
-            => ToLongNullable(row, columnName) ?? throw new InvalidCastException();
+            => ToLongNullable(row, columnName) ?? throw new InvalidCastException($"columnName: {columnName}");
 
         public static long ToLong(this DataRow row, int columnIndex)
-            => ToLongNullable(row, columnIndex) ?? throw new InvalidCastException();
+            => ToLongNullable(row, columnIndex) ?? throw new InvalidCastException($"columnIndex: {columnIndex}");
 
         public static long? ToLongNullable(this DataRow row, string columnName)
         {
@@ -200,10 +200,10 @@ namespace ZzzLab
         #region ulong
 
         public static ulong ToULong(this DataRow row, string columnName)
-            => ToULongNullable(row, columnName) ?? throw new InvalidCastException();
+            => ToULongNullable(row, columnName) ?? throw new InvalidCastException($"columnName: {columnName}");
 
         public static ulong ToULong(this DataRow row, int columnIndex)
-            => ToULongNullable(row, columnIndex) ?? throw new InvalidCastException();
+            => ToULongNullable(row, columnIndex) ?? throw new InvalidCastException($"columnIndex: {columnIndex}");
 
         public static ulong? ToULongNullable(this DataRow row, string columnName)
         {
@@ -227,10 +227,10 @@ namespace ZzzLab
         #region decimal
 
         public static decimal ToDecimal(this DataRow row, string columnName)
-            => ToDecimalNullable(row, columnName) ?? throw new InvalidCastException();
+            => ToDecimalNullable(row, columnName) ?? throw new InvalidCastException($"columnName: {columnName}");
 
         public static decimal ToDecimal(this DataRow row, int columnIndex)
-            => ToDecimalNullable(row, columnIndex) ?? throw new InvalidCastException();
+            => ToDecimalNullable(row, columnIndex) ?? throw new InvalidCastException($"columnIndex: {columnIndex}");
 
         public static decimal? ToDecimalNullable(this DataRow row, string columnName)
         {
@@ -254,10 +254,10 @@ namespace ZzzLab
         #region double
 
         public static double ToDouble(this DataRow row, string columnName)
-            => ToDoubleNullable(row, columnName) ?? throw new InvalidCastException();
+            => ToDoubleNullable(row, columnName) ?? throw new InvalidCastException($"columnName: {columnName}");
 
         public static double ToDouble(this DataRow row, int columnIndex)
-            => ToDoubleNullable(row, columnIndex) ?? throw new InvalidCastException();
+            => ToDoubleNullable(row, columnIndex) ?? throw new InvalidCastException($"columnIndex: {columnIndex}");
 
         public static double? ToDoubleNullable(this DataRow row, string columnName)
         {
@@ -281,10 +281,10 @@ namespace ZzzLab
         #region boolean
 
         public static bool ToBoolean(this DataRow row, string columnName)
-            => ToBooleanNullable(row, columnName) ?? throw new InvalidCastException();
+            => ToBooleanNullable(row, columnName) ?? throw new InvalidCastException($"columnName: {columnName}");
 
         public static bool ToBoolean(this DataRow row, int columnIndex)
-            => ToBooleanNullable(row, columnIndex) ?? throw new InvalidCastException();
+            => ToBooleanNullable(row, columnIndex) ?? throw new InvalidCastException($"columnIndex: {columnIndex}");
 
         public static bool? ToBooleanNullable(this DataRow row, string columnName)
         {
@@ -423,7 +423,7 @@ namespace ZzzLab
             => ToStringNullable(row, columnName) ?? throw new InvalidCastException($"columnName: {columnName}");
 
         public static string ToString(this DataRow row, int columnIndex)
-            => ToStringNullable(row, columnIndex) ?? throw new InvalidCastException();
+            => ToStringNullable(row, columnIndex) ?? throw new InvalidCastException($"columnIndex: {columnIndex}");
 
         public static string ToStringNullable(this DataRow row, string columnName)
         {
@@ -453,12 +453,12 @@ namespace ZzzLab
         #region object
 
         public static object ToObject(this DataRow row, string columnName)
-            => ToToObjectgNullable(row, columnName) ?? throw new InvalidCastException($"columnName: {columnName}");
+            => ToToObjectNullable(row, columnName) ?? throw new InvalidCastException($"columnName: {columnName}");
 
         public static object ToObject(this DataRow row, int columnIndex)
-            => ToToObjectgNullable(row, columnIndex) ?? throw new InvalidCastException();
+            => ToToObjectNullable(row, columnIndex) ?? throw new InvalidCastException($"columnIndex: {columnIndex}");
 
-        public static object ToToObjectgNullable(this DataRow row, string columnName)
+        public static object ToToObjectNullable(this DataRow row, string columnName)
         {
             if (row == null) throw new ArgumentNullException(nameof(row));
             if (string.IsNullOrEmpty(columnName?.Trim())) throw new ArgumentNullException(nameof(columnName));
@@ -470,7 +470,7 @@ namespace ZzzLab
             return obj;
         }
 
-        public static object ToToObjectgNullable(this DataRow row, int columnIndex)
+        public static object ToToObjectNullable(this DataRow row, int columnIndex)
         {
             if (row == null) throw new ArgumentNullException(nameof(row));
             if (row.Table.Columns.Count <= columnIndex) throw new IndexOutOfRangeException($"columnIndex: {columnIndex}");
@@ -482,6 +482,21 @@ namespace ZzzLab
         }
 
         #endregion object
+
+        #region Array
+        public static string[] ToArray(this DataRow row, string columnName, char separator = ',')
+            => row.ToString(columnName).Split(separator);
+
+        public static string[] ToArray(this DataRow row, int columnIndex, char separator = ',')
+            => row.ToString(columnIndex).Split(separator);
+
+        public static string[] ToArrayNullable(this DataRow row, string columnName, char separator = ',')
+            => row.ToString(columnName)?.Split(separator);
+
+        public static string[] ToArrayNullable(this DataRow row, int columnIndex, char separator = ',')
+            => row.ToString(columnIndex)?.Split(separator);
+
+        #endregion
 
         #region enum
 
