@@ -29,7 +29,7 @@
 		<PackageReference Include="Swashbuckle.AspNetCore.Filters" Version="7.0.6" />
 		<PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" Version="6.5.0" />
 		<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.27.0" />
-		<PackageReference Include="ZzzLab.Core" Version="0.2123.1526.3027" />
+		<PackageReference Include="ZzzLab.Core" Version="0.2123.1526.3137" />
 	</ItemGroup>
 	
 	<ItemGroup>
