@@ -25,7 +25,6 @@ dotnet add package Swashbuckle.AspNetCore
 dotnet add package Swashbuckle.AspNetCore.Filters              
 dotnet add package Swashbuckle.AspNetCore.Newtonsoft      
 dotnet add package ZzzLab.Core
-dotnet add package ZzzLab.Models
 
 dotnet list package
 
