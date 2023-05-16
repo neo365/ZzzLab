@@ -16,6 +16,14 @@ namespace ZzzLab.Web.Models
         public virtual int StatusCode { get; set; } = (int)HttpStatusCode.OK;
 
         /// <summary>
+        /// 에러 코드 
+        /// </summary>
+        [JsonProperty(PropertyName = "code")]
+        [JsonPropertyName("code")]
+        [XmlElement(ElementName = "code")]
+        public virtual int Code { get; set; } = 20000;
+
+        /// <summary>
         /// 로그추척 ID
         /// </summary>
         [JsonProperty(PropertyName = "trakingId")]

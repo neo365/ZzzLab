@@ -484,6 +484,7 @@ namespace ZzzLab
         #endregion object
 
         #region Array
+
         public static string[] ToArray(this DataRow row, string columnName, char separator = ',')
             => row.ToString(columnName).Split(separator);
 
@@ -496,7 +497,7 @@ namespace ZzzLab
         public static string[] ToArrayNullable(this DataRow row, int columnIndex, char separator = ',')
             => row.ToString(columnIndex)?.Split(separator);
 
-        #endregion
+        #endregion Array
 
         #region enum
 
@@ -507,9 +508,7 @@ namespace ZzzLab
         {
             T result = ToEnumNullable<T>(row, columnName);
 
-            if (result == null) throw new InvalidCastException();
-
-            return result;
+            return result == null ? throw new InvalidCastException() : result;
         }
 
 #endif
@@ -521,9 +520,7 @@ namespace ZzzLab
         {
             T result = ToEnumNullable<T>(row, columnIndex);
 
-            if (result == null) throw new InvalidCastException();
-
-            return result;
+            return result == null ? throw new InvalidCastException() : result;
         }
 
 #endif

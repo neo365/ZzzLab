@@ -50,37 +50,40 @@ namespace ZzzLab.Web.Models
             };
         }
 
-        public static IActionResult Ok()
+        public static IActionResult Ok(int code = 20000)
         {
             RestResponse res = new RestResponse()
             {
                 Success = true,
                 StatusCode = (int)HttpStatusCode.OK,
+                Code = code
             };
 
             return GetResult(res);
         }
 
-        public static IActionResult OkWithMessage(string message)
+        public static IActionResult OkWithMessage(string message, int code = 20000)
         {
             RestResponse res = new()
             {
                 Success = true,
                 Message = message,
-                StatusCode = (int)HttpStatusCode.OK
+                StatusCode = (int)HttpStatusCode.OK,
+                Code = code
             };
 
             return GetResult(res);
         }
 
-        public static IActionResult Ok<T>(T item)
+        public static IActionResult Ok<T>(T item, int code = 20000)
         {
             RestItemResponse<T> res = new RestItemResponse<T>()
             {
                 Success = true,
                 Message = null,
                 Item = item,
-                StatusCode = (int)HttpStatusCode.OK
+                StatusCode = (int)HttpStatusCode.OK,
+                Code = code
             };
 
             return GetResult(res);
@@ -89,14 +92,15 @@ namespace ZzzLab.Web.Models
         //public static IActionResult Ok(DataTable table)
         //    => Grid(table);
 
-        public static IActionResult Ok(DataRow row)
+        public static IActionResult Ok(DataRow row, int code = 20000)
         {
             RestItemResponse<dynamic> res = new RestItemResponse<dynamic>()
             {
                 Success = true,
                 Message = null,
                 Item = row.ToModeling(),
-                StatusCode = (int)HttpStatusCode.OK
+                StatusCode = (int)HttpStatusCode.OK,
+                Code = code
             };
 
             return GetResult(res);
@@ -105,37 +109,39 @@ namespace ZzzLab.Web.Models
         public static IActionResult Auth<T>(T auth) where T : class
             => GetResult<T>(200, auth);
 
-        public static IActionResult Fail()
+        public static IActionResult Fail(int code = 2000)
         {
             RestResponse res = new RestResponse()
             {
                 Success = false,
-                StatusCode = (int)HttpStatusCode.OK
+                StatusCode = (int)HttpStatusCode.OK,
+                Code = code
             };
 
             return GetResult(res);
         }
 
-        public static IActionResult Fail(string message)
-            => FailWithMessage(message);
+        public static IActionResult Fail(string message, int code = 2000)
+            => FailWithMessage(message, code);
 
-        public static IActionResult FailWithMessage(string message)
+        public static IActionResult FailWithMessage(string message, int code = 2000)
         {
             RestResponse res = new RestResponse()
             {
                 Success = false,
                 Message = message,
-                StatusCode = (int)HttpStatusCode.OK
+                StatusCode = (int)HttpStatusCode.OK,
+                Code = code
             };
 
             return GetResult(res);
         }
 
-        public static IActionResult Fail(Exception ex)
-            => Problem(ex);
+        public static IActionResult Fail(Exception ex, int code = 9000)
+            => Problem(ex, code);
 
-        public static IActionResult Fail(IEnumerable<ExceptionInfo> collection)
-            => Problem(collection);
+        public static IActionResult Fail(IEnumerable<ExceptionInfo> collection, int code = 9000)
+            => Problem(collection, code);
 
         public static IActionResult OkOrFail(bool success)
             => success ? Ok() : Fail();
@@ -172,8 +178,8 @@ namespace ZzzLab.Web.Models
         {
             return new ContentResult()
             {
-                StatusCode = 200,
                 Content = item.ToJson(JSON_SETTING),
+                StatusCode = (int)HttpStatusCode.OK,
             };
         }
 
@@ -214,22 +220,23 @@ namespace ZzzLab.Web.Models
         public static IActionResult NotFound(string message)
             => Problem(HttpStatusCode.NotFound, message);
 
-        public static IActionResult Problem(HttpStatusCode statusCode, string? message, string? description = null)
+        public static IActionResult Problem(HttpStatusCode statusCode, string? message, string? description = null, int code = 9000)
         {
             RestServerErrorResult res = new RestServerErrorResult()
             {
                 StatusCode = (int)statusCode,
                 ErrorMessage = message,
-                ErrorDescription = description ?? statusCode.ToStatusMessage()
+                ErrorDescription = description ?? statusCode.ToStatusMessage(),
+                Code = code
             };
 
             return GetResult(res);
         }
 
-        public static IActionResult Problem(string message, string? description = null)
-            => Problem(HttpStatusCode.InternalServerError, message, description);
+        public static IActionResult Problem(string message, string? description = null, int code = 9000)
+            => Problem(HttpStatusCode.InternalServerError, message, description, code);
 
-        public static IActionResult Problem(Exception ex)
+        public static IActionResult Problem(Exception ex, int code = 9000)
         {
             RestServerErrorResult res = new RestServerErrorResult()
             {
@@ -237,14 +244,13 @@ namespace ZzzLab.Web.Models
                 ErrorMessage = ex.GetAllMessages(),
                 Error = ex.GetAllExceptionInfo(),
                 ErrorDescription = HttpStatusCode.InternalServerError.ToStatusMessage(),
+                Code = code
             };
-
-            //Logger.Fatal(ex);
 
             return GetResult(res);
         }
 
-        public static IActionResult Problem(IEnumerable<ExceptionInfo> collection)
+        public static IActionResult Problem(IEnumerable<ExceptionInfo> collection, int code = 9000)
         {
             RestServerErrorResult res = new RestServerErrorResult()
             {
@@ -252,17 +258,16 @@ namespace ZzzLab.Web.Models
                 ErrorMessage = collection.GetAllMessages(),
                 Error = collection,
                 ErrorDescription = HttpStatusCode.InternalServerError.ToStatusMessage(),
+                Code = code
             };
-
-            //Logger.Fatal(ex);
 
             return GetResult(res);
         }
 
-        public static IActionResult Grid<T>(IEnumerable<T> data, int recordsTotal = -1, int recordsFiltered = -1)
-            => Grid(Enumerable.Empty<object>(), data, recordsTotal, recordsFiltered);
+        public static IActionResult Grid<T>(IEnumerable<T> data, int recordsTotal = -1, int recordsFiltered = -1, int code = 2000)
+            => Grid(Enumerable.Empty<object>(), data, recordsTotal, recordsFiltered, code);
 
-        public static IActionResult Grid<T>(IEnumerable<object>? headers, IEnumerable<T> data, int recordsTotal = -1, int recordsFiltered = -1)
+        public static IActionResult Grid<T>(IEnumerable<object>? headers, IEnumerable<T> data, int recordsTotal = -1, int recordsFiltered = -1, int code = 2000)
         {
             if (data == null || data.Any() == false)
             {
@@ -278,12 +283,13 @@ namespace ZzzLab.Web.Models
                 Items = data,
                 RecordsTotal = (recordsTotal < 0 ? data.Count() : recordsTotal),
                 RecordsFiltered = (recordsFiltered < 0 ? data.Count() : recordsFiltered),
+                Code = code
             };
 
             return GetResult(res);
         }
 
-        public static IActionResult Grid(DataTable table, int recordsTotal = -1, int recordsFiltered = -1)
+        public static IActionResult Grid(DataTable table, int recordsTotal = -1, int recordsFiltered = -1, int code = 2000)
         {
             if (table == null || table.Rows.Count == 0) return Empty();
 
@@ -293,17 +299,12 @@ namespace ZzzLab.Web.Models
                 list.Add(c.ColumnName);
             }
 
-            RestGridResponse<dynamic> res = new RestGridResponse<dynamic>()
-            {
-                Success = true,
-                StatusCode = (int)HttpStatusCode.OK,
-                Headers = list,
-                Items = table.ToModeling(),
-                RecordsTotal = (recordsTotal < 0 ? table.Rows.Count : recordsTotal),
-                RecordsFiltered = (recordsFiltered < 0 ? table.Rows.Count : recordsFiltered)
-            };
-
-            return GetResult(res);
+            return Grid<dynamic>(
+                list,
+                table.ToModeling(),
+                (recordsTotal < 0 ? table.Rows.Count : recordsTotal),
+                (recordsFiltered < 0 ? table.Rows.Count : recordsFiltered),
+                code);
         }
 
         public static IActionResult Empty()
@@ -315,6 +316,7 @@ namespace ZzzLab.Web.Models
                 Items = Enumerable.Empty<dynamic>(),
                 RecordsTotal = 0,
                 RecordsFiltered = 0,
+                Code = 2000
             };
 
             return GetResult(res);
@@ -329,6 +331,7 @@ namespace ZzzLab.Web.Models
                 Items = Enumerable.Empty<T>(),
                 RecordsTotal = 0,
                 RecordsFiltered = 0,
+                Code = 2000
             };
 
             return GetResult(res);
