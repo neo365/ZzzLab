@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
@@ -75,13 +76,13 @@ namespace ZzzLab.Net.Http
             return Task.Run(async () => await PostAsync(url, parameter, mediaType)).Result;
         }
 
-        public HttpResponseMessage PostJson<T>(string url, T obj, string mediaType = null)
+        public HttpResponseMessage PostJson<T>(string url, T obj, JsonSerializerSettings settings = null, string mediaType = null)
         {
             if (string.IsNullOrWhiteSpace(mediaType)) mediaType = "application/json";
 
             string parameter = null;
             if (obj is string value) parameter = value;
-            else parameter = Json.JsonConvert.SerializeObject(obj);
+            else parameter = Json.JsonConvert.SerializeObject(obj, settings);
 
             return Task.Run(async () => await PostAsync(url, parameter, mediaType)).Result;
         }
