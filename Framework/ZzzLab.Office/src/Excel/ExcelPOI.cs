@@ -125,7 +125,6 @@ namespace ZzzLab.Office.Excel
             return this.Excel.GetSheetAt(sheetIndex)?.SheetName;
         }
 
-
         private ISheet CreateISheet(string sheetname)
         {
             if (this.Excel == null) throw new InvalidOperationException();
@@ -139,18 +138,18 @@ namespace ZzzLab.Office.Excel
             => (CreateISheet(sheetName) != null);
 
         public override int CopySheet(int sheetIndex, string destSheetName)
+            => CopySheet(this.GetSheetName(sheetIndex), destSheetName);
+
+        public override int CopySheet(string sheetName, string destSheetName)
         {
             if (this.Excel == null) return -1;
+            ISheet sheet = this.Excel.GetSheet(sheetName);
 
-            if (sheetIndex < 0) return -1;
+            if (sheet == null) return -1;
 
-            ISheet sheet = this.Excel.CloneSheet(sheetIndex);
             sheet = sheet.CopySheet(destSheetName);
             return this.Excel.GetSheetIndex(sheet);
         }
-
-        public override int CopySheet(string SourceSheetName, string destSheetName)
-            => CopySheet(this.GetSheetIndex(SourceSheetName), destSheetName);
 
         public override void DeleteSheet(int sheetNum) => this.Excel?.RemoveSheetAt(sheetNum);
 
@@ -160,7 +159,6 @@ namespace ZzzLab.Office.Excel
 
             DeleteSheet(this.GetSheetIndex(sheetName));
         }
-
 
         protected ISheet GetSheet(string sheetname, bool isCreate = false)
         {

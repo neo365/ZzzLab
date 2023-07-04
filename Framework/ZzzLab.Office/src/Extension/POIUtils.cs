@@ -6,6 +6,9 @@ namespace ZzzLab.Office.Excel
 {
     public static class POIUtils
     {
+        public const int ROW_OFFSET = -1;
+        public const int CELL_OFFSET = -1;
+
         public static byte[] ToRGBArray(this System.Drawing.Color color)
             => new byte[3] { color.R, color.G, color.B };
 
@@ -13,7 +16,11 @@ namespace ZzzLab.Office.Excel
             => new CellReference(address);
 
         public static string ToAddress(int rowNum, int colNum)
-            => new CellReference(rowNum, colNum).ToString();
+        {
+            CellReference cellRef = new CellReference(rowNum + ROW_OFFSET, colNum + CELL_OFFSET);
+
+            return $"{cellRef.CellRefParts[2]}{cellRef.CellRefParts[1]}";
+        }
 
         public static ICellStyle GetStyle(this ICell cell)
             => cell.CellStyle;
