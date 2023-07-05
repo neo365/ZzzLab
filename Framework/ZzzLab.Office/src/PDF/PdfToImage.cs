@@ -17,7 +17,7 @@ namespace ZzzLab.Office.PDF
         /// Return a System.Drawing.Image collection with all the pdf pages
         /// </summary>
         /// <param name="bytes">contents of the file in a byte array</param>
-        /// <param name="imageType">image Type</param> 
+        /// <param name="imageType">image Type</param>
         /// <param name="scale">Image resolution. Higher resolution generates bigger Image objects </param>
         /// /// <param name="pagenumbers"></param>
         /// <returns></returns>
@@ -59,7 +59,7 @@ namespace ZzzLab.Office.PDF
         /// Return a System.Drawing.Image collection with all the pdf pages
         /// </summary>
         /// <param name="file">PDF file system source path</param>
-        /// <param name="imageType">image Type</param> 
+        /// <param name="imageType">image Type</param>
         /// <param name="scale">Image resolution. Higher resolution generates bigger Image objects </param>
         /// <param name="pagenumbers"></param>
         /// <returns></returns>
@@ -95,7 +95,7 @@ namespace ZzzLab.Office.PDF
             //    default: throw new NotSupportedException("Not Support file Format");
             //}
 
-            if(imageType == ImageType.JPG 
+            if (imageType == ImageType.JPG
                 || imageType == ImageType.PNG
                 || imageType == ImageType.BMP
                 || imageType == ImageType.GIF)

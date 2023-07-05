@@ -205,7 +205,7 @@ namespace ZzzLab.Data
                                        && query.Parameters.Any(x => x.Direction.HasMask(Direction.ReturnValue))
                                     )
                                     {
-                                        foreach (NpgsqlParameter p in cmd.Parameters)
+                                        foreach (NpgsqlParameter p in cmd.Parameters.Cast<NpgsqlParameter>())
                                         {
                                             if (query.Parameters.Contains(p.ParameterName)
                                                 && query.Parameters[p.ParameterName].Direction.HasMask(Direction.ReturnValue))
@@ -228,11 +228,11 @@ namespace ZzzLab.Data
                                 resultcount++;
                             }
 
-                            if (cmd.Transaction != null) cmd.Transaction.Commit(); // 트랜잭션commit
+                            cmd.Transaction?.Commit(); // 트랜잭션commit
                         }
                         catch
                         {
-                            if (cmd.Transaction != null) cmd.Transaction.Rollback(); // 에러발생시rollback
+                            cmd.Transaction?.Rollback(); // 에러발생시rollback
                             cmd.Cancel();
                             throw;
                         }

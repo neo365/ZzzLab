@@ -6,6 +6,7 @@
         // 요약:
         //     Allow accessing the Initial value.
         Unknown = -1,
+
         None = 0,
         EMF = 2,
         WMF = 3,

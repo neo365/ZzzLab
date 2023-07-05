@@ -11,7 +11,7 @@ namespace ZzzLab.Office.Excel
         }
 
         public virtual void SetValue(string sheetName, int rowNum, int colNum, object value)
-            => SetValue(sheetName,POIUtils.ToAddress(rowNum, colNum), value);
+            => SetValue(sheetName, POIUtils.ToAddress(rowNum, colNum), value);
 
         public virtual string GetValue(string sheetName, int rowNum, int colNum)
             => GetValue(sheetName, POIUtils.ToAddress(rowNum, colNum));
@@ -22,11 +22,14 @@ namespace ZzzLab.Office.Excel
 
             ISheet sheet = this.GetSheet(sheetName);
 
+            if (sheet == null) return;
+
             CellReference cellref = new CellReference($"A{rowNum}");
             int rowposition = cellref.Row;
-            int cellposition = cellref.Col;
 
             IRow row = sheet.GetRow(rowposition);
+
+            if (row == null) return;
 
             sheet.RemoveRow(row);
         }

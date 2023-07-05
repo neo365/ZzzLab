@@ -71,12 +71,7 @@ namespace ZzzLab.Office.Excel
             // 경로가 비어있으면 에러처리
             if (string.IsNullOrEmpty(filePath?.Trim())) throw new ArgumentNullException(nameof(filePath));
 
-            DataTable table = this.ToDataTable(sheetIndex, hasHeader, address, limit);
-
-            if (table == null)
-            {
-                throw new InvalidDataException("Convert Fail!");
-            }
+            DataTable table = this.ToDataTable(sheetIndex, hasHeader, address, limit) ?? throw new InvalidDataException("Convert Fail!");
 
             // 폴더가 없으면 만들자.
             if (Directory.Exists(Path.GetDirectoryName(filePath)) == false)

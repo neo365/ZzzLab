@@ -39,10 +39,7 @@ namespace ZzzLab.Data
 
         public static IDBHandler Create(string name)
         {
-            ConnectionConfig config = DBClient.Connector[name];
-
-            if (config == null) throw new ArgumentOutOfRangeException(nameof(name));
-
+            ConnectionConfig config = DBClient.Connector[name] ?? throw new ArgumentOutOfRangeException(nameof(name));
             return new DataBaseHandler(config);
         }
 

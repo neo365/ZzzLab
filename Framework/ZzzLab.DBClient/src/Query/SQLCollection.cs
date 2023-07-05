@@ -17,10 +17,7 @@ namespace ZzzLab.Data
             if (string.IsNullOrWhiteSpace(section)) throw new ArgumentNullException(nameof(section));
             if (string.IsNullOrWhiteSpace(label)) throw new ArgumentNullException(nameof(label));
 
-            SqlEntity item = this.Items.Find(x => x.Section.EndsWithIgnoreCase(section) && x.Label.EndsWithIgnoreCase(label));
-
-            if (item == null) throw new NotFoundException($"Query Not Found: [{section}] {label}");
-
+            SqlEntity item = this.Items.Find(x => x.Section.EndsWithIgnoreCase(section) && x.Label.EndsWithIgnoreCase(label)) ?? throw new NotFoundException($"Query Not Found: [{section}] {label}");
             string query = item.Command;
 
             if (parameters != null && parameters.Count > 0)

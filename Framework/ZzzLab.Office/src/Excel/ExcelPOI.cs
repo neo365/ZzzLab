@@ -359,10 +359,7 @@ namespace ZzzLab.Office.Excel
             if (string.IsNullOrWhiteSpace(sheetName)) throw new ArgumentNullException(nameof(sheetName));
             if (string.IsNullOrWhiteSpace(address)) throw new ArgumentNullException(nameof(address));
 
-            ISheet sheet = this.GetSheet(sheetName, true);
-
-            if (sheet == null) throw new ArgumentOutOfRangeException(nameof(sheetName));
-
+            ISheet sheet = this.GetSheet(sheetName, true) ?? throw new ArgumentOutOfRangeException(nameof(sheetName));
             SetSheet(datatable, sheet, hasHeader, address);
         }
 
@@ -415,10 +412,7 @@ namespace ZzzLab.Office.Excel
         {
             if (string.IsNullOrWhiteSpace(sheetName)) throw new ArgumentNullException(nameof(sheetName));
 
-            ISheet sheet = this.Excel?.GetSheet(sheetName);
-
-            if (sheet == null) throw new ArgumentOutOfRangeException(nameof(sheetName));
-
+            ISheet sheet = (this.Excel?.GetSheet(sheetName)) ?? throw new ArgumentOutOfRangeException(nameof(sheetName));
             return ToDataTable(sheet, hasHeader, address, limit);
         }
 
