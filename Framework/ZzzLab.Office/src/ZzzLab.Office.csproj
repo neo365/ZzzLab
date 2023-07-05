@@ -24,7 +24,7 @@
   <ItemGroup>
 	<PackageReference Include="NPOI" Version="2.6.0" />
 	<PackageReference Include="PdfSharpCore" Version="1.3.57" />
-	<PackageReference Include="ZzzLab.Core" Version="0.2123.1714.2727" />
+	<PackageReference Include="ZzzLab.Core" Version="0.2123.1715.2447" />
 	<PackageReference Include="iTextSharp.LGPLv2.Core" Version="3.4.3" />
 	<PackageReference Include="PDFium.Windows" Version="1.0.0" />
 	<PackageReference Include="PDFiumSharpV2" Version="1.0.1" />

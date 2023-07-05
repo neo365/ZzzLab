@@ -29,7 +29,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <PackageReference Include="ZzzLab.Core" Version="0.2123.1714.2727" />
+	  <PackageReference Include="ZzzLab.Core" Version="0.2123.1715.2447" />
 	</ItemGroup>
 
 </Project>

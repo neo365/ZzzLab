@@ -21,7 +21,7 @@
 
   <ItemGroup>
     <PackageReference Include="Quartz" Version="3.6.3" />
-    <PackageReference Include="ZzzLab.Core" Version="0.2123.1714.2727" />
+    <PackageReference Include="ZzzLab.Core" Version="0.2123.1715.2447" />
   </ItemGroup>
 
 </Project>
