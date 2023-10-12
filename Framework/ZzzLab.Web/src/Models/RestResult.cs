@@ -3,17 +3,21 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using System.Data;
 using System.Net;
-using ZzzLab.Json;
+using ZzzLab.ExceptionEx;
 using ZzzLab.Models.Auth;
 using ZzzLab.Net.Http;
 using ZzzLab.Web.Models.Auth;
-using JsonConvert = ZzzLab.Json.JsonConvert;
-using ZzzLab.ExceptionEx;
 
 namespace ZzzLab.Web.Models
 {
-    public class RestResult
+    public static class RestResult
     {
+        public const int BASE_OK_CODE = 2000;
+        public const int BASE_FAIL_CODE = 2000;
+        public const int BASE_NOAUTH_CODE = 4010;
+        public const int BASE_PROBLEM_CODE = 5000;
+        public const int BASE_EXCEPTION_CODE = 5000;
+
         private static readonly JsonSerializerSettings JSON_SETTING = new JsonSerializerSettings()
         {
             ContractResolver = new CamelCasePropertyNamesContractResolver(),
@@ -23,14 +27,7 @@ namespace ZzzLab.Web.Models
             NullValueHandling = NullValueHandling.Ignore
         };
 
-        private static IActionResult GetResult<T>(int satusCode, T res) where T : class
-        {
-            return new ContentResult()
-            {
-                StatusCode = satusCode,
-                Content = JsonConvert.ToJson<T>(res, JSON_SETTING),
-            };
-        }
+        #region IActionResult
 
         private static IActionResult GetResult(RestResponse res)
         {
@@ -50,107 +47,88 @@ namespace ZzzLab.Web.Models
             };
         }
 
-        public static IActionResult Ok(int code = 20000)
-        {
-            RestResponse res = new RestResponse()
-            {
-                Success = true,
-                StatusCode = (int)HttpStatusCode.OK,
-                Code = code
-            };
+        #endregion IActionResult
 
-            return GetResult(res);
+        private static IActionResult ResultWithItem<T>(HttpStatusCode statusCode, bool success, T? item, string? message = null, int code = BASE_OK_CODE, string? trackingId = null)
+        {
+            if (item is null)
+            {
+                RestResponse res = new RestResponse()
+                {
+                    TrackingId = trackingId ?? Guid.NewGuid().ToString(),
+                    Success = success,
+                    Message = message,
+                    StatusCode = (int)statusCode,
+                    Code = code
+                };
+                return GetResult(res);
+            }
+            if (item is DataRow row)
+            {
+                RestItemResponse<dynamic> res = new RestItemResponse<dynamic>()
+                {
+                    TrackingId = trackingId ?? Guid.NewGuid().ToString(),
+                    Success = success,
+                    Message = message,
+                    Item = row.ToModeling(),
+                    StatusCode = (int)statusCode,
+                    Code = code
+                };
+
+                return GetResult(res);
+            }
+            else if (item is DataTable table) return Grid(table);
+            else
+            {
+                RestItemResponse<T> res = new RestItemResponse<T>()
+                {
+                    TrackingId = trackingId ?? Guid.NewGuid().ToString(),
+                    Success = success,
+                    Message = message,
+                    Item = item,
+                    StatusCode = (int)statusCode,
+                    Code = code
+                };
+
+                return GetResult(res);
+            }
         }
 
-        public static IActionResult OkWithMessage(string message, int code = 20000)
-        {
-            RestResponse res = new()
-            {
-                Success = true,
-                Message = message,
-                StatusCode = (int)HttpStatusCode.OK,
-                Code = code
-            };
+        public static IActionResult Ok(int code = BASE_OK_CODE, string? trackingId = null)
+            => ResultWithItem<string>(HttpStatusCode.OK, true, null, null, code, trackingId);
 
-            return GetResult(res);
-        }
+        public static IActionResult OkWithMessage(string? message, int code = BASE_OK_CODE, string? trackingId = null)
+            => ResultWithItem<string>(HttpStatusCode.OK, true, null, message, code, trackingId);
 
-        public static IActionResult Ok<T>(T item, int code = 20000)
-        {
-            RestItemResponse<T> res = new RestItemResponse<T>()
-            {
-                Success = true,
-                Message = null,
-                Item = item,
-                StatusCode = (int)HttpStatusCode.OK,
-                Code = code
-            };
+        public static IActionResult OkWithItem<T>(T item, string? message = null, int code = BASE_OK_CODE, string? trackingId = null)
+            => ResultWithItem<T>(HttpStatusCode.OK, true, item, message, code, trackingId);
 
-            return GetResult(res);
-        }
+        public static IActionResult Fail(int code = BASE_FAIL_CODE, string? trackingId = null)
+            => ResultWithItem<string>(HttpStatusCode.OK, false, null, null, code, trackingId);
 
-        //public static IActionResult Ok(DataTable table)
-        //    => Grid(table);
+        public static IActionResult FailWithMessage(string message, int code = BASE_FAIL_CODE, string? trackingId = null)
+            => ResultWithItem<string>(HttpStatusCode.OK, false, null, message, code, trackingId);
 
-        public static IActionResult Ok(DataRow row, int code = 20000)
-        {
-            RestItemResponse<dynamic> res = new RestItemResponse<dynamic>()
-            {
-                Success = true,
-                Message = null,
-                Item = row.ToModeling(),
-                StatusCode = (int)HttpStatusCode.OK,
-                Code = code
-            };
+        public static IActionResult FailWithItem<T>(T item, string? message = null, int code = BASE_FAIL_CODE, string? trackingId = null)
+            => ResultWithItem<T>(HttpStatusCode.OK, false, item, message, code, trackingId);
 
-            return GetResult(res);
-        }
+        public static IActionResult Fail(string message, int code = BASE_FAIL_CODE, string? trackingId = null)
+            => FailWithMessage(message, code, trackingId);
 
-        public static IActionResult Auth<T>(T auth) where T : class
-            => GetResult<T>(200, auth);
+        public static IActionResult Fail(Exception ex, int code = BASE_EXCEPTION_CODE, string? trackingId = null)
+            => Problem(ex, code, trackingId);
 
-        public static IActionResult Fail(int code = 2000)
-        {
-            RestResponse res = new RestResponse()
-            {
-                Success = false,
-                StatusCode = (int)HttpStatusCode.OK,
-                Code = code
-            };
+        public static IActionResult Fail(IEnumerable<ExceptionInfo> collection, int code = BASE_EXCEPTION_CODE, string? trackingId = null)
+            => Problem(collection, code, trackingId);
 
-            return GetResult(res);
-        }
+        public static IActionResult OkOrFail(bool success, string? trackingId = null)
+            => success ? Ok(trackingId: trackingId) : Fail(trackingId: trackingId);
 
-        public static IActionResult Fail(string message, int code = 2000)
-            => FailWithMessage(message, code);
+        public static IActionResult OkOrFail(object result, string? trackingId = null)
+            => result != null ? OkWithItem(result, trackingId: trackingId) : Fail(trackingId: trackingId);
 
-        public static IActionResult FailWithMessage(string message, int code = 2000)
-        {
-            RestResponse res = new RestResponse()
-            {
-                Success = false,
-                Message = message,
-                StatusCode = (int)HttpStatusCode.OK,
-                Code = code
-            };
-
-            return GetResult(res);
-        }
-
-        public static IActionResult Fail(Exception ex, int code = 9000)
-            => Problem(ex, code);
-
-        public static IActionResult Fail(IEnumerable<ExceptionInfo> collection, int code = 9000)
-            => Problem(collection, code);
-
-        public static IActionResult OkOrFail(bool success)
-            => success ? Ok() : Fail();
-
-        public static IActionResult OkOrFail(int result)
-            => result > 0 ? Ok() : Fail();
-
-        public static IActionResult OkOrFail(object result)
-            => result != null ? Ok(result) : Fail();
+        public static IActionResult OkOrFail<T>(bool success, T item, string? trackingId = null)
+            => success ? OkWithItem(item, trackingId: trackingId) : FailWithItem(item, trackingId: trackingId);
 
         /// <summary>
         /// 성공실패 리턴. 실패시에는 메세지입력가능
@@ -158,39 +136,14 @@ namespace ZzzLab.Web.Models
         /// <param name="success">성공여부</param>
         /// <param name="message">메세지</param>
         /// <returns></returns>
-        public static IActionResult OkOrFail(bool success, string message)
-            => success ? OkWithMessage(message) : Fail(message);
+        public static IActionResult OkOrFail(bool success, string message, int code = BASE_EXCEPTION_CODE, string? trackingId = null)
+            => success ? Ok(trackingId: trackingId) : Fail(message, code, trackingId: trackingId);
 
-        public static IActionResult OkOrFail(string? value)
-            => string.IsNullOrWhiteSpace(value) ? Fail() : Ok(value);
+        public static IActionResult AuthOK<T>(OAuthSuccess<T> item, string? trackingId = null) where T : LoginEntity
+         => ResultWithItem<OAuthSuccess<T>>(HttpStatusCode.OK, true, item, null, BASE_OK_CODE, trackingId);
 
-
-        public static IActionResult Custom<T>(T item) where T : ResponseBase
-        {
-            return new ContentResult()
-            {
-                StatusCode = item.StatusCode,
-                Content = item.ToJson(JSON_SETTING),
-            };
-        }
-
-        public static IActionResult OK<T>(OAuthSuccess<T> item) where T : LoginEntity
-        {
-            return new ContentResult()
-            {
-                Content = item.ToJson(JSON_SETTING),
-                StatusCode = (int)HttpStatusCode.OK,
-            };
-        }
-
-        public static IActionResult Fail(OAuthError item)
-        {
-            return new ContentResult()
-            {
-                StatusCode = 500,
-                Content = item.ToJson(JSON_SETTING),
-            };
-        }
+        public static IActionResult AuthFail(OAuthError item, string? trackingId = null)
+            => ResultWithItem<OAuthError>(HttpStatusCode.Unauthorized, true, item, null, BASE_OK_CODE, trackingId);
 
         /// <summary>
         /// 페이지 리다이렉션 <br />
@@ -202,28 +155,29 @@ namespace ZzzLab.Web.Models
         public static IActionResult Redirect(string url, bool isPermanent = false)
             => new RedirectResult(url, isPermanent);
 
-        public static IActionResult BadRequest()
-            => Problem(HttpStatusCode.BadRequest, null);
+        public static IActionResult BadRequest(string? trackingId = null)
+            => BadRequest(null, trackingId);
 
-        public static IActionResult BadRequest(string message)
-            => Problem(HttpStatusCode.BadRequest, message);
+        public static IActionResult BadRequest(string? message, string? trackingId = null)
+            => Problem(HttpStatusCode.BadRequest, message, trackingId: trackingId);
 
-        public static IActionResult Unauthorized()
-            => Problem(HttpStatusCode.Unauthorized, null);
+        public static IActionResult Unauthorized(string? trackingId = null)
+            => Unauthorized(null, trackingId);
 
-        public static IActionResult Unauthorized(string message)
-            => Problem(HttpStatusCode.Unauthorized, message);
+        public static IActionResult Unauthorized(string? message, string? trackingId = null)
+            => Problem(HttpStatusCode.Unauthorized, message, trackingId: trackingId);
 
-        public static IActionResult NotFound()
-             => Problem(HttpStatusCode.NotFound, null);
+        public static IActionResult NotFound(string? trackingId = null)
+             => NotFound(null, trackingId);
 
-        public static IActionResult NotFound(string message)
-            => Problem(HttpStatusCode.NotFound, message);
+        public static IActionResult NotFound(string? message, string? trackingId = null)
+            => Problem(HttpStatusCode.NotFound, message, trackingId: trackingId);
 
-        public static IActionResult Problem(HttpStatusCode statusCode, string? message, string? description = null, int code = 9000)
+        public static IActionResult Problem(HttpStatusCode statusCode, string? message, string? description = null, int code = BASE_PROBLEM_CODE, string? trackingId = null)
         {
             RestServerErrorResult res = new RestServerErrorResult()
             {
+                TrackingId = trackingId ?? Guid.NewGuid().ToString(),
                 StatusCode = (int)statusCode,
                 ErrorMessage = message,
                 ErrorDescription = description ?? statusCode.ToStatusMessage(),
@@ -233,13 +187,14 @@ namespace ZzzLab.Web.Models
             return GetResult(res);
         }
 
-        public static IActionResult Problem(string message, string? description = null, int code = 9000)
-            => Problem(HttpStatusCode.InternalServerError, message, description, code);
+        public static IActionResult Problem(string message, string? description = null, int code = BASE_PROBLEM_CODE, string? trackingId = null)
+            => Problem(HttpStatusCode.InternalServerError, message, description, code, trackingId);
 
-        public static IActionResult Problem(Exception ex, int code = 9000)
+        public static IActionResult Problem(Exception ex, int code = BASE_EXCEPTION_CODE, string? trackingId = null)
         {
             RestServerErrorResult res = new RestServerErrorResult()
             {
+                TrackingId = trackingId ?? Guid.NewGuid().ToString(),
                 StatusCode = (int)HttpStatusCode.InternalServerError,
                 ErrorMessage = ex.GetAllMessages(),
                 Error = ex.GetAllExceptionInfo(),
@@ -250,10 +205,11 @@ namespace ZzzLab.Web.Models
             return GetResult(res);
         }
 
-        public static IActionResult Problem(IEnumerable<ExceptionInfo> collection, int code = 9000)
+        public static IActionResult Problem(IEnumerable<ExceptionInfo> collection, int code = BASE_EXCEPTION_CODE, string? trackingId = null)
         {
             RestServerErrorResult res = new RestServerErrorResult()
             {
+                TrackingId = trackingId ?? Guid.NewGuid().ToString(),
                 StatusCode = (int)HttpStatusCode.InternalServerError,
                 ErrorMessage = collection.GetAllMessages(),
                 Error = collection,
@@ -264,10 +220,10 @@ namespace ZzzLab.Web.Models
             return GetResult(res);
         }
 
-        public static IActionResult Grid<T>(IEnumerable<T> data, int recordsTotal = -1, int recordsFiltered = -1, int code = 2000)
-            => Grid(Enumerable.Empty<object>(), data, recordsTotal, recordsFiltered, code);
+        public static IActionResult Grid<T>(IEnumerable<T> data, int recordsTotal = -1, int recordsFiltered = -1, int code = BASE_OK_CODE, string? trackingId = null)
+            => Grid(Enumerable.Empty<object>(), data, recordsTotal, recordsFiltered, code, trackingId);
 
-        public static IActionResult Grid<T>(IEnumerable<object>? headers, IEnumerable<T> data, int recordsTotal = -1, int recordsFiltered = -1, int code = 2000)
+        public static IActionResult Grid<T>(IEnumerable<object>? headers, IEnumerable<T> data, int recordsTotal = -1, int recordsFiltered = -1, int code = BASE_OK_CODE, string? trackingId = null)
         {
             if (data == null || data.Any() == false)
             {
@@ -277,9 +233,10 @@ namespace ZzzLab.Web.Models
 
             RestGridResponse<T> res = new RestGridResponse<T>()
             {
+                TrackingId = trackingId ?? Guid.NewGuid().ToString(),
                 Success = true,
                 StatusCode = (int)HttpStatusCode.OK,
-                Headers = headers,
+                Headers = (headers == null || headers.Any() == false ? null : headers),
                 Items = data,
                 RecordsTotal = (recordsTotal < 0 ? data.Count() : recordsTotal),
                 RecordsFiltered = (recordsFiltered < 0 ? data.Count() : recordsFiltered),
@@ -289,7 +246,7 @@ namespace ZzzLab.Web.Models
             return GetResult(res);
         }
 
-        public static IActionResult Grid(DataTable table, int recordsTotal = -1, int recordsFiltered = -1, int code = 2000)
+        public static IActionResult Grid(DataTable table, int recordsTotal = -1, int recordsFiltered = -1, int code = BASE_OK_CODE, string? trackingId = null)
         {
             if (table == null || table.Rows.Count == 0) return Empty();
 
@@ -304,37 +261,11 @@ namespace ZzzLab.Web.Models
                 table.ToModeling(),
                 (recordsTotal < 0 ? table.Rows.Count : recordsTotal),
                 (recordsFiltered < 0 ? table.Rows.Count : recordsFiltered),
-                code);
+                code,
+                trackingId);
         }
 
-        public static IActionResult Empty()
-        {
-            RestGridResponse<dynamic> res = new RestGridResponse<dynamic>()
-            {
-                Success = true,
-                StatusCode = (int)HttpStatusCode.OK,
-                Items = Enumerable.Empty<dynamic>(),
-                RecordsTotal = 0,
-                RecordsFiltered = 0,
-                Code = 2000
-            };
-
-            return GetResult(res);
-        }
-
-        public static IActionResult Empty<T>()
-        {
-            RestGridResponse<T> res = new RestGridResponse<T>()
-            {
-                Success = true,
-                StatusCode = (int)HttpStatusCode.OK,
-                Items = Enumerable.Empty<T>(),
-                RecordsTotal = 0,
-                RecordsFiltered = 0,
-                Code = 2000
-            };
-
-            return GetResult(res);
-        }
+        public static IActionResult Empty(string? trackingId = null)
+            => Grid<dynamic>(null, Enumerable.Empty<dynamic>(), 0, 0, BASE_OK_CODE, trackingId);
     }
 }

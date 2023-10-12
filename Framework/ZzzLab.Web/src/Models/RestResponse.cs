@@ -12,7 +12,7 @@ namespace ZzzLab.Web.Models
         [JsonProperty(PropertyName = "success")]
         [JsonPropertyName("success")]
         [XmlElement(ElementName = "success")]
-        public virtual bool Success { set; get; } = true;
+        public virtual bool Success { set; get; } = false;
 
         /// <summary>
         /// 전달메세지

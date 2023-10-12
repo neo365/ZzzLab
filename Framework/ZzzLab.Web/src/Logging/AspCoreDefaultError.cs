@@ -29,7 +29,7 @@ namespace ZzzLab.Web.Logging
         {
             RestErrorResult res = new RestErrorResult
             {
-                TrakingId = TraceId ?? Guid.NewGuid().ToString(),
+                TrackingId = TraceId ?? Guid.NewGuid().ToString(),
                 StatusCode = Status ?? StatusCodes.Status500InternalServerError,
                 ErrorMessage = $"{Title} ({Type})",
             };

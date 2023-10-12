@@ -14,9 +14,5 @@ namespace ZzzLab.Configuration
         IConfigBuilder AddLogger<T>(string name, LogEventHandler onMessage) where T : IZLogger;
 
         IConfigBuilder RemoveLogger(IZLogger logger);
-
-        IConfigBuilder AddWatcher(string filePath);
-
-        IConfigBuilder RemoveWatcher(string filePath);
     }
 }

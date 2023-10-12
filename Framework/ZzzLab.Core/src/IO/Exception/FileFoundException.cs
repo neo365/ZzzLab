@@ -5,6 +5,7 @@ namespace ZzzLab.IO
     public class FileFoundException : Exception
     {
         public string FilePath { private set; get; }
+
         public FileFoundException() : base(null)
         {
         }

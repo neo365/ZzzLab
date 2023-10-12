@@ -26,10 +26,10 @@ namespace ZzzLab.Web.Models
         /// <summary>
         /// 로그추척 ID
         /// </summary>
-        [JsonProperty(PropertyName = "trakingId")]
-        [JsonPropertyName("trakingId")]
-        [XmlElement(ElementName = "trakingId")]
-        public virtual string TrakingId { get; set; } = Guid.NewGuid().ToString();
+        [JsonProperty(PropertyName = "trackingId")]
+        [JsonPropertyName("trackingId")]
+        [XmlElement(ElementName = "trackingId")]
+        public virtual string TrackingId { get; set; } = Guid.NewGuid().ToString();
 
         /// <summary>
         /// 연결 서버

@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using ZzzLab.Logging;
 
 namespace ZzzLab.Configuration
@@ -42,16 +40,6 @@ namespace ZzzLab.Configuration
             {
                 this.Global[item.Key] = item.Value;
             }
-
-            if (BaseLoader.WatchFiles != null && BaseLoader.WatchFiles.Any())
-            {
-                foreach (string filePath in BaseLoader.WatchFiles)
-                {
-                    if (File.Exists(filePath) == false) continue;
-
-                    AddWatcher(filePath);
-                }
-            }
         }
 
         public void Writer(string name, string value)
@@ -62,17 +50,7 @@ namespace ZzzLab.Configuration
 
             this.Global[name] = value;
 
-            foreach (string f in BaseLoader.WatchFiles)
-            {
-                if (DicWatcher.ContainsKey(f)) DicWatcher[f].EnableRaisingEvents = false;
-            }
-
             BaseLoader.Writer(new KeyValuePair<string, string>(name, value));
-
-            foreach (string f in BaseLoader.WatchFiles)
-            {
-                if (DicWatcher.ContainsKey(f)) DicWatcher[f].EnableRaisingEvents = true;
-            }
         }
 
         #region IConfigBuilder
