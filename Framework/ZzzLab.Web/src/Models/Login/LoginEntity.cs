@@ -1,5 +1,3 @@
-using System;
-
 namespace ZzzLab.Models.Auth
 {
     /// <summary>

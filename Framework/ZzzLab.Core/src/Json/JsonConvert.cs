@@ -44,9 +44,7 @@ namespace ZzzLab.Json
             else
             {
                 JToken jtoken = JObject.Parse(json)?.SelectToken(path);
-                if (jtoken == null) throw new NullReferenceException();
-
-                return jtoken.ToObject<T>();
+                return jtoken == null ? throw new NullReferenceException() : jtoken.ToObject<T>();
             }
         }
 

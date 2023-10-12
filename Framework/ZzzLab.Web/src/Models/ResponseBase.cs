@@ -16,7 +16,7 @@ namespace ZzzLab.Web.Models
         public virtual int StatusCode { get; set; } = (int)HttpStatusCode.OK;
 
         /// <summary>
-        /// 에러 코드 
+        /// 에러 코드
         /// </summary>
         [JsonProperty(PropertyName = "code")]
         [JsonPropertyName("code")]

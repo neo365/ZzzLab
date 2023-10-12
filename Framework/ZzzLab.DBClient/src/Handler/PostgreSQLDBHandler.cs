@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using System.Threading;
 using ZzzLab.Data.Models;
 
 namespace ZzzLab.Data
@@ -50,9 +49,11 @@ namespace ZzzLab.Data
         #endregion Connection
 
         #region Version
+
         public override string GetVersion()
             => SelectValue("SELECT VERSION()")?.ToString();
-        #endregion
+
+        #endregion Version
 
         #region Select
 

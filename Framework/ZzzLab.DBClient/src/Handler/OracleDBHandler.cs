@@ -37,9 +37,11 @@ namespace ZzzLab.Data
         #endregion Connectionstring
 
         #region Version
+
         public override string GetVersion()
             => SelectValue("SELECT DISTINCT VERSION FROM SYS.PRODUCT_COMPONENT_VERSION")?.ToString();
-        #endregion
+
+        #endregion Version
 
         #region Connection
 

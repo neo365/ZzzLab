@@ -28,7 +28,7 @@
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
 		<PackageReference Include="Swashbuckle.AspNetCore.Filters" Version="7.0.11" />
 		<PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" Version="6.5.0" />
-		<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.31.0" />
+		<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="7.0.2" />
 		<PackageReference Include="ZzzLab.Core" Version="0.2123.1715.2447" />
 	</ItemGroup>
 	

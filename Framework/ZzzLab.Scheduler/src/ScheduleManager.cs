@@ -82,6 +82,6 @@ namespace ZzzLab.Scheduler
             ConsoleClear();
         }
 
-        #endregion Message
+        #endregion Logger
     }
 }

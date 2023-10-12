@@ -1,5 +1,4 @@
-﻿using System;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 
 namespace ZzzLab.Desktop
@@ -38,7 +37,7 @@ namespace ZzzLab.Desktop
 
         private static void ScrollChanged(object sender, ScrollChangedEventArgs e)
         {
-            if (sender is not ScrollViewer scroll)  throw new InvalidOperationException("The attached AlwaysScrollToEnd property can only be applied to ScrollViewer instances."); 
+            if (sender is not ScrollViewer scroll) throw new InvalidOperationException("The attached AlwaysScrollToEnd property can only be applied to ScrollViewer instances.");
 
             // User scroll event : set or unset autoscroll mode
             if (e.ExtentHeightChange == 0) { _autoScroll = scroll.VerticalOffset == scroll.ScrollableHeight; }

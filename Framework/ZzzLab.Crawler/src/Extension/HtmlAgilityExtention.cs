@@ -76,6 +76,7 @@ namespace ZzzLab.Crawler
 
             return src;
         }
+
         /// <summary>
         /// Inner Text를 가져올때 앞뒤의 줄바꿈, 공백, 탭을 삭제 한다.
         /// </summary>

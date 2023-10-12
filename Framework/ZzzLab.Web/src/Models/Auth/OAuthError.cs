@@ -17,7 +17,7 @@ namespace ZzzLab.Models.Auth
         public string? ErrorDescription { set; get; }
 
         /// <summary>
-        /// 에러 코드 
+        /// 에러 코드
         /// </summary>
         [JsonProperty(PropertyName = "code")]
         [JsonPropertyName("code")]

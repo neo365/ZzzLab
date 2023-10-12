@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace ZzzLab.Event
+﻿namespace ZzzLab.Event
 {
     public delegate void ServerStatusChangeEventHandler(object sender, ServerStatusChangeEventArgs e);
 

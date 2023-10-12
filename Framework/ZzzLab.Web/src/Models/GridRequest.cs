@@ -52,6 +52,7 @@ namespace ZzzLab.Web.Models
         public string? Name { set; get; }
 
         private string? _FieldName = null;
+
         public string? FieldName
         {
             set => _FieldName = value;
