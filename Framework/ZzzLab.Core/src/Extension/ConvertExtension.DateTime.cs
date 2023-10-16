@@ -6,19 +6,10 @@ namespace ZzzLab
     public static partial class ConvertExtension
     {
         public static string To24Hours(this DateTime date)
-        {
-            return date.ToString("yyyy-MM-dd HH:mm:ss");
-        }
+            => date.ToString("yyyy-MM-dd HH:mm:ss");
 
         public static string To24Hours(this DateTime? date)
-        {
-            if (date != null)
-            {
-                return ((DateTime)date).ToString("yyyy-MM-dd HH:mm:ss");
-            }
-
-            return string.Empty;
-        }
+            =>  (date == null ? null : ((DateTime)date).ToString("yyyy-MM-dd HH:mm:ss"));
 
         public static string TimeAgo(this DateTime dt)
         {
@@ -55,26 +46,13 @@ namespace ZzzLab
         }
 
         public static string ToTimeString(this Stopwatch watch)
-        {
-            return watch.ElapsedMilliseconds.ToTimeString();
-        }
+            => watch.ElapsedMilliseconds.ToTimeString();
 
         public static DateTime ToDateTime(this string str)
-        {
-            if (string.IsNullOrWhiteSpace(str)) throw new ArgumentNullException(nameof(str));
-
-            if (DateTime.TryParse(str, out DateTime dateTime)) return dateTime;
-
-            throw new InvalidCastException("\\" + str + "\\ is Not DateTime.");
-        }
+            => ToDateTimeNullable(str) ?? throw new InvalidCastException("\\" + str + "\\ is Not DateTime.");
 
         public static DateTime ToDateTime(this string str, string format)
-        {
-            if (string.IsNullOrWhiteSpace(str)) throw new ArgumentNullException(nameof(str));
-            return DateTime.TryParseExact(str, format, null, System.Globalization.DateTimeStyles.None, out DateTime convertedValue)
-                ? convertedValue
-                : throw new InvalidCastException("\\" + str + "\\ is Not DateTime.");
-        }
+            => ToDateTimeNullable(str, format) ?? throw new InvalidCastException("\\" + str + "\\ is Not DateTime.");
 
         public static DateTime ToDateTime(this object obj)
             => ToDateTime(obj.ToString());
@@ -90,6 +68,14 @@ namespace ZzzLab
             {
                 return null;
             }
+        }
+
+        public static DateTime? ToDateTimeNullable(this string str, string format)
+        {
+            if (string.IsNullOrWhiteSpace(str)) return null;
+            if (DateTime.TryParseExact(str, format, null, System.Globalization.DateTimeStyles.None, out DateTime convertedValue)) return convertedValue;
+
+            return null;
         }
 
         public static DateTime ToDateTime(this long timestamp)
