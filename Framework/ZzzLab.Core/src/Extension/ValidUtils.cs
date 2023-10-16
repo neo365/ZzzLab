@@ -740,66 +740,46 @@ namespace ZzzLab
 
         #region DateTime
 
+        /// <summary>
+        /// DateTime 형식이 맞는지 확인
+        /// </summary>
+        /// <param name="str"></param>
+        /// <returns></returns>
         public static bool IsDateTime(this string str)
         {
-            if (string.IsNullOrWhiteSpace(str)) return false;
-            else
+            string[] formats =
             {
-                int count = 0;
-                List<char> charlist = new List<char>();
-                foreach (char c in str)
-                {
-                    char addChr = c;
-                    if (c == ':')
-                    {
-                        count++;
-                        if (count > 2) addChr = '.';
-                        {
-                        }
-                    }
+                "yyyyMMddHHmmss.ff",
+                "yyyyMMddHHmmss",
+                "yyyyMMddHHmm",
+                "yyyyMMdd",
+                "MMdd",
+                "yyyy-MM-dd HH:mm:ss.ff",
+                "yyyy-MM-dd HH:mm:ss",
+                "yyyy-MM-dd HH:mm",
+                "yyyy-MM-dd",
+                "MM-dd",
+                "yyyy/MM/dd HH:mm:ss.ff",
+                "yyyy/MM/dd HH:mm:ss",
+                "yyyy/MM/dd HH:mm",
+                "yyyy/MM/dd",
+                "MM/dd",
+            };
 
-                    charlist.Add(addChr);
-                }
-
-                str = new string(charlist.ToArray());
-
-                if (DateTime.TryParse(str, out _)) return true;
-                else
-                {
-                    string[] formats =
-                    {
-                        "yyyyMMdd",
-                        "yyyy-MM-dd"
-                    };
-
-                    return (DateTime.TryParseExact(str, formats, null, DateTimeStyles.None, out _));
-                }
-            }
-        }
-
-        public static bool IsDateTime(this object o)
-        {
-            if (o == null || o.GetType() == typeof(DBNull)) return false;
-
-            return IsDateTime(o.ToString());
-        }
-
-        /// <summary>
-        /// 날짜 형식이 맞는지 확인
-        /// </summary>
-        /// <param name="s"></param>
-        /// <returns></returns>
-        public static bool IsDate(this string s)
-        {
-            if (string.IsNullOrWhiteSpace(s)) return false;
-            else if (DateTime.TryParse(s, out _)) return true;
-            else if (DateTime.TryParseExact(s, "yyyyMMdd", null, DateTimeStyles.AssumeLocal, out _)) return true;
-            else if (DateTime.TryParseExact(s, "yyyy-MM-dd", null, DateTimeStyles.AssumeLocal, out _)) return true;
-            else if (DateTime.TryParseExact(s, "yyMMdd", null, DateTimeStyles.AssumeLocal, out _)) return true;
-            else if (DateTime.TryParseExact(s, "yy-MM-dd", null, DateTimeStyles.AssumeLocal, out _)) return true;
+            if (string.IsNullOrWhiteSpace(str)) return false;
+            else if (DateTime.TryParse(str, out _)) return true;
+            else if (DateTime.TryParseExact(str, formats, null, DateTimeStyles.AssumeLocal, out _)) return true;
 
             return false;
         }
+
+        /// <summary>
+        /// DateTime 형식이 맞는지 확인
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public static bool IsDateTime(this object obj)
+            => obj == null || obj.GetType() == typeof(DBNull) ? false : IsDateTime(obj.ToString());
 
         #endregion DateTime
 

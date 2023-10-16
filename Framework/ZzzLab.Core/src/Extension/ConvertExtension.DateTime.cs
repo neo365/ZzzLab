@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 
 namespace ZzzLab
@@ -63,49 +62,22 @@ namespace ZzzLab
         public static DateTime ToDateTime(this string str)
         {
             if (string.IsNullOrWhiteSpace(str)) throw new ArgumentNullException(nameof(str));
-            if (str.IsDateTime())
-            {
-                int count = 0;
-                List<char> charlist = new List<char>();
-                foreach (char c in str)
-                {
-                    char addChr = c;
-                    if (c == ':')
-                    {
-                        count++;
-                        if (count > 2) addChr = '.';
-                    }
 
-                    charlist.Add(addChr);
-                }
-
-                str = new string(charlist.ToArray());
-
-                if (DateTime.TryParse(str, out DateTime dateTime)) return dateTime;
-                else
-                {
-                    string[] formats =
-                    {
-                        "yyyyMMdd",
-                        "yyyy-MM-dd"
-                    };
-
-                    if (DateTime.TryParseExact(str, formats, null, System.Globalization.DateTimeStyles.None, out DateTime convertedValue))
-                    {
-                        return convertedValue;
-                    }
-                }
-            }
+            if (DateTime.TryParse(str, out DateTime dateTime)) return dateTime;
 
             throw new InvalidCastException("\\" + str + "\\ is Not DateTime.");
         }
 
-        public static DateTime ToDateTime(this object obj)
+        public static DateTime ToDateTime(this string str, string format)
         {
-            if (obj.IsDateTime()) return ToDateTime(obj.ToString());
-
-            throw new InvalidCastException("object is Not DateTime.");
+            if (string.IsNullOrWhiteSpace(str)) throw new ArgumentNullException(nameof(str));
+            return DateTime.TryParseExact(str, format, null, System.Globalization.DateTimeStyles.None, out DateTime convertedValue)
+                ? convertedValue
+                : throw new InvalidCastException("\\" + str + "\\ is Not DateTime.");
         }
+
+        public static DateTime ToDateTime(this object obj)
+            => ToDateTime(obj.ToString());
 
         public static DateTime? ToDateTimeNullable(this string str)
         {
