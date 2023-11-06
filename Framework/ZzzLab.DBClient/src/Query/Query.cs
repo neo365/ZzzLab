@@ -74,30 +74,29 @@ namespace ZzzLab.Data
         /// </summary>
         /// <returns></returns>
         public override string ToString()
-        {
-            string commandText = CommandText.Replace(")", " ) ")
-                                            .Replace("(", " ( ")
-                                            .Replace("\n", " \n");
-            commandText += " ";
-
+        {            
             QueryParameterCollection parameters = Parameters.Clone();
-
+            string commandText = this.CommandText;
             if (parameters.Count > 0)
             {
                 foreach (string key in parameters.Keys)
                 {
                     try
                     {
-                        string tmpStr = string.Empty;
+                        string value = string.Empty;
                         if (parameters[key] != null)
                         {
                             object obj = parameters[key].Value;
-                            tmpStr = (obj == null ? "null" : $"'{obj}'");
+
+                            if (obj == null) value = null;
+                            else if (obj is DateTime dt) value = dt.ToDateTime().To24Hours();
+                            else value = $"{obj}";
                         }
 
-                        commandText = commandText.ReplaceIgnoreCase("@" + key + " ", tmpStr + " ")
-                                                 .ReplaceIgnoreCase("@" + key + ",", tmpStr + ",")
-                                                 .ReplaceIgnoreCase("@" + key + ";", tmpStr + ";");
+                        commandText = commandText.ReplaceIgnoreCase($"${{key}}", $"{(string.IsNullOrEmpty(value) ? string.Empty : $"{value}")}")
+                                                 .ReplaceIgnoreCase($"#{{key}}", $"{(value == null ? "null" : $"'{value}'")}");
+
+                        commandText = SQLUtils.Formatter(commandText);
                     }
                     catch { }
                 }

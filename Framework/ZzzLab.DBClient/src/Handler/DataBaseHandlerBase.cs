@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Text;
-using ZzzLab.Data.Models;
 
 namespace ZzzLab.Data
 {
@@ -20,28 +18,27 @@ namespace ZzzLab.Data
 
         #region Connection
 
-        public abstract IDbConnection CreateDBConnection();
+        protected abstract IDbConnection CreateConnection();
 
-        public virtual IDbCommand CreateDBCommand()
-            => CreateDBConnection().CreateCommand();
-
-        public virtual void CrearDBConnection(IDbConnection conn)
-        {
-            if (conn == null) return;
-
-            if (conn.State != ConnectionState.Closed) conn.Close();
-        }
+        protected abstract void CrearConnection(IDbConnection conn);
 
         #endregion Connection
 
-        #region TEST
+        #region version
+
+        public virtual string GetVersion()
+            => string.Empty;
+
+        #endregion version
+
+        #region ConnectionTest
 
         public virtual bool ConnectionTest()
         {
             IDbConnection conn = null;
             try
             {
-                using (conn = CreateDBConnection())
+                using (conn = CreateConnection())
                 {
                     conn.Open();
                     conn.Close();
@@ -49,17 +46,14 @@ namespace ZzzLab.Data
             }
             catch (Exception ex)
             {
-                Logger.Error(ex);
-                CrearDBConnection(conn);
+                Logger.Error(ex.Message);
+                CrearConnection(conn);
             }
 
             return false;
         }
 
-        public virtual string GetVersion()
-            => string.Empty;
-
-        #endregion TEST
+        #endregion ConnectionTest
 
         #region Select
 
@@ -113,15 +107,28 @@ namespace ZzzLab.Data
 
         #endregion Execute
 
-        //#region BulkCopy
+        #region BulkCopy
 
-        //public virtual bool BulkCopy(object obj)
-        //    => throw new NotSupportedException();
+        /// <summary>
+        /// BulkCopy 지원
+        /// </summary>
+        /// <param name="table"></param>
+        /// <returns></returns>
+        public virtual bool BulkCopy(DataTable table)
+             => throw new NotSupportedException();
 
-        //#endregion BulkCopy
+        public virtual bool BulkCopyFromFile(string tableName, string filePath, int offset = 0)
+            => throw new NotSupportedException();
+
+        #endregion BulkCopy
 
         public virtual void Vacuum(IDictionary<string, string> options = null)
             => throw new NotSupportedException();
+
+        public string GetQuery(string section, string label)
+            => DBClient.Queries.Get(section, label);
+
+        #region Utils
 
         protected virtual string StripParameter(string parameter)
         {
@@ -157,7 +164,7 @@ namespace ZzzLab.Data
             }
         }
 
-        protected virtual string ConvertToExcutSQL(Query query)
+        protected virtual string ConvertToExcuteSQL(Query query)
         {
             char parameterChar = GetParameterChar();
             string commandText = CheckCommand(query.CommandText);
@@ -198,33 +205,6 @@ namespace ZzzLab.Data
             return commandText.TrimEnd(';', ' ');
         }
 
-        public string GetQuery(string section, string label)
-            => DBClient.Queries.Get(section, label);
-
-        public string GetQuery(string section, string label, Hashtable parameters)
-            => DBClient.Queries.Get(section, label, parameters);
-
-        public string GetQuery(string section, string label, string search)
-        {
-            Hashtable parameters = new Hashtable
-            {
-                { "search", search }
-            };
-
-            return DBClient.Queries.Get(section, label, parameters);
-        }
-
-        public string GetQuery(string section, string label, string search, string order)
-        {
-            Hashtable parameters = new Hashtable
-            {
-                { "search", search },
-                { "orderby", order }
-            };
-
-            return DBClient.Queries.Get(section, label, parameters);
-        }
-
         protected ParameterDirection ToParameterDirection(Direction direction)
         {
             switch (direction)
@@ -238,41 +218,7 @@ namespace ZzzLab.Data
             return ParameterDirection.Input;
         }
 
-        #region DB Schema
-
-        /// <summary>
-        /// 테이블의 정보를 가져온다.
-        /// </summary>
-        /// <returns></returns>
-        public abstract IEnumerable<TableInfo> GetTableList();
-
-        /// <summary>
-        /// 지정된 테이블의 정보를 가져온다.
-        /// </summary>
-        /// <param name="schemaName"></param>
-        /// <param name="databaseName"></param>
-        /// <param name="tableName"></param>
-        /// <returns></returns>
-        public abstract TableInfo GetTableInfo(string schemaName, string databaseName, string tableName);
-
-        /// <summary>
-        /// 지정된 테이블의 컬럼정보를 가져온다.
-        /// </summary>
-        /// <param name="tableInfo"></param>
-        /// <returns></returns>
-        public abstract IEnumerable<TableColomn> GetTableColumns(TableInfo tableInfo);
-
-        /// <summary>
-        /// 지정된 테이블의 컬럼정보를 가져온다.
-        /// </summary>
-        /// <param name="schemaName"></param>
-        /// <param name="databaseName"></param>
-        /// <param name="tableName"></param>
-        /// <returns></returns>
-        public IEnumerable<TableColomn> GetTableColumns(string schemaName, string databaseName, string tableName)
-            => GetTableColumns(GetTableInfo(schemaName, databaseName, tableName));
-
-        #endregion DB Schema
+        #endregion Utils
 
         #region IDispose
 

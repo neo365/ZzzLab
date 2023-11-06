@@ -12,30 +12,12 @@ namespace ZzzLab.Data
         {
         }
 
-        public string Get(string section, string label, Hashtable parameters = null)
+        public string Get(string section, string label)
         {
             if (string.IsNullOrWhiteSpace(section)) throw new ArgumentNullException(nameof(section));
             if (string.IsNullOrWhiteSpace(label)) throw new ArgumentNullException(nameof(label));
 
-            SqlEntity item = this.Items.Find(x => x.Section.EndsWithIgnoreCase(section) && x.Label.EndsWithIgnoreCase(label)) ?? throw new NotFoundException($"Query Not Found: [{section}] {label}");
-            string query = item.Command;
-
-            if (parameters != null && parameters.Count > 0)
-            {
-                foreach (string key in parameters.Keys)
-                {
-                    string keyvalue = "--{" + key.ToLower() + "}";
-                    string value = parameters[key]?.ToString();
-
-                    if (query.Contains(keyvalue)) query = query.Replace(keyvalue, value);
-                }
-            }
-
-            query = query.Replace("--{orderby}", string.Empty)
-                         .Replace("--{search}", string.Empty)
-                         .Replace("--{output}", string.Empty);
-
-            return query;
+            return this.Items.FirstOrDefault(x => x.Section.EndsWithIgnoreCase(section) && x.Label.EndsWithIgnoreCase(label))?.Command ?? throw new NotFoundException($"Query Not Found: [{section}] {label}");
         }
 
         public void Add(string section, string label, string command)
