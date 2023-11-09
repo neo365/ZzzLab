@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Data;
-using ZzzLab.Data.Models;
 
 namespace ZzzLab.Data
 {
@@ -20,12 +18,16 @@ namespace ZzzLab.Data
         /// </summary>
         string ConnectionString { get; }
 
-        IDbConnection CreateDBConnection();
+        //object CreateDBConnection();
 
-        IDbCommand CreateDBCommand();
+        //object CreateDBCommand();
 
-        void CrearDBConnection(IDbConnection conn);
+        //void CrearDBConnection(object conn);
 
+        /// <summary>
+        /// Database Version을 가져온다
+        /// </summary>
+        /// <returns></returns>
         string GetVersion();
 
         /// <summary>
@@ -131,70 +133,28 @@ namespace ZzzLab.Data
         void Vacuum(IDictionary<string, string> options = null);
 
         /// <summary>
+        /// BulkCopy / Bulk Insert 지원
+        /// </summary>
+        /// <param name="table"></param>
+        /// <returns></returns>
+        bool BulkCopy(DataTable table);
+
+        /// <summary>
+        ///  BulkCopy 지원
+        /// </summary>
+        /// <param name="tableName">대상테이블</param>
+        /// <param name="filePath">파일경로</param>
+        /// <param name="offset">건너뛸 라인</param>
+        /// <returns></returns>
+        bool BulkCopyFromFile(string tableName, string filePath, int offset = 0);
+
+
+        /// <summary>
         /// 쿼리를 가져온다.
         /// </summary>
         /// <param name="section"></param>
         /// <param name="label"></param>
         /// <returns></returns>
         string GetQuery(string section, string label);
-
-        /// <summary>
-        /// 쿼리를 가져온다
-        /// </summary>
-        /// <param name="section"></param>
-        /// <param name="label"></param>
-        /// <param name="parameters"></param>
-        /// <returns></returns>
-        string GetQuery(string section, string label, Hashtable parameters);
-
-        /// <summary>
-        /// 쿼리를 가져온다.
-        /// </summary>
-        /// <param name="section"></param>
-        /// <param name="label"></param>
-        /// <param name="search"></param>
-        /// <returns></returns>
-        string GetQuery(string section, string label, string search);
-
-        /// <summary>
-        /// 쿼리를 가져온다.
-        /// </summary>
-        /// <param name="section"></param>
-        /// <param name="label"></param>
-        /// <param name="search"></param>
-        /// <param name="order"></param>
-        /// <returns></returns>
-        string GetQuery(string section, string label, string search, string order);
-
-        /// <summary>
-        /// View를 포함한 테이블 목록을 가져온다.
-        /// </summary>
-        /// <returns></returns>
-        IEnumerable<TableInfo> GetTableList();
-
-        /// <summary>
-        /// 지정된 테이블 정보를 가져온다.
-        /// </summary>
-        /// <param name="schemaName"></param>
-        /// <param name="databaseName"></param>
-        /// <param name="tableName"></param>
-        /// <returns></returns>
-        TableInfo GetTableInfo(string schemaName, string databaseName, string tableName);
-
-        /// <summary>
-        /// 지정된 테이블 컬럼정보를 가져온다.
-        /// </summary>
-        /// <param name="tableInfo"></param>
-        /// <returns></returns>
-        IEnumerable<TableColomn> GetTableColumns(TableInfo tableInfo);
-
-        /// <summary>
-        /// 지정된 테이블 컬럼정보를 가져온다.
-        /// </summary>
-        /// <param name="schemaName"></param>
-        /// <param name="databaseName"></param>
-        /// <param name="tableName"></param>
-        /// <returns></returns>
-        IEnumerable<TableColomn> GetTableColumns(string schemaName, string databaseName, string tableName);
     }
 }

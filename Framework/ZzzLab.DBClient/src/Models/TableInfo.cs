@@ -1,5 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Data;
+using System.Linq;
 
 namespace ZzzLab.Data.Models
 {
@@ -9,23 +11,25 @@ namespace ZzzLab.Data.Models
         public string DataBaseName { get; set; }
 
         [Required]
-        public virtual string SchemaName { set; get; }
+        public virtual string Schema { set; get; }
 
         [Required]
-        public virtual string TableName { set; get; }
+        public virtual string Name { set; get; }
 
         [Required]
         public virtual string TableType { set; get; }
 
-        public virtual string TableComment { set; get; }
+        public virtual string Comment { set; get; }
+
+        public IEnumerable<TableColomn> Columns { set; get; } = Enumerable.Empty<TableColomn>();
 
         public virtual TableInfo Set(DataRow row)
         {
             this.DataBaseName = row.ToString("DATABASE_NAME");
-            this.SchemaName = row.ToString("SCHEMA_NAME");
-            this.TableName = row.ToString("TABLE_NAME");
+            this.Schema = row.ToString("SCHEMA_NAME");
+            this.Name = row.ToString("TABLE_NAME");
             this.TableType = row.ToString("TABLE_TYPE");
-            this.TableComment = row.ToStringNullable("COMMENTS");
+            this.Comment = row.ToStringNullable("COMMENTS");
 
             return this;
         }

@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections;
+﻿using MySqlX.XDevAPI.Relational;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using ZzzLab.Data.Configuration;
-using ZzzLab.Data.Models;
 
 namespace ZzzLab.Data
 {
@@ -28,12 +27,6 @@ namespace ZzzLab.Data
         protected DataBaseHandler(ConnectionConfig config)
         {
             this.Config = config ?? throw new ArgumentNullException(nameof(config));
-
-            //if (string.IsNullOrWhiteSpace(this.Config.ConnectionString))
-            //{
-            //    this.Config.ConnectionString = DBClient.CreateConnectionString(config.ServerType, config.Host, config.Port.ToInt(), config.Database, config.UserId, config.Password);
-            //}
-
             this.Handler = GetDBHandler(this.Config.ServerType, this.Config.ConnectionString);
         }
 
@@ -55,15 +48,6 @@ namespace ZzzLab.Data
         }
 
         #endregion Construct
-
-        public IDbConnection CreateDBConnection()
-            => this.Handler.CreateDBConnection();
-
-        public IDbCommand CreateDBCommand()
-            => this.Handler.CreateDBCommand();
-
-        public void CrearDBConnection(IDbConnection connection)
-            => this.Handler.CrearDBConnection(connection);
 
         public bool ConnectionTest()
             => this.Handler.ConnectionTest();
@@ -110,59 +94,17 @@ namespace ZzzLab.Data
         public int Excute(QueryCollection queries)
             => this.Handler.Excute(queries);
 
+        public bool BulkCopy(DataTable table)
+            => this.Handler.BulkCopy(table);
+
+        public bool BulkCopyFromFile(string tableName, string filePath, int offset = 0)
+            => this.Handler.BulkCopyFromFile(tableName, filePath, offset);
+
         public void Vacuum(IDictionary<string, string> options = null)
             => this.Handler.Vacuum(options);
 
         public string GetQuery(string section, string label)
             => this.Handler.GetQuery(section, label);
-
-        public string GetQuery(string section, string label, Hashtable parameters)
-            => this.Handler.GetQuery(section, label, parameters);
-
-        public string GetQuery(string section, string label, string search)
-            => this.Handler.GetQuery(section, label, search);
-
-        public string GetQuery(string section, string label, string search, string order)
-            => this.Handler.GetQuery(section, label, search, order);
-
-        #region DB Schema
-
-        /// <summary>
-        /// 테이블의 정보를 가져온다.
-        /// </summary>
-        /// <returns></returns>
-        public IEnumerable<TableInfo> GetTableList()
-            => this.Handler.GetTableList();
-
-        /// <summary>
-        /// 지정된 테이블의 정보를 가져온다.
-        /// </summary>
-        /// <param name="schemaName"></param>
-        /// <param name="databaseName"></param>
-        /// <param name="tableName"></param>
-        /// <returns></returns>
-        public TableInfo GetTableInfo(string schemaName, string databaseName, string tableName)
-            => this.Handler.GetTableInfo(schemaName, databaseName, tableName);
-
-        /// <summary>
-        /// 지정된 테이블의 컬럼정보를 가져온다.
-        /// </summary>
-        /// <param name="tableInfo">TableInfo</param>
-        /// <returns></returns>
-        public IEnumerable<TableColomn> GetTableColumns(TableInfo tableInfo)
-            => this.Handler.GetTableColumns(tableInfo);
-
-        /// <summary>
-        /// 지정된 테이블의 컬럼정보를 가져온다.
-        /// </summary>
-        /// <param name="schemaName"></param>
-        /// <param name="databaseName"></param>
-        /// <param name="tableName"></param>
-        /// <returns></returns>
-        public IEnumerable<TableColomn> GetTableColumns(string schemaName, string databaseName, string tableName)
-            => GetTableColumns(GetTableInfo(schemaName, databaseName, tableName));
-
-        #endregion DB Schema
 
         #region IDisposable
 
@@ -172,6 +114,8 @@ namespace ZzzLab.Data
             GC.Collect();
             GC.SuppressFinalize(this);
         }
+
+
 
         #endregion IDisposable
     }

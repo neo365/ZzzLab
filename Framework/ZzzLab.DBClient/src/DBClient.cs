@@ -57,9 +57,6 @@ namespace ZzzLab.Data
         public static string GetQuery(string section, string label)
             => Queries.Get(section, label);
 
-        public static string GetQuery(string section, string label, Hashtable parameters)
-            => Queries.Get(section, label, parameters);
-
         public static bool SetQuery(string section, string label, string command)
             => SetQuery(SqlEntity.Create(section, label, command));
 

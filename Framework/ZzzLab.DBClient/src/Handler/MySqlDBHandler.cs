@@ -1,15 +1,17 @@
-﻿using Npgsql;
-using Oracle.ManagedDataAccess.Client;
+﻿using MySql.Data.MySqlClient;
+using Npgsql;
 using System;
+using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlClient;
 using System.Linq;
 
-namespace ZzzLab.Data.Handler
+namespace ZzzLab.Data
 {
-    public class StandardDBHandler : DataBaseHandlerBase, IDBHandler, IDisposable
+    public sealed class MySqlDBHandler : DataBaseHandlerBase, IDBHandler, IDisposable
     {
-        public StandardDBHandler(DataBaseType serverType, string connectionString)
+        #region Construct
+
+        public MySqlDBHandler(string connectionString)
         {
             if (string.IsNullOrEmpty(connectionString?.Trim()))
             {
@@ -17,43 +19,64 @@ namespace ZzzLab.Data.Handler
             }
 
             this.ConnectionString = connectionString;
-            this.ServerType = serverType;
+            this.ServerType = DataBaseType.PostgreSQL;
         }
+
+        #endregion Construct
+
+        #region Connectionstring
+
+        internal static string CreateConnectionString(string host, int port, string database, string userid, string password, int timeout = 15)
+            => $"Host={host};Port={port};Database={database};User ID={userid};Password={password};Timeout={timeout}";
+
+        #endregion Connectionstring
+
+        #region Connection
 
         protected override IDbConnection CreateConnection()
-        {
-            switch (this.ServerType)
-            {
-                case DataBaseType.PostgreSQL: return new NpgsqlConnection(this.ConnectionString);
-                case DataBaseType.MSSql: return new SqlConnection(this.ConnectionString);
-                case DataBaseType.Oracle: return new OracleConnection(this.ConnectionString);
-                default: throw new NotSupportedException();
-            }
-        }
+    => this.CreateConnection();
 
         protected override void CrearConnection(IDbConnection conn)
+            => this.CrearDBConnection(conn as MySqlConnection);
+
+        private MySqlConnection CreateDBConnection()
+            => new MySqlConnection(this.ConnectionString);
+
+        private void CrearDBConnection(MySqlConnection conn)
         {
             if (conn == null) return;
             if (conn.State != ConnectionState.Closed) conn.Close();
+            MySqlConnection.ClearPool(conn);
         }
+
+        #endregion Connection
+
+        #region Version
+
+        public override string GetVersion()
+            => SelectValue("SELECT VERSION()")?.ToString();
+
+        #endregion Version
+
+        #region Select
 
         public override object SelectValue(Query query)
         {
             if (query == null) throw new ArgumentNullException(nameof(query));
 
-            IDbConnection conn = null;
+            MySqlConnection conn = null;
             try
             {
-                using (conn = CreateConnection())
+                using (conn = CreateDBConnection())
                 {
                     conn.Open();
-                    using (IDbCommand cmd = conn.CreateCommand())
+                    using (MySqlCommand cmd = conn.CreateCommand())
                     {
                         cmd.CommandText = ConvertToExcuteSQL(query);
                         cmd.CommandType = query.CommandType;
                         cmd.CommandTimeout = query.CommandTimeout;
                         cmd.Parameters.Clear();
-                        FormatValue(cmd, query);
+                        MappingQuery(cmd, query);
                         // prepare the command, which is significantly faster
                         cmd.Prepare();
 
@@ -68,33 +91,31 @@ namespace ZzzLab.Data.Handler
             }
         }
 
-        #region Select
-
         public override DataTable Select(Query query)
         {
             if (query == null) throw new ArgumentNullException(nameof(query));
 
-            IDbConnection conn = null;
+            MySqlConnection conn = null;
             try
             {
                 DataTable result = new DataTable();
 
-                using (conn = CreateConnection())
+                using (conn = CreateDBConnection())
                 {
                     conn.Open();
 
-                    using (IDbCommand cmd = conn.CreateCommand())
+                    using (MySqlCommand cmd = conn.CreateCommand())
                     {
                         cmd.CommandText = ConvertToExcuteSQL(query);
                         cmd.CommandType = query.CommandType;
                         cmd.CommandTimeout = query.CommandTimeout;
-
-                        FormatValue(cmd, query);
+                        cmd.Parameters.Clear();
+                        MappingQuery(cmd, query);
+                        cmd.Prepare();
 
                         using (var reader = cmd.ExecuteReader(CommandBehavior.CloseConnection))
                         {
-                            if (((System.Data.Common.DbDataReader)reader).HasRows) result.Load(reader);
-
+                            if (reader.HasRows) result.Load(reader);
                             if (reader.IsClosed == false) reader.Close();
                         }
                     }
@@ -120,22 +141,21 @@ namespace ZzzLab.Data.Handler
             if (queries == null || queries.Any() == false) return 0;
 
             Query query = null;
-            IDbConnection conn = null;
+
+            MySqlConnection conn = null;
 
             try
             {
                 int resultcount = 0;
-                using (conn = CreateConnection())
+                using (conn = CreateDBConnection())
                 {
                     conn.Open();
-                    using (IDbCommand cmd = conn.CreateCommand())
+                    using (MySqlCommand cmd = conn.CreateCommand())
                     {
                         cmd.CommandTimeout = queries.CommandTimeout;
+                        cmd.Prepare();
 
-                        if (queries.Count > 1)
-                        {
-                            if (cmd.Transaction == null) cmd.Transaction = cmd.Connection?.BeginTransaction();
-                        }
+                        if (queries.Count > 1 && cmd.Transaction == null) cmd.Transaction = cmd.Connection.BeginTransaction();
 
                         try
                         {
@@ -146,10 +166,9 @@ namespace ZzzLab.Data.Handler
                                 cmd.CommandText = ConvertToExcuteSQL(q);
                                 cmd.CommandType = q.CommandType;
                                 cmd.Parameters.Clear();
-                                FormatValue(cmd, q);
-                                cmd.Prepare();
-
-                                resultcount += cmd.ExecuteNonQuery();
+                                MappingQuery(cmd, q);
+                                cmd.ExecuteNonQuery();
+                                resultcount++;
                             }
 
                             cmd.Transaction?.Commit(); // 트랜잭션commit
@@ -165,10 +184,9 @@ namespace ZzzLab.Data.Handler
 
                 return resultcount;
             }
-            catch
-            {
-                if (query != null) Logger.Debug(query.ToString());
-                throw;
+            catch {
+                if (query != null) Logger.Debug(query?.ToString()); 
+                throw; 
             }
             finally
             {
@@ -178,9 +196,62 @@ namespace ZzzLab.Data.Handler
 
         #endregion Excute
 
+        #region Vacuum
+
+        public override void Vacuum(IDictionary<string, string> options = null)
+        {
+            MySqlConnection conn = null;
+
+            try
+            {
+                string sql = "vacuum";
+                if (options != null)
+                {
+                    if (options.ContainsKey("FULL"))
+                    {
+                        sql = "vacuum full " + (options.ContainsKey("TABLENAME") ? options["TABLENAME"] : "analyze");
+                    }
+                    else if (options.ContainsKey("VERBOSE"))
+                    {
+                        sql = "vacuum verbose " + (options.ContainsKey("TABLENAME") ? options["TABLENAME"] : "analyze");
+                    }
+                }
+
+                using (conn = new MySqlConnection(this.ConnectionString))
+                {
+                    conn.Open();
+                    using (MySqlCommand cmd = conn.CreateCommand())
+                    {
+                        cmd.CommandText = sql;
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch
+            {
+                throw;
+            }
+            finally
+            {
+                CrearConnection(conn);
+            }
+        }
+
+        #endregion Vacuum
+
+        #region BulkCopy
+
+        public override bool BulkCopy(DataTable table)
+            => throw new NotSupportedException();
+
+        public override bool BulkCopyFromFile(string tableName, string filePath, int offset = 0)
+           => throw new NotSupportedException();
+
+        #endregion BulkCopy
+
         #region HELPER_FUNCTIONS
 
-        private void FormatValue(IDbCommand cmd, Query query)
+        private void MappingQuery(MySqlCommand cmd, Query query)
         {
             if (query == null) return;
             cmd.CommandText = ConvertToExcuteSQL(query);
@@ -193,10 +264,12 @@ namespace ZzzLab.Data.Handler
             {
                 if (cmd.Parameters.Contains(p.Name)) continue;
 
-                IDbDataParameter dbParameter = cmd.CreateParameter();
-                dbParameter.ParameterName = p.Name;
-                dbParameter.Direction = ToParameterDirection(p.Direction);
-                dbParameter.Value = (p.Value ?? DBNull.Value);
+                NpgsqlParameter dbParameter = new NpgsqlParameter()
+                {
+                    ParameterName = p.Name,
+                    Value = (p.Value ?? DBNull.Value),
+                    Direction = ToParameterDirection(p.Direction)
+                };
 
                 cmd.Parameters.Add(dbParameter);
             }
