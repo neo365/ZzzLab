@@ -779,7 +779,7 @@ namespace ZzzLab
         /// <param name="obj"></param>
         /// <returns></returns>
         public static bool IsDateTime(this object obj)
-            => obj == null || obj.GetType() == typeof(DBNull) ? false : IsDateTime(obj.ToString());
+            => obj != null && obj.GetType() != typeof(DBNull) && IsDateTime(obj.ToString());
 
         #endregion DateTime
 
