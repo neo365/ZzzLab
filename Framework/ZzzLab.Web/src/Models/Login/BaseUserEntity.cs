@@ -69,7 +69,7 @@
         /// <returns>복사된 destnation</returns>
         public virtual BaseUserEntity CopyTo(BaseUserEntity target)
         {
-            if (target == null) throw new ArgumentNullException(nameof(target));
+            ArgumentNullException.ThrowIfNull(target);
 
             target.UserId = this.UserId;
             target.CompanyCode = this.CompanyCode;

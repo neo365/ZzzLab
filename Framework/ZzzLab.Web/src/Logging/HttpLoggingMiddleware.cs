@@ -146,9 +146,9 @@ namespace ZzzLab.Web.Logging
             }
         }
 
-        private static IDictionary<string, string> GetHeaders(IHeaderDictionary headers)
+        private static Dictionary<string, string> GetHeaders(IHeaderDictionary headers)
         {
-            Dictionary<string, string> dic = new Dictionary<string, string>();
+            Dictionary<string, string> dic = [];
 
             foreach (var (key, value) in headers)
             {

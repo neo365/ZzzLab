@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFramework>netstandard2.0</TargetFramework>
+		<TargetFramework>netstandard2.1</TargetFramework>
 		<Company>ZzzLab Co., ltd.</Company>
 		<Authors>neo365</Authors>
 		<PackageId>ZzzLab.DBClient</PackageId>
@@ -27,7 +27,7 @@
 		<PackageReference Include="MySql.Data" Version="8.2.0" />
 		<PackageReference Include="Npgsql" Version="8.0.1" />
 		<PackageReference Include="NSQLFormatter" Version="2.0.0" />
-		<PackageReference Include="Oracle.ManagedDataAccess.Core" Version="2.19.160" />
+		<PackageReference Include="Oracle.ManagedDataAccess.Core" Version="3.21.120" />
 		<PackageReference Include="System.Configuration.ConfigurationManager" Version="8.0.0" />
 		<PackageReference Include="System.Data.SqlClient" Version="4.8.5" />
 		<PackageReference Include="ZzzLab.Core" Version="0.2123.2026.2452" />

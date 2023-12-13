@@ -47,7 +47,7 @@ namespace ZzzLab.Web.Logging
 
             if (request.Headers != null && request.Headers.Any())
             {
-                Dictionary<string, string> dic = new Dictionary<string, string>();
+                Dictionary<string, string> dic = [];
 
                 foreach (var (key, value) in request.Headers)
                 {
@@ -63,9 +63,9 @@ namespace ZzzLab.Web.Logging
             {
                 if (request.Form != null)
                 {
-                    if (request.Form.Any())
+                    if (request.Form.Count != 0)
                     {
-                        Dictionary<string, string> dic = new Dictionary<string, string>();
+                        Dictionary<string, string> dic = [];
 
                         foreach (var formItem in request.Form)
                         {

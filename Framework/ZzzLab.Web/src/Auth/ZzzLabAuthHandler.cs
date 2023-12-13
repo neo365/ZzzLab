@@ -8,6 +8,7 @@ namespace ZzzLab.Web.Authentication
 {
     public class ZzzLabAuthHandler : AuthenticationHandler<AuthSchemeOptions>
     {
+        [Obsolete]
         public ZzzLabAuthHandler(IOptionsMonitor<AuthSchemeOptions> options, ILoggerFactory logger, UrlEncoder encoder, ISystemClock clock)
             : base(options, logger, encoder, clock)
         {

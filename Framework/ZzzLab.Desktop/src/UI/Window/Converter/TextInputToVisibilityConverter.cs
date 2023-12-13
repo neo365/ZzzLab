@@ -6,10 +6,10 @@
         {
             // Always test MultiValueConverter inputs for non-null
             // (to avoid crash bugs for views in the designer)
-            if (values[0] is bool && values[1] is bool)
+            if (values[0] is bool v1 && values[1] is bool v2)
             {
-                bool hasText = !(bool)values[0];
-                bool hasFocus = (bool)values[1];
+                bool hasText = !v1;
+                bool hasFocus = v2;
 
                 if (hasFocus || hasText)
                     return Visibility.Collapsed;
