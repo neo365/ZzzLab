@@ -44,13 +44,13 @@ namespace ZzzLab.Data
 
         public static string CreateConnectionString(DataBaseType serverType, string host, int port, string database, string userid, string password, int timeout)
         {
-            switch (serverType)
+            return serverType switch
             {
-                case DataBaseType.PostgreSQL: return PostgreSQLDBHandler.CreateConnectionString(host, port, database, userid, password, timeout);
-                case DataBaseType.MSSql: return MSSqlDBHandler.CreateConnectionString(host, port, database, userid, password, timeout);
-                case DataBaseType.Oracle: return OracleDBHandler.CreateConnectionString(host, port, database, userid, password, timeout);
-                default: throw new NotSupportedException();
-            }
+                DataBaseType.PostgreSQL => PostgreSQLDBHandler.CreateConnectionString(host, port, database, userid, password, timeout),
+                DataBaseType.MSSql => MSSqlDBHandler.CreateConnectionString(host, port, database, userid, password, timeout),
+                DataBaseType.Oracle => OracleDBHandler.CreateConnectionString(host, port, database, userid, password, timeout),
+                _ => throw new NotSupportedException(),
+            };
         }
 
         public static string GetQuery(string section, string label)

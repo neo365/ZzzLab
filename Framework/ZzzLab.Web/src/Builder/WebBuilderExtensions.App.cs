@@ -20,7 +20,7 @@ namespace ZzzLab.Web.Builder
         /// <exception cref="ArgumentNullException">IApplicationBuilder 값이 설정되지 않았을 경우</exception>
         public static IApplicationBuilder UseSwashbuckle(this IApplicationBuilder app)
         {
-            if (app == null) throw new ArgumentNullException(nameof(app));
+            ArgumentNullException.ThrowIfNull(app);
 
             app.UseSwagger();
 
@@ -37,7 +37,7 @@ namespace ZzzLab.Web.Builder
         /// <exception cref="ArgumentNullException">IApplicationBuilder 값이 설정되지 않았을 경우</exception>
         public static IApplicationBuilder UseAllowCors(this IApplicationBuilder app)
         {
-            if (app == null) throw new ArgumentNullException(nameof(app));
+            ArgumentNullException.ThrowIfNull(app);
 
             // CROS 접근 권한 문제
             app.UseCors(options =>
