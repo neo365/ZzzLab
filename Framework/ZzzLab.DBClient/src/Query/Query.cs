@@ -74,7 +74,7 @@ namespace ZzzLab.Data
         /// </summary>
         /// <returns></returns>
         public override string ToString()
-        {            
+        {
             QueryParameterCollection parameters = Parameters.Clone();
             string commandText = this.CommandText;
             if (parameters.Count > 0)

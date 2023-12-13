@@ -9,7 +9,7 @@ namespace ZzzLab
             => date.ToString("yyyy-MM-dd HH:mm:ss");
 
         public static string To24Hours(this DateTime? date)
-            =>  (date == null ? null : ((DateTime)date).ToString("yyyy-MM-dd HH:mm:ss"));
+            => (date == null ? null : ((DateTime)date).ToString("yyyy-MM-dd HH:mm:ss"));
 
         public static string TimeAgo(this DateTime dt)
         {

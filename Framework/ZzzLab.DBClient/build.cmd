@@ -28,8 +28,8 @@ dotnet add package ZzzLab.Core
 dotnet list package
 
 dotnet clean
-dotnet publish -p:Version=%version%
-dotnet pack --output ..\..\..\Package -p:Version=%version%
+dotnet publish -p:Version=%version% -p:Configuration=Release
+dotnet pack --output ..\..\..\Package -p:Version=%version% -p:Configuration=Release
 
 IF NOT "%2" == "" (
     SET ApiToken=%2

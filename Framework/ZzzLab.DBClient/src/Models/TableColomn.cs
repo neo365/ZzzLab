@@ -107,7 +107,7 @@ namespace ZzzLab.Data.Models
                     case "txid_snapshot":
                     case "uuid":
                     case "xml":
-                    case "bigserial":                    
+                    case "bigserial":
                     case "int":
                     case "smallint":
                     case "tinyint":

@@ -148,7 +148,6 @@ namespace ZzzLab.Data
         /// <returns></returns>
         bool BulkCopyFromFile(string tableName, string filePath, int offset = 0);
 
-
         /// <summary>
         /// 쿼리를 가져온다.
         /// </summary>

@@ -22,7 +22,7 @@ dotnet add package ZzzLab.Core
 dotnet list package
 
 dotnet clean
-dotnet publish -p:Version=%version%
+dotnet publish -p:Version=%version% -p:Configuration=Release
 dotnet pack --output ..\..\..\Package -p:Version=%version%
 
 IF NOT "%2" == "" (

@@ -184,9 +184,10 @@ namespace ZzzLab.Data
 
                 return resultcount;
             }
-            catch {
-                if (query != null) Logger.Debug(query?.ToString()); 
-                throw; 
+            catch
+            {
+                if (query != null) Logger.Debug(query?.ToString());
+                throw;
             }
             finally
             {

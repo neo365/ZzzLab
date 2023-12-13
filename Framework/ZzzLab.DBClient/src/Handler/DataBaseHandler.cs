@@ -1,5 +1,4 @@
-﻿using MySqlX.XDevAPI.Relational;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data;
 using ZzzLab.Data.Configuration;
@@ -114,8 +113,6 @@ namespace ZzzLab.Data
             GC.Collect();
             GC.SuppressFinalize(this);
         }
-
-
 
         #endregion IDisposable
     }
