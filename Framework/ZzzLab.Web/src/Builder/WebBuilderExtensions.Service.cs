@@ -21,7 +21,7 @@ namespace ZzzLab.Web.Builder
         [MethodImpl(MethodImplOptions.NoInlining)]
         public static void AddSwashbuckle(this IServiceCollection services)
         {
-            if (services == null) throw new ArgumentNullException(nameof(services));
+            ArgumentNullException.ThrowIfNull(services);
 
             // Configures ApiExplorer (needed from ASP.NET Core 6.0).
             services.AddEndpointsApiExplorer();
