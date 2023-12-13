@@ -63,7 +63,7 @@ namespace ZzzLab.Web
         /// <returns></returns>
         public static IDictionary<string, object?> GetParameters(this HttpRequest request)
         {
-            IDictionary<string, object?> parameters = new Dictionary<string, object?>();
+            Dictionary<string, object?> parameters = [];
 
             IQueryCollection queryData = request.Query;
 
@@ -111,7 +111,7 @@ namespace ZzzLab.Web
         /// <param name="name"></param>
         /// <returns></returns>
         public static string? GetHeader(this HttpRequest request, string name)
-            => string.IsNullOrWhiteSpace(name) == false && request.Headers.ContainsKey(name) ? request.Headers[name].ToString() : null;
+            => string.IsNullOrWhiteSpace(name) == false && request.Headers.TryGetValue(name, out Microsoft.Extensions.Primitives.StringValues value) ? value.ToString() : null;
 
         /// <summary>
         /// User-Agent 값을 가져온다.

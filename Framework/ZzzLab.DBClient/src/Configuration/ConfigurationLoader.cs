@@ -24,7 +24,7 @@ namespace ZzzLab.Configuration.DataBase
 
         private string GetFilePath(string[] filePath = null)
         {
-            filePath = filePath ?? BASE_CONFIGPATH;
+            filePath ??= BASE_CONFIGPATH;
 
             foreach (string f in filePath)
             {

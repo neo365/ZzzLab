@@ -37,13 +37,13 @@ namespace ZzzLab.Data
 
         protected virtual IDBHandler GetDBHandler(DataBaseType server, string connectionString)
         {
-            switch (this.Config.ServerType)
+            return this.Config.ServerType switch
             {
-                case DataBaseType.Oracle: return new OracleDBHandler(connectionString);
-                case DataBaseType.MSSql: return new MSSqlDBHandler(connectionString);
-                case DataBaseType.PostgreSQL: return new PostgreSQLDBHandler(connectionString);
-                default: throw new NotSupportedException();
-            }
+                DataBaseType.Oracle => new OracleDBHandler(connectionString),
+                DataBaseType.MSSql => new MSSqlDBHandler(connectionString),
+                DataBaseType.PostgreSQL => new PostgreSQLDBHandler(connectionString),
+                _ => throw new NotSupportedException(),
+            };
         }
 
         #endregion Construct

@@ -65,7 +65,7 @@ namespace ZzzLab.Web.Builder
         {
             if (IsRunUseHttpLogging) throw new InvalidOperationException("UseExceptionHandler and UseHttpLogging cannot be used at the same time.");
 
-            if (app == null) throw new ArgumentNullException(nameof(app));
+            ArgumentNullException.ThrowIfNull(app);
 
             if (Activator.CreateInstance(typeof(T)) is IExceptionMiddleware job)
             {
@@ -87,7 +87,7 @@ namespace ZzzLab.Web.Builder
         {
             if (IsRunUseHttpLogging) throw new InvalidOperationException("UseExceptionHandler and UseHttpLogging cannot be used at the same time.");
 
-            if (app == null) throw new ArgumentNullException(nameof(app));
+            ArgumentNullException.ThrowIfNull(app);
 
             app.UseExceptionHandler(exceptionHandlerApp =>
             {
@@ -137,7 +137,7 @@ namespace ZzzLab.Web.Builder
         {
             if (IsRunExceptionHandler) throw new InvalidOperationException("UseExceptionHandler and UseHttpLogging cannot be used at the same time.");
             IsRunUseHttpLogging = true;
-            if (app == null) throw new ArgumentNullException(nameof(app));
+            ArgumentNullException.ThrowIfNull(app);
             app.UseMiddleware<HttpLoggingMiddleware<T>>();
 
             // Dummy. 절대 UseMiddleware랑 순서 바꾸지 말것

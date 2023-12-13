@@ -31,7 +31,7 @@ namespace ZzzLab.Web.Models
 
         private static IActionResult GetResult(RestResponse res)
         {
-            return new ContentResult()
+            return (IActionResult)new ContentResult()
             {
                 StatusCode = (int)res.StatusCode,
                 Content = res.ToJson(JSON_SETTING),
@@ -40,7 +40,7 @@ namespace ZzzLab.Web.Models
 
         private static IActionResult GetResult(RestErrorResult res)
         {
-            return new ContentResult()
+            return (IActionResult)new ContentResult()
             {
                 StatusCode = (int)res.StatusCode,
                 Content = res.ToJson(JSON_SETTING),
