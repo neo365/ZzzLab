@@ -18,7 +18,7 @@ namespace ConsoleSample
             WatchFiles = files;
         }
 
-        public IEnumerable<KeyValuePair<string, string>> Reader()
+        public IEnumerable<KeyValuePair<string, string>>? Reader()
         {
             try
             {
@@ -26,7 +26,7 @@ namespace ConsoleSample
                                 .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
                                 .AddJsonFile("config.conf").Build();
 
-                return config
+                return config?
                              .GetSection("Settings")
                              .Get<IDictionary<string, string>>();
             }

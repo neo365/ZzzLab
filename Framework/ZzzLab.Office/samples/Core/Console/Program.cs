@@ -15,7 +15,7 @@ namespace ConsoleSample
 
             try
             {
-                ILogger logger = new PrintLogger();
+                ZzzLab.Logging.IZLogger logger = new PrintLogger();
                 logger.Message += Logger_Message;
 
                 Configurator.Initialize<ConfigurationLoader>("test")
