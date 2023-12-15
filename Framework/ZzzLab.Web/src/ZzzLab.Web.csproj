@@ -24,11 +24,12 @@
 	
 	<ItemGroup>
 		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Http" Version="2.2.2" />
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
 		<PackageReference Include="Swashbuckle.AspNetCore.Filters" Version="7.0.12" />
 		<PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" Version="6.5.0" />
 		<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="7.0.3" />
-		<PackageReference Include="ZzzLab.Core" Version="0.2123.2223.2146" />
+		<PackageReference Include="ZzzLab.Core" Version="0.2123.2225.1903" />
 	</ItemGroup>
 	
 	<ItemGroup>
