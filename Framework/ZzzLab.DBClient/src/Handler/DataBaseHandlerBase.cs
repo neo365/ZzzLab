@@ -149,19 +149,21 @@ namespace ZzzLab.Data
                 endIdx = i;
             }
 
-            return parameter.Substring(0, endIdx);
+            return parameter[..endIdx];
         }
 
         protected char GetParameterChar()
         {
-            switch (this.ServerType)
+            return this.ServerType switch
             {
-                case DataBaseType.Oracle: return ':';
-                case DataBaseType.MSSql: return '@';
-                case DataBaseType.PostgreSQL: return '@';
-                default:
-                    throw new NotImplementedException("Not Support DBServer");
-            }
+                DataBaseType.Oracle => ':',
+                DataBaseType.MSSql => '@',
+                DataBaseType.PostgreSQL => '@',
+                DataBaseType.MySql => '@',
+                DataBaseType.MariaDB => '@',
+                DataBaseType.SQLite => '@',
+                _ => throw new NotImplementedException("Not Support DBServer"),
+            };
         }
 
         protected virtual string ConvertToExcuteSQL(Query query)
@@ -213,6 +215,8 @@ namespace ZzzLab.Data
                 case Direction.Output: return ParameterDirection.Output;
                 case Direction.InputOutput: return ParameterDirection.InputOutput;
                 case Direction.ReturnValue: return ParameterDirection.ReturnValue;
+                default:
+                    break;
             }
 
             return ParameterDirection.Input;

@@ -1,17 +1,15 @@
-﻿using MySql.Data.MySqlClient;
-using Npgsql;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Data;
+using System.Data.SQLite;
 using System.Linq;
 
-namespace ZzzLab.Data
+namespace ZzzLab.Data.Handler
 {
-    public sealed class MySqlDBHandler : DataBaseHandlerBase, IDBHandler, IDisposable
+    public sealed class SQLiteDBHandler : DataBaseHandlerBase, IDBHandler, IDisposable
     {
         #region Construct
 
-        public MySqlDBHandler(string connectionString)
+        public SQLiteDBHandler(string connectionString)
         {
             if (string.IsNullOrEmpty(connectionString?.Trim()))
             {
@@ -19,7 +17,7 @@ namespace ZzzLab.Data
             }
 
             this.ConnectionString = connectionString;
-            this.ServerType = DataBaseType.MySql;
+            this.ServerType = DataBaseType.SQLite;
         }
 
         #endregion Construct
@@ -27,56 +25,47 @@ namespace ZzzLab.Data
         #region Connectionstring
 
         internal static string CreateConnectionString(string host, int port, string database, string userid, string password, int timeout = 15)
-            => $"Host={host};Port={port};Database={database};User ID={userid};Password={password};Timeout={timeout}";
+            => $"Data Source={host},{port};Initial Catalog={database}; User ID={userid}; Password={password};Connect Timeout={timeout}";
 
         #endregion Connectionstring
 
         #region Connection
 
         protected override IDbConnection CreateConnection()
-    => this.CreateConnection();
+            => this.CreateDBConnection();
 
         protected override void CrearConnection(IDbConnection conn)
-            => this.CrearDBConnection(conn as MySqlConnection);
+            => this.CrearDBConnection(conn as SQLiteConnection);
 
-        private MySqlConnection CreateDBConnection()
-            => new MySqlConnection(this.ConnectionString);
+        private SQLiteConnection CreateDBConnection()
+            => new SQLiteConnection(this.ConnectionString);
 
-        private void CrearDBConnection(MySqlConnection conn)
+        private void CrearDBConnection(SQLiteConnection conn)
         {
             if (conn == null) return;
             if (conn.State != ConnectionState.Closed) conn.Close();
-            MySqlConnection.ClearPool(conn);
+            SQLiteConnection.ClearPool(conn);
         }
 
         #endregion Connection
-
-        #region Version
-
-        public override string GetVersion()
-            => SelectValue("SELECT VERSION()")?.ToString();
-
-        #endregion Version
-
-        #region Select
 
         public override object SelectValue(Query query)
         {
             if (query == null) throw new ArgumentNullException(nameof(query));
 
-            MySqlConnection conn = null;
+            SQLiteConnection conn = null;
             try
             {
                 using (conn = CreateDBConnection())
                 {
                     conn.Open();
-                    using (MySqlCommand cmd = conn.CreateCommand())
+                    using (SQLiteCommand cmd = conn.CreateCommand())
                     {
                         cmd.CommandText = ConvertToExcuteSQL(query);
                         cmd.CommandType = query.CommandType;
                         cmd.CommandTimeout = query.CommandTimeout;
                         cmd.Parameters.Clear();
-                        MappingQuery(cmd, query);
+                        FormatValue(cmd, query);
                         // prepare the command, which is significantly faster
                         cmd.Prepare();
 
@@ -91,11 +80,13 @@ namespace ZzzLab.Data
             }
         }
 
+        #region Select
+
         public override DataTable Select(Query query)
         {
             if (query == null) throw new ArgumentNullException(nameof(query));
 
-            MySqlConnection conn = null;
+            SQLiteConnection conn = null;
             try
             {
                 DataTable result = new DataTable();
@@ -104,18 +95,18 @@ namespace ZzzLab.Data
                 {
                     conn.Open();
 
-                    using (MySqlCommand cmd = conn.CreateCommand())
+                    using (SQLiteCommand cmd = conn.CreateCommand())
                     {
                         cmd.CommandText = ConvertToExcuteSQL(query);
                         cmd.CommandType = query.CommandType;
                         cmd.CommandTimeout = query.CommandTimeout;
-                        cmd.Parameters.Clear();
-                        MappingQuery(cmd, query);
-                        cmd.Prepare();
+
+                        FormatValue(cmd, query);
 
                         using (var reader = cmd.ExecuteReader(CommandBehavior.CloseConnection))
                         {
-                            if (reader.HasRows) result.Load(reader);
+                            if (((System.Data.Common.DbDataReader)reader).HasRows) result.Load(reader);
+
                             if (reader.IsClosed == false) reader.Close();
                         }
                     }
@@ -141,8 +132,7 @@ namespace ZzzLab.Data
             if (queries == null || queries.Any() == false) return 0;
 
             Query query = null;
-
-            MySqlConnection conn = null;
+            SQLiteConnection conn = null;
 
             try
             {
@@ -150,12 +140,14 @@ namespace ZzzLab.Data
                 using (conn = CreateDBConnection())
                 {
                     conn.Open();
-                    using (MySqlCommand cmd = conn.CreateCommand())
+                    using (SQLiteCommand cmd = conn.CreateCommand())
                     {
                         cmd.CommandTimeout = queries.CommandTimeout;
-                        cmd.Prepare();
 
-                        if (queries.Count > 1 && cmd.Transaction == null) cmd.Transaction = cmd.Connection.BeginTransaction();
+                        if (queries.Count > 1)
+                        {
+                            cmd.Transaction ??= cmd.Connection?.BeginTransaction();
+                        }
 
                         try
                         {
@@ -166,9 +158,10 @@ namespace ZzzLab.Data
                                 cmd.CommandText = ConvertToExcuteSQL(q);
                                 cmd.CommandType = q.CommandType;
                                 cmd.Parameters.Clear();
-                                MappingQuery(cmd, q);
-                                cmd.ExecuteNonQuery();
-                                resultcount++;
+                                FormatValue(cmd, q);
+                                cmd.Prepare();
+
+                                resultcount += cmd.ExecuteNonQuery();
                             }
 
                             cmd.Transaction?.Commit(); // 트랜잭션commit
@@ -186,7 +179,7 @@ namespace ZzzLab.Data
             }
             catch
             {
-                if (query != null) Logger.Debug(query?.ToString());
+                if (query != null) Logger.Debug(query.ToString());
                 throw;
             }
             finally
@@ -197,62 +190,9 @@ namespace ZzzLab.Data
 
         #endregion Excute
 
-        #region Vacuum
-
-        public override void Vacuum(IDictionary<string, string> options = null)
-        {
-            MySqlConnection conn = null;
-
-            try
-            {
-                string sql = "vacuum";
-                if (options != null)
-                {
-                    if (options.ContainsKey("FULL"))
-                    {
-                        sql = "vacuum full " + (options.ContainsKey("TABLENAME") ? options["TABLENAME"] : "analyze");
-                    }
-                    else if (options.ContainsKey("VERBOSE"))
-                    {
-                        sql = "vacuum verbose " + (options.ContainsKey("TABLENAME") ? options["TABLENAME"] : "analyze");
-                    }
-                }
-
-                using (conn = new MySqlConnection(this.ConnectionString))
-                {
-                    conn.Open();
-                    using (MySqlCommand cmd = conn.CreateCommand())
-                    {
-                        cmd.CommandText = sql;
-                        cmd.ExecuteNonQuery();
-                    }
-                }
-            }
-            catch
-            {
-                throw;
-            }
-            finally
-            {
-                CrearConnection(conn);
-            }
-        }
-
-        #endregion Vacuum
-
-        #region BulkCopy
-
-        public override bool BulkCopy(DataTable table)
-            => throw new NotSupportedException();
-
-        public override bool BulkCopyFromFile(string tableName, string filePath, int offset = 0)
-           => throw new NotSupportedException();
-
-        #endregion BulkCopy
-
         #region HELPER_FUNCTIONS
 
-        private void MappingQuery(MySqlCommand cmd, Query query)
+        private void FormatValue(SQLiteCommand cmd, Query query)
         {
             if (query == null) return;
             cmd.CommandText = ConvertToExcuteSQL(query);
@@ -265,12 +205,10 @@ namespace ZzzLab.Data
             {
                 if (cmd.Parameters.Contains(p.Name)) continue;
 
-                NpgsqlParameter dbParameter = new NpgsqlParameter()
-                {
-                    ParameterName = p.Name,
-                    Value = (p.Value ?? DBNull.Value),
-                    Direction = ToParameterDirection(p.Direction)
-                };
+                SQLiteParameter dbParameter = cmd.CreateParameter();
+                dbParameter.ParameterName = p.Name;
+                dbParameter.Direction = ToParameterDirection(p.Direction);
+                dbParameter.Value = (p.Value ?? DBNull.Value);
 
                 cmd.Parameters.Add(dbParameter);
             }

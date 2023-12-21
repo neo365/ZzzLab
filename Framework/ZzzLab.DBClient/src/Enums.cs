@@ -1,9 +1,12 @@
 ﻿namespace ZzzLab.Data
 {
-    public enum DataBaseType
+    public enum DataBaseType : int
     {
         Oracle,
         MSSql,
-        PostgreSQL
+        PostgreSQL,
+        MySql,
+        MariaDB,
+        SQLite
     }
 }
