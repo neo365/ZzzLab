@@ -72,7 +72,7 @@ namespace ZzzLab.Data
                         cmd.Parameters.Clear();
                         MappingQuery(cmd, query);
                         // prepare the command, which is significantly faster
-                        cmd.Prepare();
+                        //cmd.Prepare();
 
                         return cmd.ExecuteScalar();
                     }
