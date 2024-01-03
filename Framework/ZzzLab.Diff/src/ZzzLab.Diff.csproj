@@ -21,7 +21,7 @@
 
   <ItemGroup>
     <PackageReference Include="System.Drawing.Common" Version="8.0.0" />
-    <PackageReference Include="ZzzLab.Core" Version="0.2124.1112.2626" />
+    <PackageReference Include="ZzzLab.Core" Version="0.2124.1113.3323" />
   </ItemGroup>
 
 </Project>
