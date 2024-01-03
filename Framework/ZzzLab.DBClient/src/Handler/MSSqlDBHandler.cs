@@ -70,9 +70,8 @@ namespace ZzzLab.Data
                         cmd.CommandType = query.CommandType;
                         cmd.CommandTimeout = query.CommandTimeout;
                         cmd.Parameters.Clear();
+                        cmd.Prepare(); // prepare the command, which is significantly faster
                         MappingQuery(cmd, query);
-                        // prepare the command, which is significantly faster
-                        //cmd.Prepare();
 
                         return cmd.ExecuteScalar();
                     }

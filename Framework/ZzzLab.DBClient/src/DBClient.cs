@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using ZzzLab.Data.Configuration;
+using ZzzLab.Data.Handler;
 
 namespace ZzzLab.Data
 {
@@ -49,8 +50,11 @@ namespace ZzzLab.Data
                 DataBaseType.PostgreSQL => PostgreSQLDBHandler.CreateConnectionString(host, port, database, userid, password, timeout),
                 DataBaseType.MSSql => MSSqlDBHandler.CreateConnectionString(host, port, database, userid, password, timeout),
                 DataBaseType.Oracle => OracleDBHandler.CreateConnectionString(host, port, database, userid, password, timeout),
+                DataBaseType.MariaDB => MySqlDBHandler.CreateConnectionString(host, port, database, userid, password, timeout),
+                DataBaseType.MySql => MySqlDBHandler.CreateConnectionString(host, port, database, userid, password, timeout),
+                DataBaseType.SQLite => SQLiteDBHandler.CreateConnectionString(database, password, true, timeout),
                 _ => throw new NotSupportedException(),
-            };
+            }; ;
         }
 
         public static string GetQuery(string section, string label)

@@ -24,8 +24,24 @@ namespace ZzzLab.Data.Handler
 
         #region Connectionstring
 
-        internal static string CreateConnectionString(string host, int port, string database, string userid, string password, int timeout = 15)
-            => $"Data Source={host},{port};Initial Catalog={database}; User ID={userid}; Password={password};Connect Timeout={timeout}";
+        internal static string CreateConnectionString(string datasource, string password = null, bool isJournalMode = true, int timeout = 5)
+        {
+            if (string.IsNullOrEmpty(datasource)) throw new ArgumentNullException(nameof(datasource));
+
+            SQLiteConnectionStringBuilder connectionBuilder = new SQLiteConnectionStringBuilder
+            {
+                DataSource = datasource
+            };
+
+            if (isJournalMode) connectionBuilder.JournalMode = SQLiteJournalModeEnum.Wal;
+            if (string.IsNullOrWhiteSpace(password) == false) connectionBuilder.Password = password;
+
+            connectionBuilder.FailIfMissing = false;
+            connectionBuilder.Pooling = true;
+            connectionBuilder.BusyTimeout = timeout * 1000;// 5sec
+
+            return connectionBuilder.ToString();
+        }
 
         #endregion Connectionstring
 
@@ -65,9 +81,8 @@ namespace ZzzLab.Data.Handler
                         cmd.CommandType = query.CommandType;
                         cmd.CommandTimeout = query.CommandTimeout;
                         cmd.Parameters.Clear();
+                        cmd.Prepare();  // prepare the command, which is significantly faster
                         FormatValue(cmd, query);
-                        // prepare the command, which is significantly faster
-                        cmd.Prepare();
 
                         return cmd.ExecuteScalar();
                     }
@@ -100,6 +115,7 @@ namespace ZzzLab.Data.Handler
                         cmd.CommandText = ConvertToExcuteSQL(query);
                         cmd.CommandType = query.CommandType;
                         cmd.CommandTimeout = query.CommandTimeout;
+                        cmd.Prepare();  // prepare the command, which is significantly faster
 
                         FormatValue(cmd, query);
 
@@ -149,6 +165,8 @@ namespace ZzzLab.Data.Handler
                             cmd.Transaction ??= cmd.Connection?.BeginTransaction();
                         }
 
+                        cmd.Prepare();  // prepare the command, which is significantly faster
+
                         try
                         {
                             foreach (Query q in queries)
@@ -159,7 +177,6 @@ namespace ZzzLab.Data.Handler
                                 cmd.CommandType = q.CommandType;
                                 cmd.Parameters.Clear();
                                 FormatValue(cmd, q);
-                                cmd.Prepare();
 
                                 resultcount += cmd.ExecuteNonQuery();
                             }

@@ -76,9 +76,10 @@ namespace ZzzLab.Data
                         cmd.CommandType = query.CommandType;
                         cmd.CommandTimeout = query.CommandTimeout;
                         cmd.Parameters.Clear();
-                        MappingQuery(cmd, query);
                         // prepare the command, which is significantly faster
                         cmd.Prepare();
+
+                        MappingQuery(cmd, query);
 
                         return cmd.ExecuteScalar();
                     }
@@ -110,8 +111,9 @@ namespace ZzzLab.Data
                         cmd.CommandType = query.CommandType;
                         cmd.CommandTimeout = query.CommandTimeout;
                         cmd.Parameters.Clear();
-                        MappingQuery(cmd, query);
                         cmd.Prepare();
+
+                        MappingQuery(cmd, query);
 
                         using (var reader = cmd.ExecuteReader(CommandBehavior.CloseConnection))
                         {
