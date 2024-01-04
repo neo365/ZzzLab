@@ -18,18 +18,17 @@ namespace ZzzLab.Data.Configuration
 
         public string Password { set; get; }
 
-        public int Timeout { set; get; } = 60;
+        public int Timeout { set; get; } = 15;
 
         [JsonConverter(typeof(StringEnumConverter))]
         public DataBaseType ServerType { set; get; }
 
+        public bool JournalMode { set; get; } = true;
+
         public string ConnectionString { set; get; }
 
-        public ConnectionConfig()
-        { }
-
         public string GetConnectionString()
-            => DBClient.CreateConnectionString(this.ServerType, this.Host, this.Port, this.Database, this.UserId, this.Password, this.Timeout);
+            => DBClient.CreateConnectionString(this.ServerType, this.Host, this.Port, this.Database, this.UserId, this.Password, this.Timeout, this.JournalMode);
 
         public override string ToString()
                 => $"{Name} | {ConnectionString}";
@@ -47,6 +46,8 @@ namespace ZzzLab.Data.Configuration
             target.UserId = this.UserId;
             target.Password = this.Password;
             target.ServerType = this.ServerType;
+            target.JournalMode = this.JournalMode;
+            target.ConnectionString = this.ConnectionString;
 
             return target;
         }
@@ -62,6 +63,8 @@ namespace ZzzLab.Data.Configuration
             this.UserId = source.UserId;
             this.Password = source.Password;
             this.ServerType = source.ServerType;
+            this.JournalMode = source.JournalMode;
+            this.ConnectionString = source.ConnectionString;
 
             return this;
         }

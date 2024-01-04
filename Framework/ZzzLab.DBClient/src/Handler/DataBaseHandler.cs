@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Xml.Linq;
 using ZzzLab.Data.Configuration;
 
 namespace ZzzLab.Data
@@ -31,12 +32,16 @@ namespace ZzzLab.Data
 
         public static IDBHandler Create(string name)
         {
+            if(string.IsNullOrWhiteSpace(name)) throw new ArgumentNullException(nameof(name));
+
             ConnectionConfig config = DBClient.Connector[name] ?? throw new ArgumentOutOfRangeException(nameof(name));
             return new DataBaseHandler(config);
         }
 
         protected virtual IDBHandler GetDBHandler(DataBaseType server, string connectionString)
         {
+            if (string.IsNullOrWhiteSpace(connectionString)) throw new ArgumentNullException(nameof(connectionString));
+
             return this.Config.ServerType switch
             {
                 DataBaseType.Oracle => new OracleDBHandler(connectionString),

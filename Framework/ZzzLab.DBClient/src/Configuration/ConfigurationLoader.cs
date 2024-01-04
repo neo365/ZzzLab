@@ -38,11 +38,7 @@ namespace ZzzLab.Configuration.DataBase
         {
             string filePath = GetFilePath();
 
-            if (string.IsNullOrWhiteSpace(filePath))
-            {
-                Debug.WriteLine("환경설정파일을 찾을수 없습니다.");
-                return Enumerable.Empty<ConnectionConfig>();
-            }
+            if (string.IsNullOrWhiteSpace(filePath)) return Enumerable.Empty<ConnectionConfig>();
 
             List<string> files = new List<string>(1)
             {

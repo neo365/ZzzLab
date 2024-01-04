@@ -41,9 +41,10 @@ namespace ZzzLab.Data
                 config.Database,
                 config.UserId,
                 config.Password,
-                config.Timeout);
+                config.Timeout,
+                config.JournalMode);
 
-        public static string CreateConnectionString(DataBaseType serverType, string host, int port, string database, string userid, string password, int timeout)
+        public static string CreateConnectionString(DataBaseType serverType, string host, int port, string database, string userid, string password, int timeout, bool journalMode)
         {
             return serverType switch
             {
@@ -52,7 +53,7 @@ namespace ZzzLab.Data
                 DataBaseType.Oracle => OracleDBHandler.CreateConnectionString(host, port, database, userid, password, timeout),
                 DataBaseType.MariaDB => MySqlDBHandler.CreateConnectionString(host, port, database, userid, password, timeout),
                 DataBaseType.MySql => MySqlDBHandler.CreateConnectionString(host, port, database, userid, password, timeout),
-                DataBaseType.SQLite => SQLiteDBHandler.CreateConnectionString(database, password, true, timeout),
+                DataBaseType.SQLite => SQLiteDBHandler.CreateConnectionString(database, password, journalMode, timeout),
                 _ => throw new NotSupportedException(),
             }; ;
         }
