@@ -32,7 +32,7 @@ call .\build.cmd %version% %ApiToken%
 cd ..
 
 cd ZzzLab.DBClient
-call .\build.cmd %version% %ApiToken%
+call .\build.cmd %ApiToken% %version%
 cd ..
 
 cd ZzzLab.Scheduler

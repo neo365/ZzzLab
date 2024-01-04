@@ -184,7 +184,7 @@ namespace ZzzLab.Data
                     {
                         newsql = newsql.Replace(':', parameterChar);
                     }
-                    newsql = newsql.Replace('@', parameterChar);
+                    //newsql = newsql.Replace('@', parameterChar); // Oracle problem
 
                     sb.Append(newsql);
                 }
