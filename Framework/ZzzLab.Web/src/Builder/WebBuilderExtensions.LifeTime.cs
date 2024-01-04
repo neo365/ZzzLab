@@ -15,7 +15,7 @@ namespace ZzzLab.Web.Builder
         /// <exception cref="InvalidTypeException">ILifetimeJob 이 아닐경우</exception>
         public static ILifetimeJob UseLifetime<T>(this IHostApplicationLifetime lifetime)
         {
-            if (lifetime == null) throw new ArgumentNullException(nameof(lifetime));
+            ArgumentNullException.ThrowIfNull(lifetime);
 
             if (Activator.CreateInstance(typeof(T), lifetime) is ILifetimeJob job)
             {

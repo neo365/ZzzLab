@@ -60,7 +60,7 @@ namespace ZzzLab.Models.Auth
         /// <returns>º¹»çµÈ destnation</returns>
         public virtual UserEntity CopyTo(UserEntity target)
         {
-            if (target == null) throw new ArgumentNullException(nameof(target));
+            ArgumentNullException.ThrowIfNull(target);
 
             base.CopyTo(target);
 
@@ -77,7 +77,7 @@ namespace ZzzLab.Models.Auth
 
         public UserEntity CopyFrom(UserEntity source)
         {
-            if (source == null) throw new ArgumentNullException(nameof(source));
+            ArgumentNullException.ThrowIfNull(source);
 
             base.CopyFrom(source);
 

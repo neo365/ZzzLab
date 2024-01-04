@@ -31,20 +31,24 @@ namespace ZzzLab.Web.Models
 
         private static IActionResult GetResult(RestResponse res)
         {
-            return (IActionResult)new ContentResult()
+            IActionResult result  = new ContentResult()
             {
                 StatusCode = (int)res.StatusCode,
                 Content = res.ToJson(JSON_SETTING),
             };
+
+            return result;
         }
 
         private static IActionResult GetResult(RestErrorResult res)
         {
-            return (IActionResult)new ContentResult()
+            IActionResult result = new ContentResult()
             {
                 StatusCode = (int)res.StatusCode,
                 Content = res.ToJson(JSON_SETTING),
             };
+
+            return result;
         }
 
         #endregion IActionResult

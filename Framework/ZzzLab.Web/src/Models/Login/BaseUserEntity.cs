@@ -88,7 +88,7 @@
 
         public virtual BaseUserEntity CopyFrom(BaseUserEntity source)
         {
-            if (source == null) throw new ArgumentNullException(nameof(source));
+            ArgumentNullException.ThrowIfNull(source);
 
             this.UserId = source.UserId;
             this.CompanyCode = source.CompanyCode;

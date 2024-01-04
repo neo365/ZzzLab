@@ -19,7 +19,9 @@
 
         public DateTime CurrentDateTime { get; }
 
-        public ServerStatusChangeEventArgs(ServerStatus status, string? message = null, DateTime? currentDateTime = null)
+        public ServerStatusChangeEventArgs(ServerStatus status,
+                                           string? message = null,
+                                           DateTime? currentDateTime = null)
         {
             Status = status;
             Message = message;

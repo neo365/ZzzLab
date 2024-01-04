@@ -7,10 +7,7 @@ namespace ZzzLab.Web.Logging
     {
         public readonly RequestDelegate _next;
 
-        public HttpFilterMiddleware(RequestDelegate next)
-        {
-            _next = next ?? throw new ArgumentNullException(nameof(next));
-        }
+        public HttpFilterMiddleware(RequestDelegate next) => _next = next ?? throw new ArgumentNullException(nameof(next));
 
         public Task Invoke(HttpContext context)
             => InvokeInternal(context);
