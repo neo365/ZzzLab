@@ -39,20 +39,22 @@ namespace ZzzLab.Web.Configuration
             return configBuilder;
         }
 
-        public static IConfigBuilder UseJWTAuth<T>(this IConfigBuilder configBuilder) where T : IAuthorization
+        public static IConfigBuilder UseJWTAuth<T>(this IConfigBuilder configBuilder) where T : IJWTConfigurationLoader
         {
-            if (Activator.CreateInstance(typeof(T)) is IAuthorization auth)
+            if (Activator.CreateInstance(typeof(T)) is IJWTConfigurationLoader auth)
             {
-                configBuilder.Use(new WebBuilder(auth));
+                configBuilder.Use(new JWTConfigBuilder(auth));
             }
             else throw new InvalidTypeException(typeof(T));
 
             return configBuilder;
         }
 
-        public static IConfigBuilder UseJWTAuth(this IConfigBuilder configBuilder, IAuthorization? auth = null)
+        public static IConfigBuilder UseJWTAuth(this IConfigBuilder configBuilder, IJWTConfigurationLoader auth)
         {
-            configBuilder.Use(new WebBuilder(auth));
+            ArgumentNullException.ThrowIfNull(auth);
+
+            configBuilder.Use(new JWTConfigBuilder(auth));
             return configBuilder;
         }
     }

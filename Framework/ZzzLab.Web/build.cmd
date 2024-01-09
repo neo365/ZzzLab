@@ -9,7 +9,7 @@ SET min=%TIME:~3,2%
 SET version=0.21%yy%.%mm%%dd%.%hh%%min%
 SET appName=ZzzLab.Web
 
-IF NOT "%1" == "" SET version=%1
+IF NOT "%2" == "" SET version=%2
 
 echo ===============================
 echo %version% 
@@ -19,8 +19,7 @@ del *.bak
 
 cd .\src
 
-dotnet add package Microsoft.AspNetCore.Authentication.JwtBearer   
-dotnet add package Microsoft.AspNetCore.Http                   
+dotnet add package Microsoft.AspNetCore.Authentication.JwtBearer                
 dotnet add package Swashbuckle.AspNetCore                   
 dotnet add package Swashbuckle.AspNetCore.Filters              
 dotnet add package Swashbuckle.AspNetCore.Newtonsoft      
@@ -30,14 +29,14 @@ dotnet list package
 
 dotnet clean
 dotnet publish -p:Version=%version% -p:Configuration=Release
-dotnet pack --output ..\..\..\Package -p:Version=%version%
+dotnet pack --output ..\..\..\Package -p:Version=%version% -p:Configuration=Release
 
-IF NOT "%2" == "" (
-    SET ApiToken=%2
+IF NOT "%1" == "" (
+    SET ApiToken=%1
     dotnet nuget push ..\..\..\Package\%appName%.%version%.nupkg --api-key %ApiToken% --source https://api.nuget.org/v3/index.json
     start chrome https://www.nuget.org/packages/%appName%/
 )
 
 cd ..
 
-IF "%1" == "" timeout /t 20
+IF "%2" == "" timeout /t 20

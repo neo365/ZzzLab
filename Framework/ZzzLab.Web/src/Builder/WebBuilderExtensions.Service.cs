@@ -80,17 +80,15 @@ namespace ZzzLab.Web.Builder
             {
                 builder.AddJwtBearer(options =>
                 {
-                    //options.RequireHttpsMetadata = false;
-                    //options.SaveToken = true;
                     //options.TokenValidationParameters = new TokenValidationParameters
                     //{
                     //    ValidateIssuer = true,
                     //    ValidateAudience = true,
                     //    ValidateLifetime = true,
-                    //    ValidateIssuerSigningKey = true,
+                    //    ValidateSigningKey = true,
                     //    ValidIssuer = Configurator.Get("JWT_ISSUER"),
                     //    ValidAudience = Configurator.Get("JWT_AUDIENCE"),
-                    //    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configurator.Get("JWT_SECURITY_KEY"))),
+                    //    SigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configurator.Get("JWT_SECURITY_KEY"))),
                     //    ClockSkew = TimeSpan.Zero
                     //};
 

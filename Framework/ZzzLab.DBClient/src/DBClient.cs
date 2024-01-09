@@ -44,7 +44,7 @@ namespace ZzzLab.Data
                 config.Timeout,
                 config.JournalMode);
 
-        public static string CreateConnectionString(DataBaseType serverType, string host, int port, string database, string userid, string password, int timeout, bool journalMode)
+        public static string CreateConnectionString(DataBaseType serverType, string host, int port, string database, string userid, string password, int timeout, bool journalMode = false)
         {
             return serverType switch
             {

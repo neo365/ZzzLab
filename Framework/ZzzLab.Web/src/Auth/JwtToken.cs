@@ -2,29 +2,37 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using ZzzLab.Web.Configuration;
 
 namespace ZzzLab.AspCore.Common
 {
     public class JwtToken : JwtSecurityTokenHandler
     {
-        public string Encode(string secretKey, IReadOnlyDictionary<string, string> payloadContents, string encryptionAlgorithm)
+        public string? Encode(IReadOnlyDictionary<string, string> payloadContents)
         {
-            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));
-            var signingCredentials = new SigningCredentials(securityKey, encryptionAlgorithm);
+            if (Configurator.Setting?.JWTConfig == null) return null;
+            if (string.IsNullOrWhiteSpace(Configurator.Setting.JWTConfig.SigningKey)) return null;
+            if (string.IsNullOrWhiteSpace(Configurator.Setting.JWTConfig.EncryptionAlgorithm)) return null;
 
-            var payloadClaims = payloadContents.Select(c => new Claim(c.Key, c.Value));
+            string signingKey = Configurator.Setting.JWTConfig.SigningKey;
+            string encryptionAlgorithm = Configurator.Setting.JWTConfig.Algorithm;
 
-            var payload = new JwtPayload(payloadClaims);
-            var header = new JwtHeader(signingCredentials);
-            var securityToken = new JwtSecurityToken(header, payload);
+            SymmetricSecurityKey securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(signingKey));
+            SigningCredentials signingCredentials = new SigningCredentials(securityKey, encryptionAlgorithm);
+
+            IEnumerable<Claim> claims = payloadContents.Select(c => new Claim(c.Key, c.Value));
+
+            JwtPayload payload = new JwtPayload(claims);
+            JwtHeader header = new JwtHeader(signingCredentials);
+            JwtSecurityToken securityToken = new JwtSecurityToken(header, payload);
 
             return this.WriteToken(securityToken);
         }
 
-        public string Decode(string secretKey, string jwtEncodedString, string encryptionAlgorithm)
+        public string? Decode(string jwtEncodedString)
         {
-            var parameters = new JwtSettings().GetParameters();
+            if (Configurator.Setting?.JWTConfig == null) return null;
+
+            TokenValidationParameters parameters = Configurator.Setting.JWTConfig.GetParameters();
 
             return this.DecryptToken(new JwtSecurityToken(jwtEncodedString), parameters);
         }
