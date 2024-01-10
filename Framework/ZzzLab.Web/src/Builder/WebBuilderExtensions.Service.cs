@@ -8,6 +8,7 @@ using Swashbuckle.AspNetCore.Filters;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using ZzzLab.Web.Authentication;
+using ZzzLab.Web.Configuration;
 
 namespace ZzzLab.Web.Builder
 {
@@ -70,14 +71,14 @@ namespace ZzzLab.Web.Builder
         {
             AuthenticationBuilder builder = services.AddAuthentication(options =>
              {
-                 //options.DefaultAuthenticateScheme = AuthSchemeOptions.Scheme;
-                 //options.DefaultChallengeScheme = AuthSchemeOptions.Scheme;
                  options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                  options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
              });
 
             if (isJWT)
             {
+                if(Configurator.Setting?.JWTConfig == null) throw new InitializeException("JWT settings not found.");
+
                 builder.AddJwtBearer(options =>
                 {
                     //options.TokenValidationParameters = new TokenValidationParameters
@@ -94,18 +95,20 @@ namespace ZzzLab.Web.Builder
 
                     options.RequireHttpsMetadata = false;
                     options.SaveToken = true;
-                    options.TokenValidationParameters = new TokenValidationParameters()
-                    {
-                        ValidateIssuerSigningKey = true,
-                        IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(Configurator.Get("JWT_SECURITY_KEY"))),
-                        ValidateIssuer = true,
-                        ValidIssuer = Configurator.Get("JWT_ISSUER"),
-                        ValidateAudience = true,
-                        ValidAudience = Configurator.Get("JWT_AUDIENCE"),
-                        RequireExpirationTime = true,
-                        ValidateLifetime = true,
-                        ClockSkew = TimeSpan.FromDays(1),
-                    };
+
+                    options.TokenValidationParameters = Configurator.Setting.JWTConfig.GetParameters();
+                    //options.TokenValidationParameters = new TokenValidationParameters()
+                    //{
+                    //    ValidateIssuerSigningKey = true,
+                    //    IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(Configurator.Get("JWT_SECURITY_KEY"))),
+                    //    ValidateIssuer = true,
+                    //    ValidIssuer = Configurator.Get("JWT_ISSUER"),
+                    //    ValidateAudience = true,
+                    //    ValidAudience = Configurator.Get("JWT_AUDIENCE"),
+                    //    RequireExpirationTime = true,
+                    //    ValidateLifetime = true,
+                    //    ClockSkew = TimeSpan.Zero,
+                    //};
                 });
             }
             else

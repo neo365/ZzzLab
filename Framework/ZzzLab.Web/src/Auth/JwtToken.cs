@@ -20,9 +20,9 @@ namespace ZzzLab.AspCore.Common
 
         private string? Encode(IReadOnlyDictionary<string, string> payloadContents)
         {
-            if (Configurator.Setting?.JWTConfig == null) return null;
-            if (string.IsNullOrWhiteSpace(Configurator.Setting.JWTConfig.SigningKey)) return null;
-            if (string.IsNullOrWhiteSpace(Configurator.Setting.JWTConfig.Algorithm)) return null;
+            if (Configurator.Setting?.JWTConfig == null) throw new InitializeException("JWT settings not found."); 
+            if (string.IsNullOrWhiteSpace(Configurator.Setting.JWTConfig.SigningKey)) throw new InitializeException("JWT settings not found."); 
+            if (string.IsNullOrWhiteSpace(Configurator.Setting.JWTConfig.Algorithm)) throw new InitializeException("JWT settings not found."); 
 
             string signingKey = Configurator.Setting.JWTConfig.SigningKey;
             string encryptionAlgorithm = Configurator.Setting.JWTConfig.Algorithm;
@@ -41,7 +41,7 @@ namespace ZzzLab.AspCore.Common
 
         private string? Decode(string jwtEncodedString)
         {
-            if (Configurator.Setting?.JWTConfig == null) return null;
+            if (Configurator.Setting?.JWTConfig == null) throw new InitializeException("JWT settings not found.");
 
             TokenValidationParameters parameters = Configurator.Setting.JWTConfig.GetParameters();
 
