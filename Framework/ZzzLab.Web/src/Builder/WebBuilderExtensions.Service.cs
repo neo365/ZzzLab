@@ -2,13 +2,10 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
 using System.Reflection;
 using System.Runtime.CompilerServices;
-using ZzzLab.Web.Authentication;
-using ZzzLab.Web.Configuration;
 
 namespace ZzzLab.Web.Builder
 {
@@ -67,7 +64,7 @@ namespace ZzzLab.Web.Builder
             });
         }
 
-        public static void AddAuth(this IServiceCollection services, bool isJWT = false, IEnumerable<string>? userRoles = null)
+        public static void AddJWT(this IServiceCollection services, params string[] userRoles)
         {
             AuthenticationBuilder builder = services.AddAuthentication(options =>
              {
@@ -75,51 +72,17 @@ namespace ZzzLab.Web.Builder
                  options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
              });
 
-            if (isJWT)
+            if (Configurator.Setting?.JWTConfig == null) throw new InitializeException("JWT settings not found.");
+
+            builder.AddJwtBearer(options =>
             {
-                if(Configurator.Setting?.JWTConfig == null) throw new InitializeException("JWT settings not found.");
+                options.RequireHttpsMetadata = false;
+                options.SaveToken = true;
 
-                builder.AddJwtBearer(options =>
-                {
-                    //options.TokenValidationParameters = new TokenValidationParameters
-                    //{
-                    //    ValidateIssuer = true,
-                    //    ValidateAudience = true,
-                    //    ValidateLifetime = true,
-                    //    ValidateSigningKey = true,
-                    //    ValidIssuer = Configurator.Get("JWT_ISSUER"),
-                    //    ValidAudience = Configurator.Get("JWT_AUDIENCE"),
-                    //    SigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configurator.Get("JWT_SECURITY_KEY"))),
-                    //    ClockSkew = TimeSpan.Zero
-                    //};
+                options.TokenValidationParameters = Configurator.Setting.JWTConfig.GetParameters();
+            });
 
-                    options.RequireHttpsMetadata = false;
-                    options.SaveToken = true;
-
-                    options.TokenValidationParameters = Configurator.Setting.JWTConfig.GetParameters();
-                    //options.TokenValidationParameters = new TokenValidationParameters()
-                    //{
-                    //    ValidateIssuerSigningKey = true,
-                    //    IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(Configurator.Get("JWT_SECURITY_KEY"))),
-                    //    ValidateIssuer = true,
-                    //    ValidIssuer = Configurator.Get("JWT_ISSUER"),
-                    //    ValidateAudience = true,
-                    //    ValidAudience = Configurator.Get("JWT_AUDIENCE"),
-                    //    RequireExpirationTime = true,
-                    //    ValidateLifetime = true,
-                    //    ClockSkew = TimeSpan.Zero,
-                    //};
-                });
-            }
-            else
-            {
-                builder.AddScheme<AuthSchemeOptions, ZzzLabAuthHandler>(AuthSchemeOptions.Scheme, options =>
-                {
-                    options.AuthKey = AuthSchemeOptions.Scheme;
-                });
-            }
-
-            if (userRoles != null && userRoles.Any())
+            if (userRoles != null && userRoles.Length != 0)
             {
                 // Policies
                 services.AddAuthorization(config =>

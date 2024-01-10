@@ -31,7 +31,7 @@ namespace ZzzLab.Web.Models
 
         private static IActionResult GetResult(RestResponse res)
         {
-            IActionResult result  = new ContentResult()
+            IActionResult result = new ContentResult()
             {
                 StatusCode = (int)res.StatusCode,
                 Content = res.ToJson(JSON_SETTING),

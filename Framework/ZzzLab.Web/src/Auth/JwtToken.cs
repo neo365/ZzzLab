@@ -8,6 +8,7 @@ namespace ZzzLab.AspCore.Common
     public class JwtToken : JwtSecurityTokenHandler
     {
         private static readonly Lazy<JwtToken> _Instance = new Lazy<JwtToken>(() => new JwtToken());
+
         private static JwtToken Instance
         {
             get => _Instance.Value;
@@ -15,14 +16,15 @@ namespace ZzzLab.AspCore.Common
 
         public static string? GenerateToken(IReadOnlyDictionary<string, string> payloadContents)
             => Instance.Encode(payloadContents);
+
         public static string? DecodeToken(string token)
             => Instance.Decode(token);
 
         private string? Encode(IReadOnlyDictionary<string, string> payloadContents)
         {
-            if (Configurator.Setting?.JWTConfig == null) throw new InitializeException("JWT settings not found."); 
-            if (string.IsNullOrWhiteSpace(Configurator.Setting.JWTConfig.SigningKey)) throw new InitializeException("JWT settings not found."); 
-            if (string.IsNullOrWhiteSpace(Configurator.Setting.JWTConfig.Algorithm)) throw new InitializeException("JWT settings not found."); 
+            if (Configurator.Setting?.JWTConfig == null) throw new InitializeException("JWT settings not found.");
+            if (string.IsNullOrWhiteSpace(Configurator.Setting.JWTConfig.SigningKey)) throw new InitializeException("JWT settings not found.");
+            if (string.IsNullOrWhiteSpace(Configurator.Setting.JWTConfig.Algorithm)) throw new InitializeException("JWT settings not found.");
 
             string signingKey = Configurator.Setting.JWTConfig.SigningKey;
             string encryptionAlgorithm = Configurator.Setting.JWTConfig.Algorithm;

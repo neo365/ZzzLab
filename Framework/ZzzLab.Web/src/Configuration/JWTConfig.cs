@@ -11,11 +11,13 @@ namespace ZzzLab.Web.Configuration
         [JsonProperty("signingKey")]
         [JsonPropertyName("signingKey")]
         public string SigningKey { get; set; } = "1234567890123456789012345678901234567890123456789012345678901234";
+
         protected bool ValidateIssuer => (string.IsNullOrWhiteSpace(Issuer) == false);
 
         [JsonProperty(nameof(Issuer))]
         [JsonPropertyName(nameof(Issuer))]
         public string Issuer { get; set; } = "http://auth.zzzlab.net";
+
         protected bool ValidateAudience => (string.IsNullOrWhiteSpace(Audience) == false);
 
         [JsonProperty(nameof(Audience))]
