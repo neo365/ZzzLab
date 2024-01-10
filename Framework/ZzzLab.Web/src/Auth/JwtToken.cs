@@ -7,11 +7,22 @@ namespace ZzzLab.AspCore.Common
 {
     public class JwtToken : JwtSecurityTokenHandler
     {
-        public string? Encode(IReadOnlyDictionary<string, string> payloadContents)
+        private static readonly Lazy<JwtToken> _Instance = new Lazy<JwtToken>(() => new JwtToken());
+        private static JwtToken Instance
+        {
+            get => _Instance.Value;
+        }
+
+        public static string? GenerateToken(IReadOnlyDictionary<string, string> payloadContents)
+            => Instance.Encode(payloadContents);
+        public static string? DecodeToken(string token)
+            => Instance.Decode(token);
+
+        private string? Encode(IReadOnlyDictionary<string, string> payloadContents)
         {
             if (Configurator.Setting?.JWTConfig == null) return null;
             if (string.IsNullOrWhiteSpace(Configurator.Setting.JWTConfig.SigningKey)) return null;
-            if (string.IsNullOrWhiteSpace(Configurator.Setting.JWTConfig.EncryptionAlgorithm)) return null;
+            if (string.IsNullOrWhiteSpace(Configurator.Setting.JWTConfig.Algorithm)) return null;
 
             string signingKey = Configurator.Setting.JWTConfig.SigningKey;
             string encryptionAlgorithm = Configurator.Setting.JWTConfig.Algorithm;
@@ -28,7 +39,7 @@ namespace ZzzLab.AspCore.Common
             return this.WriteToken(securityToken);
         }
 
-        public string? Decode(string jwtEncodedString)
+        private string? Decode(string jwtEncodedString)
         {
             if (Configurator.Setting?.JWTConfig == null) return null;
 
