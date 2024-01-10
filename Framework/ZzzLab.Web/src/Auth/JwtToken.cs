@@ -32,13 +32,18 @@ namespace ZzzLab.AspCore.Common
             SymmetricSecurityKey securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(signingKey));
             SigningCredentials signingCredentials = new SigningCredentials(securityKey, encryptionAlgorithm);
 
-            IEnumerable<Claim> claims = payloadContents.Select(c => new Claim(c.Key, c.Value));
+            List<Claim> claims = new List<Claim>(payloadContents.Select(c => new Claim(c.Key, c.Value)));
+            if (payloadContents.ContainsKey(JwtRegisteredClaimNames.Jti) == false) claims.Add(new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()));
 
-            JwtPayload payload = new JwtPayload(claims);
-            JwtHeader header = new JwtHeader(signingCredentials);
-            JwtSecurityToken securityToken = new JwtSecurityToken(header, payload);
+            JwtSecurityToken token = new JwtSecurityToken(
+                issuer: Configurator.Setting.JWTConfig.Issuer,
+                audience: Configurator.Setting.JWTConfig.Audience,
+                claims: claims,
+                expires: DateTime.Now.AddHours(1),
+                signingCredentials: signingCredentials
+            ); ;
 
-            return this.WriteToken(securityToken);
+            return this.WriteToken(token);
         }
 
         private string? Decode(string jwtEncodedString)

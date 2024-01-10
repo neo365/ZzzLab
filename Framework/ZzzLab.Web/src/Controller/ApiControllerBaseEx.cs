@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.Data;
 
 namespace ZzzLab.Web.Controller
 {
@@ -29,6 +30,10 @@ namespace ZzzLab.Web.Controller
         [NonAction]
         public virtual IActionResult Grid<T>(IEnumerable<T> item)
             => this.GridResult<T>(item);
+
+        [NonAction]
+        public virtual IActionResult Grid(DataTable table)
+            => this.GridResult(table);
 
         #endregion Grid
 

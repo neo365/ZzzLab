@@ -1,9 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.Data;
 using ZzzLab.Web.Models;
 
 namespace ZzzLab.Web.Controller
 {
-    public static class ApiControllerBaseExUtils
+    internal static class ApiControllerBaseExUtils
     {
         #region OK
 
@@ -25,6 +26,9 @@ namespace ZzzLab.Web.Controller
 
         public static IActionResult GridResult<T>(this ApiControllerBase res, IEnumerable<T> items)
             => RestResult.Grid(items, trackingId: res.HttpContext.TraceIdentifier);
+
+        public static IActionResult GridResult(this ApiControllerBase res, DataTable table)
+            => RestResult.Grid(table, trackingId: res.HttpContext.TraceIdentifier);
 
         #endregion Grid
 
