@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using System.Security.Claims;
 using System.Web;
 using ZzzLab.Web.Auth;
 using ZzzLab.Web.Configuration;
@@ -70,7 +71,9 @@ namespace ZzzLab.Web
         {
             if (request == null) return null;
 
-            var userId = request.HttpContext.User.Claims.FirstOrDefault(c => c.Type == "name");
+            string? userId = request.HttpContext.User.Claims.FirstOrDefault((Claim c) => c.Type == "userId")?.Value;
+
+            if(string.IsNullOrWhiteSpace(userId) == false) return userId;
 
             string? value = GetAuthkey(request);
             if (HasValue(value))
