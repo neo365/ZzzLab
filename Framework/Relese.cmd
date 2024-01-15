@@ -44,11 +44,11 @@ call .\build.cmd %version% %ApiToken%
 cd ..
 
 cd ZzzLab.Office
-call .\build.cmd %version% %ApiToken%
+call .\build.cmd %ApiToken% %version%
 cd ..
 
 cd ZzzLab.Web
-call .\build.cmd %version% %ApiToken%
+call .\build.cmd %ApiToken% %version%
 cd ..
 
 cd ZzzLab.Diff

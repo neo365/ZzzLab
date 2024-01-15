@@ -16,7 +16,7 @@ namespace ZzzLab.Office.Excel
         public const int ROW_OFFSET = 0;
         public const int CELL_OFFSET = 0;
 
-        private IWorkbook Excel { set; get; }
+        protected virtual IWorkbook Excel { set; get; }
 
         public override string[] SheetNames
         {
@@ -188,7 +188,7 @@ namespace ZzzLab.Office.Excel
 
                     for (int j = cellposition; j <= cellendposition; j++)
                     {
-                        ICell tmpcell = tmprow.GetCell(j) ?? tmprow.CreateCell(j);
+                        _ = tmprow.GetCell(j) ?? tmprow.CreateCell(j);
                     }
                 }
 
@@ -243,6 +243,89 @@ namespace ZzzLab.Office.Excel
         }
 
         /// <summary>
+        /// 셀에 함수을 설정한다.
+        /// </summary>
+        /// <param name="sheetIndex">sheetIndex(Zero Base)</param>
+        /// <param name="rowNum">row (Zero Base)</param>
+        /// <param name="colNum">col  (Zero Base)</param>
+        /// <param name="value">값</param>
+        public override void SetFormula(int sheetIndex, int rowNum, int colNum, string value)
+            => CreatCellFormula(this.FindSheet(sheetIndex), rowNum + ROW_OFFSET, colNum + CELL_OFFSET, value);
+
+        /// <summary>
+        /// 셀에 함수을 설정한다..
+        /// </summary>
+        /// <param name="sheetName">시트명</param>
+        /// <param name="rowNum">row (Zero Base)</param>
+        /// <param name="colNum">col  (Zero Base)</param>
+        /// <param name="value">값</param>
+        public override void SetFormula(string sheetName, int rowNum, int colNum, string value)
+            => CreatCellFormula(this.FindSheet(sheetName), rowNum + ROW_OFFSET, colNum + CELL_OFFSET, value);
+
+        /// <summary>
+        /// 셀에 함수을 설정한다.
+        /// </summary>
+        /// <param name="sheetIndex">sheetIndex(Zero Base)</param>
+        /// <param name="address">엑셀 Reference 주소. ex) A1</param>
+        /// <param name="value">값</param>
+        public override void SetFormula(int sheetIndex, string address, string value)
+            => SetFormula(this.FindSheet(sheetIndex), address, value);
+
+        /// <summary>
+        /// 셀에 함수을 설정한다.
+        /// </summary>
+        /// <param name="sheetName">시트명</param>
+        /// <param name="address">엑셀 Reference 주소. ex) A1</param>
+        /// <param name="value">값</param>
+        public override void SetFormula(string sheetName, string address, string value)
+            => SetFormula(this.FindSheet(sheetName), address, value);
+
+        protected virtual void SetFormula(ISheet sheet, string address, string value)
+        {
+            CellReference cellref = new CellReference(address);
+            int rowposition = cellref.Row;
+            int cellposition = cellref.Col;
+
+            CreatCellFormula(sheet, rowposition, cellposition, value);
+        }
+
+        protected virtual ICell CreatCellFormula(ISheet sheet, int rowposition, int cellposition, string value, int rowsize = 1, int cellsize = 1)
+        {
+            IRow row = sheet.GetRow(rowposition) ?? sheet.CreateRow(rowposition);
+            ICell cell = row.GetCell(cellposition) ?? row.CreateCell(cellposition);
+
+            if (cellsize > 1 || rowsize > 1)
+            {
+                int cellendposition = cellposition + cellsize - 1;
+                int rowendposition = rowposition + rowsize - 1;
+
+                for (int i = rowposition; i <= rowendposition; i++)
+                {
+                    IRow tmprow = sheet.GetRow(i) ?? sheet.CreateRow(i);
+
+                    for (int j = cellposition; j <= cellendposition; j++)
+                    {
+                        _ = tmprow.GetCell(j) ?? tmprow.CreateCell(j);
+                    }
+                }
+
+                sheet.AddMergedRegion(new CellRangeAddress(rowposition, rowendposition, cellposition, cellendposition));
+            }
+
+            value = value ?? value.TrimStart('=');
+
+            if (string.IsNullOrWhiteSpace(value)) cell.SetCellValue(string.Empty);
+            else cell.SetCellFormula(value);
+
+#if WRAP_TEXT
+            ICellStyle cs = Excel.CreateCellStyle();
+            cs.WrapText = true;
+            cell.CellStyle = cs;
+#endif
+            return cell;
+        }
+
+        /// <summary>
         /// 이미지 추가
         /// </summary>
         /// <param name="sheetIndex">sheetIndex</param>
@@ -281,7 +364,7 @@ namespace ZzzLab.Office.Excel
             picture.Resize(1);
         }
 
-        private static PictureType ToPictureType(ImageType imageType)
+        protected virtual PictureType ToPictureType(ImageType imageType)
         {
             switch (imageType)
             {
@@ -303,6 +386,26 @@ namespace ZzzLab.Office.Excel
         }
 
         /// <summary>
+        /// 셀의 값을 설정한다.
+        /// </summary>
+        /// <param name="sheetIndex">sheetIndex(Zero Base)</param>
+        /// <param name="rowNum">row (Zero Base)</param>
+        /// <param name="colNum">col  (Zero Base)</param>
+        /// <param name="value">값</param>
+        public override void SetValue(int sheetIndex, int rowNum, int colNum, object value)
+            => CreateCell(this.FindSheet(sheetIndex), rowNum + ROW_OFFSET, colNum + CELL_OFFSET, value);
+
+        /// <summary>
+        /// 셀의 값을 설정한다.
+        /// </summary>
+        /// <param name="sheetName">시트명</param>
+        /// <param name="rowNum">row (Zero Base)</param>
+        /// <param name="colNum">col  (Zero Base)</param>
+        /// <param name="value">값</param>
+        public override void SetValue(string sheetName, int rowNum, int colNum, object value)
+            => CreateCell(this.FindSheet(sheetName), rowNum + ROW_OFFSET, colNum + CELL_OFFSET, value);
+
+        /// <summary>
         /// 셀의 값을 가져온다.
         /// </summary>
         /// <param name="sheetIndex">sheetIndex</param>
@@ -320,7 +423,7 @@ namespace ZzzLab.Office.Excel
         public override void SetValue(string sheetName, string address, object value)
             => SetValue(this.FindSheet(sheetName), address, value);
 
-        private void SetValue(ISheet sheet, string address, object value)
+        protected virtual void SetValue(ISheet sheet, string address, object value)
         {
             CellReference cellref = new CellReference(address);
             int rowposition = cellref.Row;
@@ -329,13 +432,19 @@ namespace ZzzLab.Office.Excel
             CreateCell(sheet, rowposition, cellposition, value);
         }
 
+        public override string GetValue(int sheetIndex, int rowNum, int colNum)
+            => GetValue(this.FindSheet(sheetIndex), rowNum + ROW_OFFSET, colNum + CELL_OFFSET);
+
+        public override string GetValue(string sheetName, int rowNum, int colNum)
+            => GetValue(this.FindSheet(sheetName), rowNum + ROW_OFFSET, colNum + CELL_OFFSET);
+
         public override string GetValue(int sheetIndex, string address)
             => GetValue(this.FindSheet(sheetIndex), address);
 
         public override string GetValue(string sheetName, string address)
             => GetValue(this.FindSheet(sheetName), address);
 
-        private static string GetValue(ISheet sheet, string address)
+        protected virtual string GetValue(ISheet sheet, string address)
         {
             if (sheet == null) throw new ArgumentNullException(nameof(sheet));
 
@@ -343,15 +452,45 @@ namespace ZzzLab.Office.Excel
             int rowposition = cellref.Row;
             int cellposition = cellref.Col;
 
-            IRow row = sheet.GetRow(rowposition);
+            return GetValue(sheet, rowposition, cellposition);
+        }
+
+        protected virtual string GetValue(ISheet sheet, int rowNum, int colNum)
+        {
+            if (sheet == null) throw new ArgumentNullException(nameof(sheet));
+
+            IRow row = sheet.GetRow(rowNum);
 
             if (row == null) return string.Empty;
 
-            ICell cell = row.GetCell(cellposition);
+            ICell cell = row.GetCell(colNum);
 
             if (cell == null) return string.Empty;
 
             return cell.StringCellValue;
+        }
+
+        public override void RemoveRow(int sheetIndex, int rowNum)
+            => RemoveRow(this.FindSheet(sheetIndex), rowNum + ROW_OFFSET);
+
+        public override void RemoveRow(string sheetName, int rowNum)
+            => RemoveRow(this.FindSheet(sheetName), rowNum + ROW_OFFSET);
+
+        public override void RemoveRow(int sheetIndex, string address)
+            => RemoveRow(this.FindSheet(sheetIndex), new CellReference(address).Row);
+
+        public override void RemoveRow(string sheetName, string address)
+            => RemoveRow(this.FindSheet(sheetName), new CellReference(address).Row);
+
+        protected virtual void RemoveRow(ISheet sheet, int rowNum)
+        {
+            if (sheet == null) throw new ArgumentNullException(nameof(sheet));
+
+            IRow row = sheet.GetRow(rowNum);
+
+            if (row == null) return;
+
+            sheet.RemoveRow(row);
         }
 
         public override void SetSheet(DataTable datatable, string sheetName, bool hasHeader = true, string address = "A1")

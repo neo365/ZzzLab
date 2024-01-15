@@ -186,6 +186,10 @@ namespace ZzzLab.Office.Excel
         public virtual void SetImage(string sheetName, string address, Stream stream, ImageType imageType)
             => SetImage(sheetName, address, stream.ToBytes(), imageType);
 
+        public abstract void SetValue(int sheetIndex, int rowNum, int colNum, object value);
+
+        public abstract void SetValue(string sheetName, int rowNum, int colNum, object value);
+
         /// <summary>
         /// 셀의 값을 가져온다.
         /// </summary>
@@ -202,6 +206,10 @@ namespace ZzzLab.Office.Excel
         /// <param name="value">값</param>
         public abstract void SetValue(string sheetName, string address, object value);
 
+        public abstract string GetValue(int sheetIndex, int rowNum, int colNum);
+
+        public abstract string GetValue(string sheetName, int rowNum, int colNum);
+
         /// <summary>
         /// 셀의 값을 가져온다.
         /// </summary>
@@ -217,6 +225,22 @@ namespace ZzzLab.Office.Excel
         /// <param name="address">엑셀 Reference 주소. ex) A1</param>
         /// <returns>셀값</returns>
         public abstract string GetValue(string sheetName, string address);
+
+        public abstract void SetFormula(int sheetIndex, int rowNum, int colNum, string value);
+
+        public abstract void SetFormula(string sheetName, int rowNum, int colNum, string value);
+
+        public abstract void SetFormula(int sheetIndex, string address, string value);
+
+        public abstract void SetFormula(string sheetName, string address, string value);
+
+        public abstract void RemoveRow(int sheetIndex, int rowNum);
+
+        public abstract void RemoveRow(string sheetName, int rowNum);
+
+        public abstract void RemoveRow(int sheetIndex, string address);
+
+        public abstract void RemoveRow(string sheetName, string address);
 
         public abstract bool Save();
 

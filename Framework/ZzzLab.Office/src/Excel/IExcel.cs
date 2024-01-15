@@ -106,15 +106,33 @@ namespace ZzzLab.Office.Excel
         void SetImage(string sheetName, string address, Stream stream, ImageType imageType);
 
         /// <summary>
-        /// 셀의 값을 가져온다.
+        /// 셀의 값을 설정한다.
         /// </summary>
-        /// <param name="sheetIndex">sheetIndex</param>
+        /// <param name="sheetIndex">sheetIndex(Zero Base)</param>
+        /// <param name="rowNum">row (Zero Base)</param>
+        /// <param name="colNum">col  (Zero Base)</param>
+        /// <param name="value">값</param>
+        void SetValue(int sheetIndex, int rowNum, int colNum, object value);
+
+        /// <summary>
+        /// 셀의 값을 설정한다.
+        /// </summary>
+        /// <param name="sheetName">시트명</param>
+        /// <param name="rowNum">row (Zero Base)</param>
+        /// <param name="colNum">col  (Zero Base)</param>
+        /// <param name="value">값</param>
+        void SetValue(string sheetName, int rowNum, int colNum, object value);
+
+        /// <summary>
+        /// 셀의 값을 설정한다.
+        /// </summary>
+        /// <param name="sheetIndex">sheetIndex(Zero Base)</param>
         /// <param name="address">엑셀 Reference 주소. ex) A1</param>
         /// <param name="value">값</param>
         void SetValue(int sheetIndex, string address, object value);
 
         /// <summary>
-        /// 셀의 값을 가져온다.
+        /// 셀의 값을 설정한다.
         /// </summary>
         /// <param name="sheetName">시트명</param>
         /// <param name="address">엑셀 Reference 주소. ex) A1</param>
@@ -124,7 +142,25 @@ namespace ZzzLab.Office.Excel
         /// <summary>
         /// 셀의 값을 가져온다.
         /// </summary>
-        /// <param name="sheetIndex">sheetIndex</param>
+        /// <param name="sheetIndex">sheetIndex(Zero Base)</param>
+        /// <param name="rowNum">row (Zero Base)</param>
+        /// <param name="colNum">col (Zero Base)</param>
+        /// <returns></returns>
+        string GetValue(int sheetIndex, int rowNum, int colNum);
+
+        /// <summary>
+        /// 셀의 값을 가져온다.
+        /// </summary>
+        /// <param name="sheetName"></param>
+        /// <param name="rowNum">row (Zero Base)</param>
+        /// <param name="colNum">col (Zero Base)</param>
+        /// <returns></returns>
+        string GetValue(string sheetName, int rowNum, int colNum);
+
+        /// <summary>
+        /// 셀의 값을 가져온다.
+        /// </summary>
+        /// <param name="sheetIndex">sheetIndex(Zero Base)</param>
         /// <param name="address">엑셀 Reference 주소. ex) A1</param>
         /// <returns>셀값</returns>
         string GetValue(int sheetIndex, string address);
@@ -136,6 +172,68 @@ namespace ZzzLab.Office.Excel
         /// <param name="address">엑셀 Reference 주소. ex) A1</param>
         /// <returns>셀값</returns>
         string GetValue(string sheetName, string address);
+
+        /// <summary>
+        /// 셀에 함수을 설정한다.
+        /// </summary>
+        /// <param name="sheetIndex">sheetIndex(Zero Base)</param>
+        /// <param name="rowNum">row (Zero Base)</param>
+        /// <param name="colNum">col  (Zero Base)</param>
+        /// <param name="value">값</param>
+        void SetFormula(int sheetIndex, int rowNum, int colNum, string value);
+
+        /// <summary>
+        /// 셀에 함수을 설정한다..
+        /// </summary>
+        /// <param name="sheetName">시트명</param>
+        /// <param name="rowNum">row (Zero Base)</param>
+        /// <param name="colNum">col  (Zero Base)</param>
+        /// <param name="value">값</param>
+        void SetFormula(string sheetName, int rowNum, int colNum, string value);
+
+        /// <summary>
+        /// 셀에 함수을 설정한다.
+        /// </summary>
+        /// <param name="sheetIndex">sheetIndex(Zero Base)</param>
+        /// <param name="address">엑셀 Reference 주소. ex) A1</param>
+        /// <param name="value">값</param>
+        void SetFormula(int sheetIndex, string address, string value);
+
+        /// <summary>
+        /// 셀에 함수을 설정한다.
+        /// </summary>
+        /// <param name="sheetName">시트명</param>
+        /// <param name="address">엑셀 Reference 주소. ex) A1</param>
+        /// <param name="value">값</param>
+        void SetFormula(string sheetName, string address, string value);
+
+        /// <summary>
+        /// 줄을 삭제한다
+        /// </summary>
+        /// <param name="sheetIndex">sheetIndex(Zero Base)</param>
+        /// <param name="rowNum">row (Zero Base)</param>
+        void RemoveRow(int sheetIndex, int rowNum);
+
+        /// <summary>
+        /// 줄을 삭제한다
+        /// </summary>
+        /// <param name="sheetName">시트명</param>
+        /// <param name="rowNum">row (Zero Base)</param>
+        void RemoveRow(string sheetName, int rowNum);
+
+        /// <summary>
+        /// 줄을 삭제한다
+        /// </summary>
+        /// <param name="sheetIndex">sheetIndex(Zero Base)</param>
+        /// <param name="address">엑셀 Reference 주소. ex) A1</param>
+        void RemoveRow(int sheetIndex, string address);
+
+        /// <summary>
+        /// 줄을 삭제한다
+        /// </summary>
+        /// <param name="sheetName">시트명</param>
+        /// <param name="address">엑셀 Reference 주소. ex) A1</param>
+        void RemoveRow(string sheetName, string address);
 
         bool Save();
 
