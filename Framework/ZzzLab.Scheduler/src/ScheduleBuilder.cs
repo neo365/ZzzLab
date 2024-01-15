@@ -1,6 +1,7 @@
 ﻿using Quartz;
 using Quartz.Impl;
 using Quartz.Logging;
+using Quartz.Util;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -18,6 +19,8 @@ namespace ZzzLab.Scheduler
         private readonly IScheduler Scheduler;
 
         public NameValueCollection Properties { get; }
+
+        public List<IJobSchedule> JobList { get; }  = new List<IJobSchedule>();
 
         private ScheduleBuilder(NameValueCollection properties = null)
         {
@@ -71,11 +74,13 @@ namespace ZzzLab.Scheduler
         {
             if (Activator.CreateInstance(typeof(T)) is IJobSchedule job)
             {
-                IJobDetail jobDetail = BuildJobDetail<T>(job.Group, job.Name, job.Description);
+                IJobDetail jobDetail = BuildJobDetail<T>(job.Group, job.Key, job.Description);
 
                 if (Task.Run(() => Scheduler.CheckExists(jobDetail.Key)).Result) throw new DuplicateItemException(job.Name);
 
                 Scheduler.ScheduleJob(jobDetail, BuildTrigger(seconds)).ConfigureAwait(false).GetAwaiter().GetResult();
+
+                JobList.Add(job);
             }
             else throw new InvalidTypeException(typeof(T));
         }
@@ -84,11 +89,13 @@ namespace ZzzLab.Scheduler
         {
             if (Activator.CreateInstance(typeof(T)) is IJobSchedule job)
             {
-                IJobDetail jobDetail = BuildJobDetail<T>(job.Group, job.Name, job.Description);
+                IJobDetail jobDetail = BuildJobDetail<T>(job.Group, job.Key, job.Description);
 
                 if (Task.Run(() => Scheduler.CheckExists(jobDetail.Key)).Result) throw new DuplicateItemException(job.Name);
 
                 Scheduler.ScheduleJob(jobDetail, BuildTrigger(cronExpression)).ConfigureAwait(false).GetAwaiter().GetResult();
+
+                JobList.Add(job);
             }
             else throw new InvalidTypeException(typeof(T));
         }
@@ -105,9 +112,9 @@ namespace ZzzLab.Scheduler
             Scheduler.RescheduleJob(oldTrigger.Key, BuildTrigger(cronExpression));
         }
 
-        internal void ReScheduleJob(string name, int seconds)
+        internal void ReScheduleJob(string key, int seconds)
         {
-            ITrigger oldTrigger = this.Scheduler.GetTriggersOfJob(new JobKey(name)).ConfigureAwait(false).GetAwaiter().GetResult().FirstOrDefault();
+            ITrigger oldTrigger = this.Scheduler.GetTriggersOfJob(new JobKey(key)).ConfigureAwait(false).GetAwaiter().GetResult().FirstOrDefault();
             Scheduler.RescheduleJob(oldTrigger.Key, BuildTrigger(seconds));
         }
 
@@ -128,5 +135,8 @@ namespace ZzzLab.Scheduler
 
         public IEnumerable<JobEntiry> GetAllJobs()
             => this.Scheduler.GetAllJobs();
+
+        public JobEntiry GetJob(string key)
+            => this.Scheduler.GetJob(key);
     }
 }

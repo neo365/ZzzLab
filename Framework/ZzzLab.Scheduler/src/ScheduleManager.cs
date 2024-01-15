@@ -1,6 +1,9 @@
 ﻿using Quartz;
+using Quartz.Util;
+using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Runtime.CompilerServices;
 using ZzzLab.Scheduler.Models;
 
 namespace ZzzLab.Scheduler
@@ -10,18 +13,18 @@ namespace ZzzLab.Scheduler
     /// </summary>
     public static class ScheduleManager
     {
-        private static readonly ScheduleBuilder Instance;
-
-        static ScheduleManager()
-        {
-            NameValueCollection properties = new NameValueCollection
+        private static readonly NameValueCollection Properties = new NameValueCollection
             {
                 { "quartz.serializer.type", "binary" },
                 { "quartz.scheduler.instanceName", "MetaIOScheduler" },
                 { "quartz.jobStore.type", "Quartz.Simpl.RAMJobStore, Quartz" },
             };
 
-            Instance = ScheduleBuilder.Create(properties);
+        private static readonly Lazy<ScheduleBuilder> instance = new Lazy<ScheduleBuilder>(() => ScheduleBuilder.Create(Properties));
+
+        private static ScheduleBuilder Instance
+        {
+            get => instance.Value;
         }
 
         public static void AddSchedulerListener(ISchedulerListener listener)
@@ -39,20 +42,36 @@ namespace ZzzLab.Scheduler
         public static void AddJob<T>(string cronExpression) where T : IJobSchedule
             => Instance.AddJob<T>(cronExpression);
 
-        public static void PauseJob(string name)
-            => Instance.PauseJob(name);
+        public static void PauseJob(string key)
+            => Instance.PauseJob(key);
 
-        public static void ResumeJob(string name)
-            => Instance.ResumeJob(name);
+        public static void ResumeJob(string key)
+            => Instance.ResumeJob(key);
 
-        public static void ReScheduleJob(string name, string seconds)
-            => Instance.ReScheduleJob(name, seconds);
+        public static void ReScheduleJob(string key, string seconds)
+            => Instance.ReScheduleJob(key, seconds);
 
-        public static void ReScheduleJob(string name, int cronExpression)
-            => Instance.ReScheduleJob(name, cronExpression);
+        public static void ReScheduleJob(string key, int cronExpression)
+            => Instance.ReScheduleJob(key, cronExpression);
 
         public static IEnumerable<JobEntiry> GetAllJobs()
-             => Instance.GetAllJobs();
+        {
+            IEnumerable<JobEntiry> jobList =  Instance.GetAllJobs();
+
+            foreach (JobEntiry job in jobList) { 
+                job.Name = Instance.JobList.Find( x => x.Key.EqualsIgnoreCase(job.Key))?.Name;
+            }
+
+            return jobList;
+        }
+
+        public static JobEntiry GetJob(string key)
+        {
+            JobEntiry job = Instance.GetJob(key);
+            job.Name = Instance.JobList.Find(x => x.Key.EqualsIgnoreCase(job.Key))?.Name;
+
+            return job;
+        }
 
         /// <summary>
         /// 스케쥴러 끄기

@@ -5,6 +5,11 @@ namespace ZzzLab.Scheduler
     public interface IJobSchedule : IJob
     {
         /// <summary>
+        /// 스케쥴 고유번호
+        /// </summary>
+        string Key { get; }
+
+        /// <summary>
         /// 스케쥴 그룹
         /// </summary>
         string Group { get; }
