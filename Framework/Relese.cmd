@@ -36,7 +36,7 @@ call .\build.cmd %ApiToken% %version%
 cd ..
 
 cd ZzzLab.Scheduler
-call .\build.cmd %version% %ApiToken%
+call .\build.cmd %ApiToken% %version%
 cd ..
 
 cd ZzzLab.Desktop

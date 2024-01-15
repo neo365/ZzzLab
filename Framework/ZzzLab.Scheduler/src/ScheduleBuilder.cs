@@ -71,7 +71,7 @@ namespace ZzzLab.Scheduler
         {
             if (Activator.CreateInstance(typeof(T)) is IJobSchedule job)
             {
-                IJobDetail jobDetail = BuildJobDetail<T>(job.Group, job.Key, job.Description);
+                IJobDetail jobDetail = BuildJobDetail<T>(job.Group, job.Name, job.Description);
 
                 if (Task.Run(() => Scheduler.CheckExists(jobDetail.Key)).Result) throw new DuplicateItemException(job.Name);
 
@@ -84,7 +84,7 @@ namespace ZzzLab.Scheduler
         {
             if (Activator.CreateInstance(typeof(T)) is IJobSchedule job)
             {
-                IJobDetail jobDetail = BuildJobDetail<T>(job.Group, job.Key, job.Description);
+                IJobDetail jobDetail = BuildJobDetail<T>(job.Group, job.Name, job.Description);
 
                 if (Task.Run(() => Scheduler.CheckExists(jobDetail.Key)).Result) throw new DuplicateItemException(job.Name);
 

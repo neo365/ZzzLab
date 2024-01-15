@@ -6,8 +6,9 @@ namespace ZzzLab.Scheduler.Models
 {
     public class JobEntiry
     {
-        public string Group { set; get; }
         public string Key { set; get; }
+        public string Group { set; get; }
+        public string Name { set; get; }
         public string Description { set; get; }
         public string Status { set; get; }
 
