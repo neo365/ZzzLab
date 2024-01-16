@@ -73,7 +73,7 @@ namespace ZzzLab.Web
 
             string? userId = request.HttpContext.User.Claims.FirstOrDefault((Claim c) => c.Type == "userId")?.Value;
 
-            if(string.IsNullOrWhiteSpace(userId) == false) return userId;
+            if (string.IsNullOrWhiteSpace(userId) == false) return userId;
 
             string? value = GetAuthkey(request);
             if (HasValue(value))

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Xml.Linq;
 using ZzzLab.Data.Configuration;
 
 namespace ZzzLab.Data
@@ -32,7 +31,7 @@ namespace ZzzLab.Data
 
         public static IDBHandler Create(string name)
         {
-            if(string.IsNullOrWhiteSpace(name)) throw new ArgumentNullException(nameof(name));
+            if (string.IsNullOrWhiteSpace(name)) throw new ArgumentNullException(nameof(name));
 
             ConnectionConfig config = DBClient.Connector[name] ?? throw new ArgumentOutOfRangeException(nameof(name));
             return new DataBaseHandler(config);

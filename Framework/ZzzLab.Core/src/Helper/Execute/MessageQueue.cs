@@ -4,13 +4,6 @@ using System.Threading;
 
 namespace ZzzLab.Helper.Execute
 {
-    internal enum QueuePriority : int
-    {
-        Lowest = 0,
-        Normal,
-        Highest
-    }
-
     /// <summary>
     /// 순차적으로 Execute하기 위한 Queue.
     /// </summary>

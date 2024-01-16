@@ -2,7 +2,6 @@
 using Quartz.Impl.Matchers;
 using System.Collections.Generic;
 using System.Linq;
-using System.Xml.Linq;
 using ZzzLab.Scheduler.Models;
 
 namespace ZzzLab.Scheduler
@@ -58,6 +57,7 @@ namespace ZzzLab.Scheduler
             }
             return jobs;
         }
+
         public static JobEntiry GetJob(this IScheduler scheduler, string key)
         {
             foreach (string groupName in GetAllGroups(scheduler))

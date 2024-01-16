@@ -1,10 +1,8 @@
 ﻿using Quartz;
-using Quartz.Util;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using ZzzLab.Scheduler.Models;
 
 namespace ZzzLab.Scheduler
@@ -103,7 +101,7 @@ namespace ZzzLab.Scheduler
             => Instance.Shutdown(waitForJobsToComplete);
 
         public static ScheduleStatus Status()
-            =>  Instance.Status();
+            => Instance.Status();
 
         #region Logger
 

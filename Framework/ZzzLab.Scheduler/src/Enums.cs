@@ -1,6 +1,5 @@
 ﻿namespace ZzzLab.Scheduler
 {
-
     public enum ScheduleStatus : int
     {
         None = 0,
@@ -8,6 +7,7 @@
         Standby = 2,
         Shutdown = 3,
     }
+
     public enum JobType : int
     {
         None = 0,
