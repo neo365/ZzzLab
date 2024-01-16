@@ -3,6 +3,7 @@ using Quartz.Util;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using ZzzLab.Scheduler.Models;
 
@@ -42,24 +43,31 @@ namespace ZzzLab.Scheduler
         public static void AddJob<T>(string cronExpression) where T : IJobSchedule
             => Instance.AddJob<T>(cronExpression);
 
+        public static void DeleteJob(string key)
+            => Instance.DeleteJob(key);
+
         public static void PauseJob(string key)
             => Instance.PauseJob(key);
 
         public static void ResumeJob(string key)
             => Instance.ResumeJob(key);
 
-        public static void ReScheduleJob(string key, string seconds)
+        public static void ReScheduleJob(string key, int seconds)
             => Instance.ReScheduleJob(key, seconds);
 
-        public static void ReScheduleJob(string key, int cronExpression)
+        public static void ReScheduleJob(string key, string cronExpression)
             => Instance.ReScheduleJob(key, cronExpression);
 
         public static IEnumerable<JobEntiry> GetAllJobs()
         {
-            IEnumerable<JobEntiry> jobList =  Instance.GetAllJobs();
+            IEnumerable<JobEntiry> jobList = Instance.GetAllJobs();
 
-            foreach (JobEntiry job in jobList) { 
-                job.Name = Instance.JobList.Find( x => x.Key.EqualsIgnoreCase(job.Key))?.Name;
+            if (jobList != null && jobList.Any())
+            {
+                foreach (JobEntiry job in jobList)
+                {
+                    job.Name = Instance.JobList.Find(x => x.Key.EqualsIgnoreCase(job.Key))?.Name;
+                }
             }
 
             return jobList;
@@ -68,10 +76,24 @@ namespace ZzzLab.Scheduler
         public static JobEntiry GetJob(string key)
         {
             JobEntiry job = Instance.GetJob(key);
+            if (job == null) return null;
             job.Name = Instance.JobList.Find(x => x.Key.EqualsIgnoreCase(job.Key))?.Name;
 
             return job;
         }
+
+        /// <summary>
+        /// 스케쥴러 On
+        /// </summary>
+        /// <param name="seconds"> delay</param>
+        public static void Start(int seconds = 0)
+            => Instance.Start(seconds);
+
+        /// <summary>
+        /// 스케쥴러 Standby
+        /// </summary>
+        public static void Standby()
+            => Instance.Standby();
 
         /// <summary>
         /// 스케쥴러 끄기
@@ -79,6 +101,9 @@ namespace ZzzLab.Scheduler
         /// <param name="waitForJobsToComplete"></param>
         public static void Shutdown(bool waitForJobsToComplete = false)
             => Instance.Shutdown(waitForJobsToComplete);
+
+        public static ScheduleStatus Status()
+            =>  Instance.Status();
 
         #region Logger
 

@@ -1,7 +1,6 @@
 ﻿using Quartz;
 using Quartz.Impl;
 using Quartz.Logging;
-using Quartz.Util;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -16,11 +15,11 @@ namespace ZzzLab.Scheduler
     /// </summary>
     internal class ScheduleBuilder
     {
-        private readonly IScheduler Scheduler;
+        private IScheduler Scheduler { set; get; }
 
         public NameValueCollection Properties { get; }
 
-        public List<IJobSchedule> JobList { get; }  = new List<IJobSchedule>();
+        public List<IJobSchedule> JobList { get; } = new List<IJobSchedule>();
 
         private ScheduleBuilder(NameValueCollection properties = null)
         {
@@ -31,18 +30,51 @@ namespace ZzzLab.Scheduler
 
             if (this.Properties == null || this.Properties.Count == 0)
             {
+                // Do Nothng
             }
 
+            Initialize();
+        }
+
+        private void Initialize()
+        {
             StdSchedulerFactory factory = new StdSchedulerFactory(this.Properties);
             this.Scheduler = factory.GetScheduler().ConfigureAwait(false).GetAwaiter().GetResult();
-            this.Scheduler.Start().ConfigureAwait(false).GetAwaiter().GetResult();
         }
 
         public static ScheduleBuilder Create(NameValueCollection props = null)
-            => new ScheduleBuilder(props);
+            => new ScheduleBuilder(props).Standby();
+
+        internal ScheduleBuilder Start(int seconds = 0)
+        {
+            ScheduleStatus status = this.Status();
+
+            if (status == ScheduleStatus.Started) return this;
+            else if (status == ScheduleStatus.Shutdown) this.Initialize();
+
+            if (seconds > 0) this.Scheduler.StartDelayed(TimeSpan.FromSeconds(seconds)).ConfigureAwait(false).GetAwaiter().GetResult();
+            else this.Scheduler.Start().ConfigureAwait(false).GetAwaiter().GetResult();
+
+            return this;
+        }
+
+        internal ScheduleBuilder Standby()
+        {
+            this.Scheduler.Standby().ConfigureAwait(false).GetAwaiter().GetResult();
+            return this;
+        }
 
         internal void Shutdown(bool waitForJobsToComplete = false)
             => this.Scheduler.Shutdown(waitForJobsToComplete).ConfigureAwait(false).GetAwaiter().GetResult();
+
+        internal ScheduleStatus Status()
+        {
+            if (this.Scheduler.IsShutdown) return ScheduleStatus.Shutdown;
+            else if (this.Scheduler.IsStarted) return ScheduleStatus.Started;
+            else if (this.Scheduler.InStandbyMode) return ScheduleStatus.Standby;
+
+            return ScheduleStatus.None;
+        }
 
         private IJobDetail BuildJobDetail<T>(string group, string name, string description) where T : IJobSchedule
         {

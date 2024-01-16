@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using Quartz;
 using System;
 
 namespace ZzzLab.Scheduler.Models
@@ -10,7 +11,9 @@ namespace ZzzLab.Scheduler.Models
         public string Group { set; get; }
         public string Name { set; get; }
         public string Description { set; get; }
-        public string Status { set; get; }
+
+        [JsonConverter(typeof(StringEnumConverter))]
+        public TriggerState Status { set; get; } = TriggerState.None;
 
         [JsonConverter(typeof(StringEnumConverter))]
         public JobType JobType { set; get; }

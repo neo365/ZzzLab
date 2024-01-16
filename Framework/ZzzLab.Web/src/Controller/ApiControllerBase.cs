@@ -6,10 +6,10 @@ using ZzzLab.Web.Models;
 namespace ZzzLab.Web.Controller
 {
     [Produces("application/json")]
-    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(RestItemResponse<object>))]
-    [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(RestErrorResult))]
-    [ProducesResponseType(StatusCodes.Status403Forbidden, Type = typeof(RestErrorResult))]
-    [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(RestErrorResult))]
+    //[ProducesResponseType(StatusCodes.Status200OK, Type = typeof(RestItemResponse<object>))]
+    //[ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(RestErrorResult))]
+    //[ProducesResponseType(StatusCodes.Status403Forbidden, Type = typeof(RestErrorResult))]
+    //[ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(RestErrorResult))]
     public abstract class ApiControllerBase : ControllerBase
     {
         // 한번 가져온 파라미터는 저장해놓고 쓰자.
