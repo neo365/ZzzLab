@@ -41,13 +41,14 @@ namespace ZzzLab.Data
         {
             if (string.IsNullOrWhiteSpace(connectionString)) throw new ArgumentNullException(nameof(connectionString));
 
-            return this.Config.ServerType switch
+            switch (server)
             {
-                DataBaseType.Oracle => new OracleDBHandler(connectionString),
-                DataBaseType.MSSql => new MSSqlDBHandler(connectionString),
-                DataBaseType.PostgreSQL => new PostgreSQLDBHandler(connectionString),
-                _ => throw new NotSupportedException(),
+                case DataBaseType.Oracle: return new OracleDBHandler(connectionString);
+                case DataBaseType.MSSql: return new MSSqlDBHandler(connectionString);
+                case DataBaseType.PostgreSQL: return new PostgreSQLDBHandler(connectionString);
             };
+
+            throw new NotSupportedException();
         }
 
         #endregion Construct

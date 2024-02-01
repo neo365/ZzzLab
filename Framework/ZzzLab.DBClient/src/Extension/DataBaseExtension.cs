@@ -164,16 +164,17 @@ namespace ZzzLab.Data
 
         public static Type ToConnectionType(this DataBaseType serverType)
         {
-            return serverType switch
+            switch (serverType)
             {
-                DataBaseType.PostgreSQL => typeof(Npgsql.NpgsqlConnection),
-                DataBaseType.MSSql => typeof(System.Data.SqlClient.SqlConnection),
-                DataBaseType.Oracle => typeof(Oracle.ManagedDataAccess.Client.OracleConnection),
-                DataBaseType.MySql => typeof(MySql.Data.MySqlClient.MySqlConnection),
-                DataBaseType.MariaDB => typeof(MySql.Data.MySqlClient.MySqlConnection),
-                DataBaseType.SQLite => typeof(System.Data.SQLite.SQLiteConnection),
-                _ => throw new NotSupportedException(),
+                case DataBaseType.PostgreSQL: return typeof(Npgsql.NpgsqlConnection);
+                case DataBaseType.MSSql: return typeof(System.Data.SqlClient.SqlConnection);
+                case DataBaseType.Oracle: return typeof(Oracle.ManagedDataAccess.Client.OracleConnection);
+                case DataBaseType.MySql: return typeof(MySql.Data.MySqlClient.MySqlConnection);
+                case DataBaseType.MariaDB: return typeof(MySql.Data.MySqlClient.MySqlConnection);
+                case DataBaseType.SQLite: return typeof(System.Data.SQLite.SQLiteConnection);
             };
+
+            throw new NotSupportedException();
         }
     }
 }

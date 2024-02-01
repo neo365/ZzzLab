@@ -162,7 +162,7 @@ namespace ZzzLab.Data.Handler
 
                         if (queries.Count > 1)
                         {
-                            cmd.Transaction ??= cmd.Connection?.BeginTransaction();
+                            cmd.Transaction = cmd.Transaction ?? cmd.Connection?.BeginTransaction();
                         }
 
                         cmd.Prepare();  // prepare the command, which is significantly faster

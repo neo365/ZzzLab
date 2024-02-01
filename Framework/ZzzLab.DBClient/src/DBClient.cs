@@ -46,16 +46,17 @@ namespace ZzzLab.Data
 
         public static string CreateConnectionString(DataBaseType serverType, string host, int port, string database, string userid, string password, int timeout, bool journalMode = false)
         {
-            return serverType switch
+            switch (serverType)
             {
-                DataBaseType.PostgreSQL => PostgreSQLDBHandler.CreateConnectionString(host, port, database, userid, password, timeout),
-                DataBaseType.MSSql => MSSqlDBHandler.CreateConnectionString(host, port, database, userid, password, timeout),
-                DataBaseType.Oracle => OracleDBHandler.CreateConnectionString(host, port, database, userid, password, timeout),
-                DataBaseType.MariaDB => MySqlDBHandler.CreateConnectionString(host, port, database, userid, password, timeout),
-                DataBaseType.MySql => MySqlDBHandler.CreateConnectionString(host, port, database, userid, password, timeout),
-                DataBaseType.SQLite => SQLiteDBHandler.CreateConnectionString(database, password, journalMode, timeout),
-                _ => throw new NotSupportedException(),
-            }; ;
+                case DataBaseType.PostgreSQL: return PostgreSQLDBHandler.CreateConnectionString(host, port, database, userid, password, timeout);
+                case DataBaseType.MSSql: return MSSqlDBHandler.CreateConnectionString(host, port, database, userid, password, timeout);
+                case DataBaseType.Oracle: return OracleDBHandler.CreateConnectionString(host, port, database, userid, password, timeout);
+                case DataBaseType.MariaDB: return MySqlDBHandler.CreateConnectionString(host, port, database, userid, password, timeout);
+                case DataBaseType.MySql: return MySqlDBHandler.CreateConnectionString(host, port, database, userid, password, timeout);
+                case DataBaseType.SQLite: return SQLiteDBHandler.CreateConnectionString(database, password, journalMode, timeout);
+            };
+
+            throw new NotSupportedException();
         }
 
         public static string GetQuery(string section, string label)
