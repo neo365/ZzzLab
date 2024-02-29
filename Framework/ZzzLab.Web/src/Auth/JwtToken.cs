@@ -14,13 +14,13 @@ namespace ZzzLab.AspCore.Common
             get => _Instance.Value;
         }
 
-        public static string? GenerateToken(IReadOnlyDictionary<string, string> payloadContents)
+        public static string GenerateToken(IReadOnlyDictionary<string, string> payloadContents)
             => Instance.Encode(payloadContents);
 
         public static string? DecodeToken(string token)
             => Instance.Decode(token);
 
-        private string? Encode(IReadOnlyDictionary<string, string> payloadContents)
+        private string Encode(IReadOnlyDictionary<string, string> payloadContents)
         {
             if (Configurator.Setting?.JWTConfig == null) throw new InitializeException("JWT settings not found.");
             if (string.IsNullOrWhiteSpace(Configurator.Setting.JWTConfig.SigningKey)) throw new InitializeException("JWT settings not found.");

@@ -152,7 +152,7 @@ namespace ZzzLab.Data
                     using (NpgsqlCommand cmd = conn.CreateCommand())
                     {
                         cmd.CommandTimeout = queries.CommandTimeout;
-                        cmd.Prepare();
+                        //cmd.Prepare();
 
                         if (queries.Count > 1 && cmd.Transaction == null) cmd.Transaction = cmd.Connection.BeginTransaction();
 
