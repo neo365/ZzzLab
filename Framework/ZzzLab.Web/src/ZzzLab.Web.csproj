@@ -27,7 +27,7 @@
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
 		<PackageReference Include="Swashbuckle.AspNetCore.Filters" Version="8.0.1" />
 		<PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" Version="6.5.0" />
-		<PackageReference Include="ZzzLab.Core" Version="0.2124.1126.3129" />
+		<PackageReference Include="ZzzLab.Core" Version="0.2124.1311.1120" />
 	</ItemGroup>
 	
 	<ItemGroup>

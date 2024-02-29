@@ -25,12 +25,12 @@
 	
 	<ItemGroup>
 		<PackageReference Include="MySql.Data" Version="8.2.0" />
-		<PackageReference Include="Npgsql" Version="8.0.1" />
+		<PackageReference Include="Npgsql" Version="8.0.2" />
 		<PackageReference Include="NSQLFormatter" Version="2.0.0" />
 		<PackageReference Include="Oracle.ManagedDataAccess.Core" Version="2.19.220" />
 		<PackageReference Include="System.Configuration.ConfigurationManager" Version="8.0.0" />
 		<PackageReference Include="System.Data.SqlClient" Version="4.8.6" />
 		<PackageReference Include="System.Data.SQLite.Core" Version="1.0.118" />
-		<PackageReference Include="ZzzLab.Core" Version="0.2124.1126.3129" />
+		<PackageReference Include="ZzzLab.Core" Version="0.2124.1311.1120" />
 	</ItemGroup>
 </Project>
