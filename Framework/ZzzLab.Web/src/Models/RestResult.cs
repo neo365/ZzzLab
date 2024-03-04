@@ -67,7 +67,7 @@ namespace ZzzLab.Web.Models
                 };
                 return GetResult(res);
             }
-            if (item is DataRow row)
+            else if (item is DataRow row)
             {
                 RestItemResponse<dynamic> res = new RestItemResponse<dynamic>()
                 {
@@ -99,10 +99,10 @@ namespace ZzzLab.Web.Models
         }
 
         public static IActionResult Ok(int code = BASE_OK_CODE, string? trackingId = null)
-            => ResultWithItem<string>(HttpStatusCode.OK, true, null, null, code, trackingId);
+            => ResultWithItem<string>(HttpStatusCode.OK, true, string.Empty, null, code, trackingId);
 
         public static IActionResult OkWithMessage(string? message, int code = BASE_OK_CODE, string? trackingId = null)
-            => ResultWithItem<string>(HttpStatusCode.OK, true, null, message, code, trackingId);
+            => ResultWithItem<string>(HttpStatusCode.OK, true, string.Empty, message, code, trackingId);
 
         public static IActionResult OkWithItem<T>(T item, string? message = null, int code = BASE_OK_CODE, string? trackingId = null)
             => ResultWithItem<T>(HttpStatusCode.OK, true, item, message, code, trackingId);
@@ -225,13 +225,13 @@ namespace ZzzLab.Web.Models
         }
 
         public static IActionResult Grid<T>(IEnumerable<T> data, int recordsTotal = -1, int recordsFiltered = -1, int code = BASE_OK_CODE, string? trackingId = null)
-            => Grid(Enumerable.Empty<object>(), data, recordsTotal, recordsFiltered, code, trackingId);
+            => Grid([], data, recordsTotal, recordsFiltered, code, trackingId);
 
         public static IActionResult Grid<T>(IEnumerable<object>? headers, IEnumerable<T> data, int recordsTotal = -1, int recordsFiltered = -1, int code = BASE_OK_CODE, string? trackingId = null)
         {
             if (data == null || data.Any() == false)
             {
-                data = Enumerable.Empty<T>();
+                data = [];
                 recordsFiltered = 0;
             }
 
@@ -270,6 +270,6 @@ namespace ZzzLab.Web.Models
         }
 
         public static IActionResult Empty(string? trackingId = null)
-            => Grid<dynamic>(null, Enumerable.Empty<dynamic>(), 0, 0, BASE_OK_CODE, trackingId);
+            => Grid<dynamic>(null, [], 0, 0, BASE_OK_CODE, trackingId);
     }
 }
