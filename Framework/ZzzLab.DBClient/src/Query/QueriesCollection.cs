@@ -7,7 +7,7 @@ using ZzzLab.Collections;
 
 namespace ZzzLab.Data
 {
-    public class QueryCollection : CollectionsBase<Query>, IEnumerable<Query>, IEnumerable, ICloneable
+    public class QueriesCollection : CollectionsBase<Query>, IEnumerable<Query>, IEnumerable, ICloneable
     {
         /// <summary>
         /// 모튼 쿼리셋의 타임아웃시간을 더한값이 전체 값이 된다.
@@ -26,22 +26,22 @@ namespace ZzzLab.Data
             }
         }
 
-        public QueryCollection()
+        public QueriesCollection()
         {
         }
 
-        public QueryCollection(IEnumerable<Query> collection) : this()
+        public QueriesCollection(IEnumerable<Query> collection) : this()
         {
             if (collection != null && collection.Any()) this.AddRange(collection);
         }
 
-        public static QueryCollection Create() => new QueryCollection(null);
+        public static QueriesCollection Create() => new QueriesCollection(null);
 
-        public static QueryCollection Create(params Query[] collection)
-            => new QueryCollection((IEnumerable<Query>)collection);
+        public static QueriesCollection Create(params Query[] collection)
+            => new QueriesCollection((IEnumerable<Query>)collection);
 
-        public static QueryCollection Create(IEnumerable<Query> collection)
-            => new QueryCollection(collection);
+        public static QueriesCollection Create(IEnumerable<Query> collection)
+            => new QueriesCollection(collection);
 
         /// <summary>
         /// QuerySet을 추가 한다.
@@ -90,9 +90,9 @@ namespace ZzzLab.Data
 
         #region ICloneable
 
-        public QueryCollection Clone()
+        public QueriesCollection Clone()
         {
-            QueryCollection collection = QueryCollection.Create();
+            QueriesCollection collection = QueriesCollection.Create();
 
             foreach (Query query in this.Items)
             {

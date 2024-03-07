@@ -108,7 +108,7 @@ namespace ZzzLab.Data
         /// </summary>
         /// <param name="queries"></param>
         /// <returns></returns>
-        int Excute(QueryCollection queries);
+        int Excute(QueriesCollection queries);
 
         /// <summary>
         /// 쿼리문을 실행한다. 쿼리가 여러개일경우 트랜젝션 처리된다.
@@ -155,5 +155,7 @@ namespace ZzzLab.Data
         /// <param name="label"></param>
         /// <returns></returns>
         string GetQuery(string section, string label);
+
+        string GetQuery(string section, string label, QueryParameterCollection parameters);
     }
 }

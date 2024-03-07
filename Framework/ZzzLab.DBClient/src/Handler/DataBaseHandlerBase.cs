@@ -101,9 +101,9 @@ namespace ZzzLab.Data
             => Excute(Query.Create(commandText, parameters));
 
         public virtual int Excute(params Query[] queries)
-            => Excute(QueryCollection.Create(queries));
+            => Excute(QueriesCollection.Create(queries));
 
-        public abstract int Excute(QueryCollection queries);
+        public abstract int Excute(QueriesCollection queries);
 
         #endregion Execute
 
@@ -127,6 +127,21 @@ namespace ZzzLab.Data
 
         public string GetQuery(string section, string label)
             => DBClient.Queries.Get(section, label);
+
+        public string GetQuery(string section, string label, QueryParameterCollection parameters)
+        {
+            string sql = DBClient.Queries.Get(section, label);
+
+            if (parameters != null && parameters.Count > 0)
+            {
+                foreach (QueryParameter p in parameters)
+                {
+                    sql = sql.ReplaceIgnoreCase("${" + p.Name + "}", p.Value?.ToString());
+                }
+            }
+
+            return sql;
+        }
 
         #region Utils
 

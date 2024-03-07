@@ -142,7 +142,7 @@ namespace ZzzLab.Data
 
         #region Excute
 
-        public override int Excute(QueryCollection queries)
+        public override int Excute(QueriesCollection queries)
         {
             if (queries == null || queries.Any() == false) return 0;
 

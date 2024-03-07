@@ -6,7 +6,7 @@ using ZzzLab.Collections;
 
 namespace ZzzLab.Data
 {
-    public sealed class QueryParameterCollection : CollectionsBase<QueryParameter>, ICloneable
+    public sealed class QueryParameterCollection : CollectionsBase<QueryParameter>, ICopyable, ICloneable
     {
         public QueryParameter this[string name]
         {
@@ -156,6 +156,8 @@ namespace ZzzLab.Data
         public int IndexOf(string name)
             => this.Items.FindIndex(0, x => x.Name.EqualsIgnoreCase(name));
 
+        #region ICopyable
+
         public QueryParameterCollection CopyTo(QueryParameterCollection target)
         {
             if (target == null) throw new ArgumentNullException(nameof(target));
@@ -169,6 +171,28 @@ namespace ZzzLab.Data
 
             return target;
         }
+
+        public QueryParameterCollection CopyFrom(QueryParameterCollection source)
+        {
+            if (source == null) throw new ArgumentNullException(nameof(source));
+
+            foreach (QueryParameter p in source)
+            {
+                if (source.Any(x => x.Name.EqualsIgnoreCase(p.Name))) source.RemoveAt(p.Name);
+
+                source.Add(p.Name, p.Value, p.Direction);
+            }
+
+            return this;
+        }
+
+        object ICopyable.CopyTo(object target)
+            => this.CopyTo((QueryParameterCollection)target);
+
+        object ICopyable.CopyFrom(object source)
+            => this.CopyFrom((QueryParameterCollection)source);
+
+        #endregion ICopyable
 
         #region ICloneable
 

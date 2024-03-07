@@ -94,7 +94,7 @@ namespace ZzzLab.Data
         public int Excute(string commandText, QueryParameterCollection parameters)
             => this.Handler.Excute(commandText, parameters);
 
-        public int Excute(QueryCollection queries)
+        public int Excute(QueriesCollection queries)
             => this.Handler.Excute(queries);
 
         public bool BulkCopy(DataTable table)
