@@ -27,10 +27,6 @@ cd ZzzLab.Core
 call .\build.cmd %version% %ApiToken%
 cd ..
 
-cd ZzzLab.Models
-call .\build.cmd %version% %ApiToken%
-cd ..
-
 cd ZzzLab.DBClient
 call .\build.cmd %ApiToken% %version%
 cd ..
@@ -49,14 +45,6 @@ cd ..
 
 cd ZzzLab.Web
 call .\build.cmd %ApiToken% %version%
-cd ..
-
-cd ZzzLab.Diff
-call .\build.cmd %version% %ApiToken%
-cd ..
-
-cd ZzzLab.Crawler
-call .\build.cmd %version% %ApiToken%
 cd ..
 
 git commit -a -m "Auto Build: "%version% &
