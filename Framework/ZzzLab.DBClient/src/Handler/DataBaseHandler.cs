@@ -110,6 +110,9 @@ namespace ZzzLab.Data
         public string GetQuery(string section, string label)
             => this.Handler.GetQuery(section, label);
 
+        public string GetQuery(string section, string label, QueryParameterCollection parameters)
+            => this.Handler.GetQuery(section, label, parameters);
+
         #region IDisposable
 
         public void Dispose()
