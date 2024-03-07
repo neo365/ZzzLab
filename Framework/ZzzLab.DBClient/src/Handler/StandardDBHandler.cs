@@ -24,16 +24,17 @@ namespace ZzzLab.Data.Handler
 
         protected override IDbConnection CreateConnection()
         {
-            return this.ServerType switch
+            switch (this.ServerType)
             {
-                DataBaseType.PostgreSQL => new NpgsqlConnection(this.ConnectionString),
-                DataBaseType.MSSql => new SqlConnection(this.ConnectionString),
-                DataBaseType.Oracle => new OracleConnection(this.ConnectionString),
-                DataBaseType.MySql => new MySqlConnection(this.ConnectionString),
-                DataBaseType.MariaDB => new MySqlConnection(this.ConnectionString),
-                DataBaseType.SQLite => new SQLiteConnection(this.ConnectionString),
-                _ => throw new NotSupportedException(),
+                case DataBaseType.PostgreSQL: return new NpgsqlConnection(this.ConnectionString);
+                case DataBaseType.MSSql: return new SqlConnection(this.ConnectionString);
+                case DataBaseType.Oracle: return new OracleConnection(this.ConnectionString);
+                case DataBaseType.MySql: return new MySqlConnection(this.ConnectionString);
+                case DataBaseType.MariaDB: return new MySqlConnection(this.ConnectionString);
+                case DataBaseType.SQLite: return new SQLiteConnection(this.ConnectionString);
             };
+
+            throw new NotSupportedException();
         }
 
         protected override void CrearConnection(IDbConnection conn)
@@ -139,7 +140,7 @@ namespace ZzzLab.Data.Handler
 
                         if (queries.Count > 1)
                         {
-                            cmd.Transaction ??= cmd.Connection?.BeginTransaction();
+                            cmd.Transaction = cmd.Transaction ?? cmd.Connection?.BeginTransaction();
                         }
 
                         try

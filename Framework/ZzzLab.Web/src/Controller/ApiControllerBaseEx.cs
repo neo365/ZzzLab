@@ -6,13 +6,16 @@ namespace ZzzLab.Web.Controller
     public abstract class ApiControllerBaseEx : ApiControllerBase
     {
         #region OK
+        [NonAction]
+        public new IActionResult Ok()
+            => this.OK();
 
         [NonAction]
         public virtual IActionResult OK()
             => this.OkResult();
 
         [NonAction]
-        public virtual IActionResult OK(string message)
+        public virtual IActionResult Ok(string message)
             => this.OkResult(message);
 
         [NonAction]
@@ -20,7 +23,7 @@ namespace ZzzLab.Web.Controller
             => this.OkResult<T>(item);
 
         [NonAction]
-        public virtual IActionResult OK<T>(T item, string message)
+        public virtual IActionResult Ok<T>(T item, string message)
             => this.OkResult<T>(item, message);
 
         #endregion OK
