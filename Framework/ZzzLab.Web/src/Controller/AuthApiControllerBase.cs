@@ -8,7 +8,7 @@ namespace ZzzLab.Web.Controller
     [Produces("application/json")]
     [ProducesResponseType(StatusCodes.Status401Unauthorized, Type = typeof(RestErrorResult))]
     [Authorize]
-    public abstract partial class AuthApiControllerBase : ApiControllerBaseEx
+    public abstract partial class AuthApiControllerBase : ApiControllerBase
     {
         /// <summary>
         /// 인증키를 가져온다

@@ -4,7 +4,7 @@ using System.Dynamic;
 namespace ZzzLab.Web.Controller
 {
     [Produces("application/json")]
-    public abstract class ApiControllerBase : ControllerBase
+    public abstract partial class ApiControllerBase : ControllerBase
     {
         // 한번 가져온 파라미터는 저장해놓고 쓰자.
         // 같은 일을 두번 하지는 말자.

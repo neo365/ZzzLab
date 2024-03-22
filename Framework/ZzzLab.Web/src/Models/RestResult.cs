@@ -10,7 +10,7 @@ using ZzzLab.Web.Models.Auth;
 
 namespace ZzzLab.Web.Models
 {
-    public static class RestResult
+    public static partial class RestResult
     {
         public const int BASE_OK_CODE = 2000;
         public const int BASE_FAIL_CODE = 2000;
@@ -171,10 +171,16 @@ namespace ZzzLab.Web.Models
         public static IActionResult Unauthorized(string? message, string? trackingId = null)
             => Problem(HttpStatusCode.Unauthorized, message, trackingId: trackingId);
 
-        public static IActionResult NotFound(string? trackingId = null)
-             => NotFound(null, trackingId);
+        public static IActionResult Forbidden(string? trackingId = null)
+            => Forbidden(null, trackingId);
 
-        public static IActionResult NotFound(string? message, string? trackingId = null)
+        public static IActionResult Forbidden(string? message, string? trackingId = null)
+            => Problem(HttpStatusCode.Forbidden, message, trackingId: trackingId);
+
+        public static IActionResult PageNotFound(string? trackingId = null)
+            => PageNotFound(null, trackingId);
+
+        public static IActionResult PageNotFound(string? message, string? trackingId = null)
             => Problem(HttpStatusCode.NotFound, message, trackingId: trackingId);
 
         public static IActionResult Problem(HttpStatusCode statusCode, string? message, string? description = null, int code = BASE_PROBLEM_CODE, string? trackingId = null)
