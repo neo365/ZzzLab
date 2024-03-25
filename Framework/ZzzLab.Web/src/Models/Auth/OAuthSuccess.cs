@@ -5,7 +5,7 @@ using ZzzLab.Models.Auth;
 
 namespace ZzzLab.Web.Models.Auth
 {
-    public class OAuthSuccess<T> where T : BaseUserEntity
+    public class OAuthSuccess<T> where T : UserEntity
     {
         [JsonProperty(PropertyName = "access_token")]
         [JsonPropertyName("access_token")]
