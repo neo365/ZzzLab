@@ -1,3 +1,5 @@
+using ZzzLab.Models.Auth;
+
 namespace ZzzLab.Models.Auth
 {
     /// <summary>
@@ -23,21 +25,6 @@ namespace ZzzLab.Models.Auth
         public virtual string? UserAgent { set; get; }
 
         /// <summary>
-        /// 마지막 로그인
-        /// </summary>
-        public virtual DateTimeOffset? LastLogOn { set; get; }
-
-        /// <summary>
-        /// 마지막 로그오프
-        /// </summary>
-        public virtual DateTimeOffset? LastLogOff { set; get; }
-
-        /// <summary>
-        /// 로그인 타입
-        /// </summary>
-        public string? LoginType { set; get; }
-
-        /// <summary>
         /// 로그인 메모
         /// </summary>
         public string? LoginMemo { set; get; }
@@ -60,9 +47,6 @@ namespace ZzzLab.Models.Auth
             target.Uuid = this.Uuid;
             target.LoginIP = this.LoginIP;
             target.UserAgent = this.UserAgent;
-            target.LastLogOn = this.LastLogOn;
-            target.LastLogOff = this.LastLogOff;
-            target.LoginType = this.LoginType;
             target.LoginMemo = this.LoginMemo;
 
             return target;
@@ -84,9 +68,6 @@ namespace ZzzLab.Models.Auth
             this.Uuid = source.Uuid;
             this.LoginIP = source.LoginIP;
             this.UserAgent = source.UserAgent;
-            this.LastLogOn = source.LastLogOn;
-            this.LastLogOff = source.LastLogOff;
-            this.LoginType = source.LoginType;
             this.LoginMemo = source.LoginMemo;
 
             return this;

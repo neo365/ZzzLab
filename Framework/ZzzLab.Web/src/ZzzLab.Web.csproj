@@ -27,10 +27,14 @@
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
 		<PackageReference Include="Swashbuckle.AspNetCore.Filters" Version="8.0.1" />
 		<PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" Version="6.5.0" />
-		<PackageReference Include="ZzzLab.Core" Version="0.2124.1335.2729" />
+		<PackageReference Include="ZzzLab.Core" Version="0.2124.1335.2814" />
 	</ItemGroup>
 	
 	<ItemGroup>
 	  <Folder Include="Crypt\" />
+	</ItemGroup>
+	
+	<ItemGroup>
+	  <ProjectReference Include="..\..\ZzzLab.Core\src\ZzzLab.Core.csproj" />
 	</ItemGroup>
 </Project>
