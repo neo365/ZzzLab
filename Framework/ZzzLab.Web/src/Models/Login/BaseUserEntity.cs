@@ -1,9 +1,10 @@
 ﻿namespace ZzzLab.Models.Auth
 {
     public class BaseUserEntity : ICopyable, ICloneable
-    {/// <summary>
-     /// 사용자 아이디
-     /// </summary>
+    {
+        /// <summary>
+        /// 사용자 아이디
+        /// </summary>
         public string? UserId { set; get; }
 
         /// <summary>

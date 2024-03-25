@@ -8,7 +8,7 @@ namespace ZzzLab.Web.Models
 
         public uint PageRow { set; get; } = 20;
 
-        public IEnumerable<GridColumn> Columns { set; get; } = Enumerable.Empty<GridColumn>();
+        public IEnumerable<GridColumn> Columns { set; get; } = [];
 
         public bool GetWhereQuery(out string whereQuery, out string orderQuery, out string message)
         {
