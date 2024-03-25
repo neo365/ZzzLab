@@ -11,7 +11,7 @@ namespace ZzzLab.Web.Models
         /// </summary>
         [JsonPropertyName("error")]
         [JsonProperty(PropertyName = "error", NullValueHandling = NullValueHandling.Ignore)]
-        public IEnumerable<ExceptionInfo> Error { set; get; } = Enumerable.Empty<ExceptionInfo>();
+        public IEnumerable<ExceptionInfo> Error { set; get; } = [];
 
         #region To Convertor
 

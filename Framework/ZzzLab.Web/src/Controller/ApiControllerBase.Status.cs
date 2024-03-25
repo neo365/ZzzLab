@@ -1,9 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using ZzzLab.Web.Models;
 
 namespace ZzzLab.Web.Controller
@@ -16,7 +11,7 @@ namespace ZzzLab.Web.Controller
         /// <returns></returns>
         [NonAction]
         public new IActionResult BadRequest()
-            =>  RestResult.BadRequest(this.HttpContext.TraceIdentifier);
+            => RestResult.BadRequest(this.HttpContext.TraceIdentifier);
 
         /// <summary>
         /// Http Status : 400
@@ -43,7 +38,6 @@ namespace ZzzLab.Web.Controller
         [NonAction]
         public IActionResult Unauthorized(string message)
             => RestResult.Unauthorized(message, this.HttpContext.TraceIdentifier);
-
 
         /// <summary>
         /// Http Status : 403
@@ -83,6 +77,7 @@ namespace ZzzLab.Web.Controller
         /// Http Status : 404
         /// </summary>
         /// <returns></returns>
+        [NonAction]
         public new IActionResult NotFound()
             => this.PageNotFound();
 

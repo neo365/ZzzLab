@@ -83,6 +83,7 @@ namespace ZzzLab.Web.Controller
         #endregion Fail
 
         #region Problem
+
         [NonAction]
         public IActionResult Problem(Exception ex)
             => this.Fail(ex);
@@ -90,6 +91,7 @@ namespace ZzzLab.Web.Controller
         [NonAction]
         public virtual IActionResult Fail(Exception ex)
             => RestResult.Fail(ex, RestResult.BASE_EXCEPTION_CODE, this.HttpContext.TraceIdentifier);
-        #endregion
+
+        #endregion Problem
     }
 }
