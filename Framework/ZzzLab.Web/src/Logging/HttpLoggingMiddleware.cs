@@ -134,12 +134,20 @@ namespace ZzzLab.Web.Logging
                     await response.Body.WriteAsync(responseMs.ToArray());
                 }
             }
+            else if (responseMs.Length == 0 && response.StatusCode == StatusCodes.Status304NotModified) { }
             else await response.Body.WriteAsync(responseMs.ToArray());
 
             if (Activator.CreateInstance(typeof(T)) is IHttpLoggerCommand responseCommand)
             {
-                responseCommand.SetResponse(responseLog);
-                LoggerQueue.Enqueue(responseCommand);
+                try
+                {
+                    responseCommand.SetResponse(responseLog);
+                    LoggerQueue.Enqueue(responseCommand);
+                }
+                catch(Exception ex)
+                {
+                    Logger.Warning(ex);
+                }
             }
         }
 

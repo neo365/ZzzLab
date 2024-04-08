@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data;
+using System.Diagnostics;
 using System.Linq;
 
 namespace ZzzLab.Data
@@ -75,31 +76,47 @@ namespace ZzzLab.Data
         /// <returns></returns>
         public override string ToString()
         {
-            QueryParameterCollection parameters = Parameters.Clone();
             string commandText = this.CommandText;
-            if (parameters.Count > 0)
+
+            try
             {
-                foreach (string key in parameters.Keys)
+                QueryParameterCollection parameters = Parameters.Clone();
+
+                if (parameters.Count > 0)
                 {
-                    try
+                    foreach (string key in parameters.Keys)
                     {
-                        string value = string.Empty;
-                        if (parameters[key] != null)
+                        try
                         {
-                            object obj = parameters[key].Value;
+                            string value = string.Empty;
+                            if (parameters[key] != null)
+                            {
+                                object obj = parameters[key].Value;
 
-                            if (obj == null) value = null;
-                            else if (obj is DateTime dt) value = dt.ToDateTime().To24Hours();
-                            else value = $"{obj}";
+                                if (obj == null) value = null;
+                                else if (obj is DateTime dt)
+                                {
+                                    value = dt.To24Hours();
+                                }
+                                else value = $"{obj}";
+                            }
+
+                            commandText = commandText.ReplaceIgnoreCase($"${{key}}", $"{(string.IsNullOrEmpty(value) ? string.Empty : $"{value}")}")
+                                                 .ReplaceIgnoreCase($"#{{key}}", $"{(value == null ? "null" : $"'{value}'")}")
+                                                 .ReplaceIgnoreCase($"@{key}", $"{(value == null ? "null" : $"'{value}'")}");
+
+                            commandText = SQLUtils.Formatter(commandText);
                         }
-
-                        commandText = commandText.ReplaceIgnoreCase($"${{key}}", $"{(string.IsNullOrEmpty(value) ? string.Empty : $"{value}")}")
-                                                 .ReplaceIgnoreCase($"#{{key}}", $"{(value == null ? "null" : $"'{value}'")}");
-
-                        commandText = SQLUtils.Formatter(commandText);
+                        catch (Exception ex)
+                        {
+                            Debug.WriteLine(ex.ToString());
+                        }
                     }
-                    catch { }
                 }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.ToString());
             }
 
             return commandText;

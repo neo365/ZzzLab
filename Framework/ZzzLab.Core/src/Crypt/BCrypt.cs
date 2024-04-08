@@ -17,6 +17,15 @@
         /// <param name="hashValue">Hash Value</param>
         /// <returns></returns>
         public static bool Verify(string passwd, string hashValue)
-            => BCrypt.Net.BCrypt.Verify(passwd, hashValue);
+        {
+            try
+            {
+                return BCrypt.Net.BCrypt.Verify(passwd, hashValue);
+            }
+            catch(Exception ex)
+            {
+                return false;
+            }
+        }
     }
 }
