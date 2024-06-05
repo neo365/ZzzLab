@@ -1,4 +1,6 @@
-﻿namespace ZzzLab.Crypt
+﻿using System;
+
+namespace ZzzLab.Crypt
 {
     public class BCryptHelper
     {
@@ -22,7 +24,7 @@
             {
                 return BCrypt.Net.BCrypt.Verify(passwd, hashValue);
             }
-            catch(Exception ex)
+            catch(Exception)
             {
                 return false;
             }

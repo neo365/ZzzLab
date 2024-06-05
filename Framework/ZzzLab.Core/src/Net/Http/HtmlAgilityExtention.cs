@@ -11,7 +11,7 @@ namespace ZzzLab.Crawler
         /// <param name="node"></param>
         /// <param name="attributeName"></param>
         /// <returns></returns>
-        public static string GetAttributes(this HtmlNode node, string attributeName)
+        public static string GetAttribute(this HtmlNode node, string attributeName)
         {
             if (node == null) return null;
 
@@ -28,7 +28,7 @@ namespace ZzzLab.Crawler
             if (node == null) return null;
             if (node.Name.EqualsIgnoreCase("a") == false) return null;
 
-            return GetAttributes(node, "href");
+            return GetAttribute(node, "href");
         }
 
         /// <summary>

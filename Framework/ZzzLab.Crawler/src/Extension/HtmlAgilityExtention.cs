@@ -93,7 +93,7 @@ namespace ZzzLab.Crawler
                 .Replace("<!--.*?-->", string.Empty, RegexOptions.Singleline)
                 .Trim();
 
-        public static string Replace(this string value, string pattern, string replacement, RegexOptions options)
-            => Regex.Replace(value, pattern, replacement, options);
+        //public static string Replace(this string value, string pattern, string replacement, RegexOptions options)
+        //    => Regex.Replace(value, pattern, replacement, options);
     }
 }
