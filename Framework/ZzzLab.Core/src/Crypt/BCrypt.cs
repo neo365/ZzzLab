@@ -24,7 +24,7 @@ namespace ZzzLab.Crypt
             {
                 return BCrypt.Net.BCrypt.Verify(passwd, hashValue);
             }
-            catch(Exception)
+            catch (Exception)
             {
                 return false;
             }

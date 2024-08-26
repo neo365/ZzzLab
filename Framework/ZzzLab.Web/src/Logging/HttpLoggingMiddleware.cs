@@ -144,7 +144,7 @@ namespace ZzzLab.Web.Logging
                     responseCommand.SetResponse(responseLog);
                     LoggerQueue.Enqueue(responseCommand);
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     Logger.Warning(ex);
                 }
