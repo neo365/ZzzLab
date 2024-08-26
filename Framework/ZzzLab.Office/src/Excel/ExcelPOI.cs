@@ -315,7 +315,11 @@ namespace ZzzLab.Office.Excel
             value = value ?? value.TrimStart('=');
 
             if (string.IsNullOrWhiteSpace(value)) cell.SetCellValue(string.Empty);
-            else cell.SetCellFormula(value);
+            else
+            {
+                cell.SetCellType(CellType.Formula);
+                cell.SetCellFormula(value);
+            }
 
 #if WRAP_TEXT
             ICellStyle cs = Excel.CreateCellStyle();

@@ -20,8 +20,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Quartz" Version="3.9.0" />
-    <PackageReference Include="ZzzLab.Core" Version="0.2124.1615.2826" />
+    <PackageReference Include="Quartz" Version="3.13.0" />
+    <PackageReference Include="ZzzLab.Core" Version="0.2124.1836.2129" />
   </ItemGroup>
 
 </Project>
