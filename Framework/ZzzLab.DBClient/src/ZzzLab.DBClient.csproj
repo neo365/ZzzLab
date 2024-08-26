@@ -32,6 +32,6 @@
 		<PackageReference Include="System.Configuration.ConfigurationManager" Version="8.0.0" />
 		<PackageReference Include="System.Data.SqlClient" Version="4.8.6" />
 		<PackageReference Include="System.Data.SQLite.Core" Version="1.0.118" />
-		<PackageReference Include="ZzzLab.Core" Version="0.2124.1836.2129" />
+		<PackageReference Include="ZzzLab.Core" Version="0.2124.1836.2137" />
 	</ItemGroup>
 </Project>
