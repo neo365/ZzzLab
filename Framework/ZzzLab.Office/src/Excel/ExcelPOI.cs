@@ -471,7 +471,8 @@ namespace ZzzLab.Office.Excel
 
             if (cell == null) return string.Empty;
 
-            return cell.StringCellValue;
+            if (cell.CellType == CellType.Formula) return cell.CellFormula;
+            else return cell.StringCellValue;
         }
 
         public override void RemoveRow(int sheetIndex, int rowNum)
