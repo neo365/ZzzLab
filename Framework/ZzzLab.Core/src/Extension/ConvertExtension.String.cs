@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
@@ -6,6 +7,9 @@ namespace ZzzLab
 {
     public static partial class ConvertExtension
     {
+        public static string[] ToArray(this string s)
+            => (new List<string> { s }).ToArray();
+
         /// <summary>
         ///  전각문자를 반각문자로 변경한다.
         /// </summary>
