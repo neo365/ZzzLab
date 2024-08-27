@@ -7,31 +7,44 @@ namespace ZzzLab.Data.Models
 {
     public class TableInfo
     {
-        [Required]
-        public string DataBaseName { get; set; }
+        public virtual string DataBaseName { get; set; } = string.Empty;
+
+        public virtual string SchemaName { get; set; } = string.Empty;
 
         [Required]
-        public virtual string Schema { set; get; }
+        public virtual string TableName { get; set; } = string.Empty;
+
+        public virtual string DBLink { set; get; }
+
+        public virtual string FullName => $"{TableName}{(string.IsNullOrWhiteSpace(DBLink) ? string.Empty : "@" + DBLink)}";
 
         [Required]
-        public virtual string Name { set; get; }
+        public virtual string TableType { get; set; } = string.Empty;
 
-        [Required]
-        public virtual string TableType { set; get; }
+        public virtual string Comment { get; set; }
 
-        public virtual string Comment { set; get; }
+        public virtual string CreatedDate { get; set; }
 
-        public IEnumerable<TableColomn> Columns { set; get; } = Enumerable.Empty<TableColomn>();
+        public virtual string UpdatedDate { get; set; }
+
+        public IEnumerable<ColumnInfo> Columns { set; get; } = Enumerable.Empty<ColumnInfo>();
 
         public virtual TableInfo Set(DataRow row)
         {
-            this.DataBaseName = row.ToString("DATABASE_NAME");
-            this.Schema = row.ToString("SCHEMA_NAME");
-            this.Name = row.ToString("TABLE_NAME");
+            this.DataBaseName = row.ToStringNullable("DATABASE_NAME");
+            this.SchemaName = row.ToString("SCHEMA_NAME");
+            this.TableName = row.ToString("TABLE_NAME");
+            this.DBLink = row.ToStringNullable("DBLINK")?.TrimStart('@');
             this.TableType = row.ToString("TABLE_TYPE");
+
             this.Comment = row.ToStringNullable("COMMENTS");
+            this.CreatedDate = row.ToDateTimeNullable("WHEN_CREATED")?.ToString("yyyy-MM-dd HH:mm:ss");
+            this.UpdatedDate = row.ToDateTimeNullable("WHEN_UPDATED")?.ToString("yyyy-MM-dd HH:mm:ss");
 
             return this;
         }
+
+        public override string ToString()
+            => $"{SchemaName}.{FullName} : {Comment}";
     }
 }
