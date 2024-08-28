@@ -29,6 +29,10 @@ namespace ZzzLab.Data.Models
 
         public IEnumerable<ColumnInfo> Columns { set; get; } = Enumerable.Empty<ColumnInfo>();
 
+        public IEnumerable<IndexInfo> Indexs { set; get; } = Enumerable.Empty<IndexInfo>();
+
+        public IEnumerable<IndexInfo> Keys { set; get; } = Enumerable.Empty<IndexInfo>();
+
         public virtual TableInfo Set(DataRow row)
         {
             this.DataBaseName = row.ToStringNullable("DATABASE_NAME");

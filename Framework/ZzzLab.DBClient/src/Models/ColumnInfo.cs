@@ -149,9 +149,9 @@ namespace ZzzLab.Data.Models
             this.DataScale = row.ToStringNullable("DATA_SCALE");
             this.ConstraintType = row.ToStringNullable("CONSTRAINT_TYPE");
             this.RefSchemaName = row.ToStringNullable("REF_SCHEMA_NAME");
-            // this.RefDataBaseName = row.ToStringNullable("REF_DATABASE_NAME");
+            this.RefDataBaseName = row.ToStringNullable("REF_DATABASE_NAME");
             this.RefTableName = row.ToStringNullable("REF_TABLE_NAME");
-            // this.RefColumnName = row.ToStringNullable("REF_COLUMN_NAME");
+            this.RefColumnName = row.ToStringNullable("REF_COLUMN_NAME");
             this.IsNullable = row.ToBooleanNullable("NULLABLE") ?? true;
             this.DataDefault = row.ToStringNullable("DATA_DEFAULT");
             this.Comment = row.ToStringNullable("COMMENTS");
