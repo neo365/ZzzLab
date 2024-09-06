@@ -31,11 +31,11 @@ namespace ZzzLab.Data.Models
         public virtual string RefColumnName { get; private set; }
 
         [Required]
-        public bool IsNullable { get; set; } = true;
+        public virtual bool IsNullable { get; set; } = true;
 
-        public string DataDefault { get; set; }
+        public virtual string DataDefault { get; set; }
 
-        public string Comment { get; set; }
+        public virtual string Comment { get; set; }
 
         public ColumnInfo()
         {

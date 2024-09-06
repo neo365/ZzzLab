@@ -29,7 +29,7 @@ namespace ZzzLab.Data.Models
 
         public IEnumerable<ColumnInfo> Columns { set; get; } = Enumerable.Empty<ColumnInfo>();
 
-        public IEnumerable<IndexInfo> Indexs { set; get; } = Enumerable.Empty<IndexInfo>();
+        public IEnumerable<IndexInfo> Indexes { set; get; } = Enumerable.Empty<IndexInfo>();
 
         public IEnumerable<IndexInfo> Keys { set; get; } = Enumerable.Empty<IndexInfo>();
 

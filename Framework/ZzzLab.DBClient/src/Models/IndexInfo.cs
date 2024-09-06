@@ -36,13 +36,11 @@ namespace ZzzLab.Data.Models
 
 public class IndexColumn
 {
-    //public virtual string Owner { get; set; }
+    protected virtual string Owner { get; set; }
+    protected virtual string TableName { get; set; }
+    protected virtual string IndexName { get; set; }
 
-    //public virtual string TableName { get; set; }
-
-    //public virtual string IndexName { get; set; }
-
-    public virtual int OederNo { get; set; }
+    public virtual int OrderNo { get; set; }
 
     [Required]
     public virtual string ColumnName { get; set; }
@@ -54,10 +52,10 @@ public class IndexColumn
 
     public virtual IndexColumn Set(DataRow row)
     {
-        //this.Owner = row.ToString("OWNER");
-        //this.TableName = row.ToString("TABLE_NAME");
-        //this.IndexName = row.ToString("INDEX_NAME");
-        this.OederNo = row.ToInt("ORDER_NO");
+        this.Owner = row.ToString("OWNER");
+        this.TableName = row.ToString("TABLE_NAME");
+        this.IndexName = row.ToString("INDEX_NAME");
+        this.OrderNo = row.ToInt("ORDER_NO");
         this.ColumnName = row.ToString("COLUMN_NAME");
         this.ColumnNameRef = row.ToString("COLUMN_NAME_REF");
         this.Descend = row.ToString("DESCEND");
