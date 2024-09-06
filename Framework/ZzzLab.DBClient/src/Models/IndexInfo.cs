@@ -21,6 +21,22 @@ namespace ZzzLab.Data.Models
 
         public virtual IEnumerable<IndexColumn> Columns { get; set; }
 
+        public virtual string ColumnNames {
+            get
+            {
+                if (Columns == null) return null;
+
+                string indexColumnNames = string.Empty;
+
+                foreach (IndexColumn Column in Columns)
+                {
+                    indexColumnNames += $", {Column.ColumnName}";
+                }
+
+                return indexColumnNames.TrimStart(',').Trim();
+            }
+        }
+
         public virtual IndexInfo Set(DataRow row)
         {
             this.Owner = row.ToString("OWNER");

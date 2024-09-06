@@ -2,13 +2,12 @@
 
 namespace ZzzLab.Data.Models
 {
-    public class KeyInfo
+    public class ConstraintInfo
     {
         public string Owner { get; set; }
         public string TableName { get; set; }
-        public string KeyName { get; set; }
-        public string KeyType { set; get; }
-        public string TargetTable { set; get; }
+        public string ConstraintName { get; set; }
+        public string ConstraintType { set; get; }
         public IEnumerable<string> Columns { get; set; }
     }
 }

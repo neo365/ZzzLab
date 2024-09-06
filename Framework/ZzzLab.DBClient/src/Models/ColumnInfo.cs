@@ -8,7 +8,7 @@ namespace ZzzLab.Data.Models
         public virtual int OrderNo { get; set; } = 0;
 
         [Required]
-        public virtual string Name { get; set; } = string.Empty;
+        public virtual string ColumnName { get; set; } = string.Empty;
 
         [Required]
         public virtual string DataType { get; set; } = string.Empty;
@@ -22,14 +22,6 @@ namespace ZzzLab.Data.Models
 
         public virtual string ConstraintType { get; set; }
 
-        public virtual string RefSchemaName { get; set; }
-
-        public virtual string RefDataBaseName { get; private set; }
-
-        public virtual string RefTableName { get; set; }
-
-        public virtual string RefColumnName { get; private set; }
-
         [Required]
         public virtual bool IsNullable { get; set; } = true;
 
@@ -41,7 +33,7 @@ namespace ZzzLab.Data.Models
         {
         }
 
-        private string GetDataType()
+        public string GetDataType()
         {
             switch (DataType.ToLower())
             {
@@ -142,16 +134,12 @@ namespace ZzzLab.Data.Models
         public virtual ColumnInfo Set(DataRow row)
         {
             this.OrderNo = row.ToInt("COLUMN_ORDER");
-            this.Name = row.ToString("COLUMN_NAME");
+            this.ColumnName = row.ToString("COLUMN_NAME");
             this.DataType = row.ToString("DATA_TYPE");
             this.DataLength = row.ToStringNullable("DATA_LENGTH");
             this.DataPrecision = row.ToStringNullable("DATA_PRECISION");
             this.DataScale = row.ToStringNullable("DATA_SCALE");
             this.ConstraintType = row.ToStringNullable("CONSTRAINT_TYPE");
-            this.RefSchemaName = row.ToStringNullable("REF_SCHEMA_NAME");
-            this.RefDataBaseName = row.ToStringNullable("REF_DATABASE_NAME");
-            this.RefTableName = row.ToStringNullable("REF_TABLE_NAME");
-            this.RefColumnName = row.ToStringNullable("REF_COLUMN_NAME");
             this.IsNullable = row.ToBooleanNullable("NULLABLE") ?? true;
             this.DataDefault = row.ToStringNullable("DATA_DEFAULT");
             this.Comment = row.ToStringNullable("COMMENTS");
@@ -160,6 +148,6 @@ namespace ZzzLab.Data.Models
         }
 
         public override string ToString()
-            => $"{Name} {GetDataType()}{(string.IsNullOrWhiteSpace(DataDefault) ? " =>" + DataDefault : string.Empty)} {(IsNullable ? "not Null" : string.Empty)} : {Comment}";
+            => $"{ColumnName} {GetDataType()}{(string.IsNullOrWhiteSpace(DataDefault) ? " =>" + DataDefault : string.Empty)} {(IsNullable ? "not Null" : string.Empty)} : {Comment}";
     }
 }
