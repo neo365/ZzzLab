@@ -1,11 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Data;
 using System.Linq;
 
 namespace ZzzLab.Data.Models
 {
-    public class TableInfo
+    public class TableInfo : ICopyable, ICloneable
     {
         public virtual string DataBaseName { get; set; } = string.Empty;
 
@@ -31,7 +32,9 @@ namespace ZzzLab.Data.Models
 
         public IEnumerable<IndexInfo> Indexes { set; get; } = Enumerable.Empty<IndexInfo>();
 
-        public IEnumerable<IndexInfo> Keys { set; get; } = Enumerable.Empty<IndexInfo>();
+        public IEnumerable<ConstraintInfo> Keys { set; get; } = Enumerable.Empty<ConstraintInfo>();
+
+        public IEnumerable<TriggerInfo> Triggers { set; get; } = Enumerable.Empty<TriggerInfo>();
 
         public virtual TableInfo Set(DataRow row)
         {
@@ -50,5 +53,28 @@ namespace ZzzLab.Data.Models
 
         public override string ToString()
             => $"{SchemaName}.{FullName} : {Comment}";
+
+        #region ICopyable
+
+        public virtual object CopyFrom(object source)
+        {
+            throw new NotImplementedException();
+        }
+
+        public virtual object CopyTo(object target)
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion ICopyable
+
+        #region ICloneable
+
+        public virtual object Clone()
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion ICloneable
     }
 }

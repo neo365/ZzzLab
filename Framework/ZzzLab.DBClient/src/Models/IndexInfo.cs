@@ -21,7 +21,8 @@ namespace ZzzLab.Data.Models
 
         public virtual IEnumerable<IndexColumn> Columns { get; set; }
 
-        public virtual string ColumnNames {
+        public virtual string ColumnNames
+        {
             get
             {
                 if (Columns == null) return null;
@@ -61,10 +62,15 @@ public class IndexColumn
     [Required]
     public virtual string ColumnName { get; set; }
 
-    [Required]
-    public virtual string ColumnNameRef { get; set; }
+    public string _ColumnNameRef = string.Empty;
 
-    public virtual string Descend { get; set; } = "ASC";
+    public virtual string ColumnNameRef
+    {
+        get => string.IsNullOrWhiteSpace(_ColumnNameRef) ? ColumnName : _ColumnNameRef;
+        set => _ColumnNameRef = value;
+    }
+
+    public virtual string Descend { get; set; } = "NONE";
 
     public virtual IndexColumn Set(DataRow row)
     {
@@ -73,8 +79,8 @@ public class IndexColumn
         this.IndexName = row.ToString("INDEX_NAME");
         this.OrderNo = row.ToInt("ORDER_NO");
         this.ColumnName = row.ToString("COLUMN_NAME");
-        this.ColumnNameRef = row.ToString("COLUMN_NAME_REF");
-        this.Descend = row.ToString("DESCEND");
+        this.ColumnNameRef = row.ToStringNullable("COLUMN_NAME_REF");
+        this.Descend = row.ToStringNullable("DESCEND");
 
         return this;
     }
