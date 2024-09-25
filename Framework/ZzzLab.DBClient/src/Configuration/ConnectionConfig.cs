@@ -6,28 +6,30 @@ namespace ZzzLab.Data.Configuration
 {
     public class ConnectionConfig : ICopyable, ICloneable
     {
-        public string Name { set; get; } = string.Empty;
+        public virtual string Name { set; get; } = string.Empty;
 
-        public string Host { set; get; }
+        public virtual string AliasName { set; get; }
 
-        public int Port { set; get; } = 0;
+        public virtual string Host { set; get; }
 
-        public string Database { set; get; }
+        public virtual int Port { set; get; } = 0;
 
-        public string UserId { set; get; }
+        public virtual string Database { set; get; }
 
-        public string Password { set; get; }
+        public virtual string UserId { set; get; }
 
-        public int Timeout { set; get; } = 15;
+        public virtual string Password { set; get; }
+
+        public virtual int Timeout { set; get; } = 15;
 
         [JsonConverter(typeof(StringEnumConverter))]
-        public DataBaseType ServerType { set; get; }
+        public virtual DataBaseType ServerType { set; get; }
 
-        public bool JournalMode { set; get; } = true;
+        public virtual bool JournalMode { set; get; } = true;
 
-        public string ConnectionString { set; get; }
+        public virtual string ConnectionString { set; get; }
 
-        public string GetConnectionString()
+        public virtual string GetConnectionString()
             => DBClient.CreateConnectionString(this.ServerType, this.Host, this.Port, this.Database, this.UserId, this.Password, this.Timeout, this.JournalMode);
 
         public override string ToString()
@@ -40,6 +42,7 @@ namespace ZzzLab.Data.Configuration
             if (target == null) throw new ArgumentNullException(nameof(target));
 
             target.Name = this.Name;
+            target.AliasName = this.AliasName;
             target.Host = this.Host;
             target.Port = this.Port;
             target.Database = this.Database;
@@ -57,6 +60,7 @@ namespace ZzzLab.Data.Configuration
             if (source == null) throw new ArgumentNullException(nameof(source));
 
             this.Name = source.Name;
+            this.AliasName = source.AliasName;
             this.Host = source.Host;
             this.Port = source.Port;
             this.Database = source.Database;

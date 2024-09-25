@@ -8,7 +8,7 @@ namespace ZzzLab.Data.Models
         public static TableInfoResult Create(TableInfo tableInfo = null)
             => new TableInfoResult(tableInfo);
 
-        public List<string> SourcePath { set; get; } = new List<string>();
+        public List<string> RefPath { set; get; } = new List<string>();
         public virtual bool IsSuccess { set; get; } = true;
         public virtual string Message { set; get; } = string.Empty;
 
@@ -40,24 +40,47 @@ namespace ZzzLab.Data.Models
 
         #region ICopyable
 
-        public override object CopyFrom(object source)
+        public virtual TableInfoResult CopyTo(TableInfoResult target)
         {
-            throw new NotImplementedException();
+            if (target == null) throw new ArgumentNullException(nameof(target));
+
+            base.CopyTo(target);
+
+            target.RefPath = this.RefPath;
+            target.IsSuccess = this.IsSuccess;
+            target.Message = this.Message;
+
+            return target;
         }
 
-        public override object CopyTo(object target)
+        public virtual TableInfoResult CopyFrom(TableInfoResult source)
         {
-            throw new NotImplementedException();
+            if (source == null) throw new ArgumentNullException(nameof(source));
+
+            base.CopyFrom(source);
+
+            this.RefPath = source.RefPath;
+            this.IsSuccess = source.IsSuccess;
+            this.Message = source.Message;
+
+            return this;
         }
+
+        object ICopyable.CopyTo(object target)
+            => this.CopyTo((TableInfoResult)target);
+
+        object ICopyable.CopyFrom(object source)
+            => this.CopyFrom((TableInfoResult)source);
 
         #endregion ICopyable
 
         #region ICloneable
 
-        public override object Clone()
-        {
-            throw new NotImplementedException();
-        }
+        public new TableInfoResult Clone()
+            => CopyTo(new TableInfoResult());
+
+        object ICloneable.Clone()
+            => Clone();
 
         #endregion ICloneable
     }

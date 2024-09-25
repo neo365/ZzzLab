@@ -1,8 +1,10 @@
-﻿using System;
+﻿using Org.BouncyCastle.Asn1.X509;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Data;
 using System.Linq;
+using ZzzLab.Data.Configuration;
 
 namespace ZzzLab.Data.Models
 {
@@ -28,13 +30,15 @@ namespace ZzzLab.Data.Models
 
         public virtual string UpdatedDate { get; set; }
 
-        public IEnumerable<ColumnInfo> Columns { set; get; } = Enumerable.Empty<ColumnInfo>();
+        public virtual IEnumerable<ColumnInfo> Columns { set; get; } = Enumerable.Empty<ColumnInfo>();
 
-        public IEnumerable<IndexInfo> Indexes { set; get; } = Enumerable.Empty<IndexInfo>();
+        public virtual IEnumerable<IndexInfo> Indexes { set; get; } = Enumerable.Empty<IndexInfo>();
 
-        public IEnumerable<ConstraintInfo> Keys { set; get; } = Enumerable.Empty<ConstraintInfo>();
+        public virtual IEnumerable<ConstraintInfo> Keys { set; get; } = Enumerable.Empty<ConstraintInfo>();
 
-        public IEnumerable<TriggerInfo> Triggers { set; get; } = Enumerable.Empty<TriggerInfo>();
+        public virtual IEnumerable<TriggerInfo> Triggers { set; get; } = Enumerable.Empty<TriggerInfo>();
+
+        public virtual string Source { get; set; }
 
         public virtual TableInfo Set(DataRow row)
         {
@@ -56,24 +60,59 @@ namespace ZzzLab.Data.Models
 
         #region ICopyable
 
-        public virtual object CopyFrom(object source)
+        public virtual TableInfo CopyTo(TableInfo target)
         {
-            throw new NotImplementedException();
+            if (target == null) throw new ArgumentNullException(nameof(target));
+
+            target.DataBaseName = this.DataBaseName;
+            target.SchemaName = this.SchemaName;
+            target.TableName = this.TableName;
+            target.DBLink = this.DBLink;
+            target.TableType = this.TableType;
+
+            target.Comment = this.Comment;
+            target.CreatedDate = this.CreatedDate;
+            target.UpdatedDate = this.UpdatedDate;
+
+            target.Source = this.Source;
+
+            return target;
         }
 
-        public virtual object CopyTo(object target)
+        public virtual TableInfo CopyFrom(TableInfo source)
         {
-            throw new NotImplementedException();
+            if (source == null) throw new ArgumentNullException(nameof(source));
+
+            this.DataBaseName = source.DataBaseName;
+            this.SchemaName = source.SchemaName;
+            this.TableName = source.TableName;
+            this.DBLink = source.DBLink;
+            this.TableType = source.TableType;
+
+            this.Comment = source.Comment;
+            this.CreatedDate = source.CreatedDate;
+            this.UpdatedDate = source.UpdatedDate;
+
+            this.Source = source.Source;
+
+            return this;
         }
+
+        object ICopyable.CopyTo(object target)
+            => this.CopyTo((TableInfo)target);
+
+        object ICopyable.CopyFrom(object source)
+            => this.CopyFrom((TableInfo)source);
 
         #endregion ICopyable
 
         #region ICloneable
 
-        public virtual object Clone()
-        {
-            throw new NotImplementedException();
-        }
+        public virtual TableInfo Clone()
+            => CopyTo(new TableInfo());
+
+        object ICloneable.Clone()
+            => Clone();
 
         #endregion ICloneable
     }
