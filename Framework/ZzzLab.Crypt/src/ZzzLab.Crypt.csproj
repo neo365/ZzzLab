@@ -4,11 +4,11 @@
 	<TargetFramework>netstandard2.0</TargetFramework>
 	<Company>ZzzLab Co., ltd.</Company>
 	<Authors>neo365</Authors>
-	<PackageId>ZzzLab.Core</PackageId>
-	<Product>ZzzLab Core Framework</Product>
-	<PackageProjectUrl>www.ZzzLab.net/Lib/Core</PackageProjectUrl>
+	<PackageId>ZzzLab.Crypt</PackageId>
+	<Product>ZzzLab Crypt Framework</Product>
+	<PackageProjectUrl>www.ZzzLab.net/Lib/Crypt</PackageProjectUrl>
 	<Copyright>neo365</Copyright>
-	<RootNamespace>ZzzLab</RootNamespace>
+	<RootNamespace>ZzzLab.Crypt</RootNamespace>
 	<IsPublishable>True</IsPublishable>
 	<GenerateDocumentationFile>True</GenerateDocumentationFile>
 	<NoWarn>$(NoWarn);1591</NoWarn>
@@ -16,20 +16,17 @@
 	<PackageLicenseExpression>MIT</PackageLicenseExpression>
 	<PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
 	<DocumentationFile></DocumentationFile>
-	<RepositoryUrl>https://github.com/neo365/ZzzLab.Core.git</RepositoryUrl>
+	<RepositoryUrl>https://github.com/neo365/ZzzLab.Crypt.git</RepositoryUrl>
   </PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="HtmlAgilityPack" Version="1.11.66" />
+		<PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
 		<PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
-		<PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.0" />
-		<PackageReference Include="Microsoft.Extensions.Logging.Configuration" Version="8.0.0" />
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+		<PackageReference Include="Portable.BouncyCastle" Version="1.9.0" />
 		<PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
-		<PackageReference Include="System.DirectoryServices" Version="8.0.0" />
-		<PackageReference Include="System.DirectoryServices.AccountManagement" Version="8.0.0" />
-		<PackageReference Include="System.Drawing.Common" Version="8.0.8" />
 		<PackageReference Include="System.Text.Json" Version="8.0.4" />
+		<PackageReference Include="ZzzLab.Core" Version="0.2124.1940.2132" />
 	</ItemGroup>
 
 </Project>

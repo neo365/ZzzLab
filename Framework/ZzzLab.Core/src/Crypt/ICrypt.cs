@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Text;
 
 namespace ZzzLab.Crypt
 {
@@ -12,13 +13,13 @@ namespace ZzzLab.Crypt
 
         string EncryptToString(byte[] bytes);
 
-        string EncryptToString(string s);
+        string EncryptToString(string s, Encoding encoding = null);
 
         byte[] EncryptToBytes(Stream stream);
 
         byte[] EncryptToBytes(byte[] bytes);
 
-        byte[] EncryptToBytes(string s);
+        byte[] EncryptToBytes(string s, Encoding encoding = null);
 
         #endregion Encrypt
 

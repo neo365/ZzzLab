@@ -27,6 +27,10 @@ cd ZzzLab.Core
 call .\build.cmd %version% %ApiToken%
 cd ..
 
+cd ZzzLab.Crypt
+call .\build.cmd %version% %ApiToken%
+cd ..
+
 cd ZzzLab.DBClient
 call .\build.cmd %ApiToken% %version%
 cd ..

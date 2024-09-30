@@ -4,9 +4,9 @@ using System.Text;
 
 namespace ZzzLab.Crypt
 {
-    public abstract class CryptBase
+    public abstract class CryptBase : ICrypt
     {
-        public string Algorithm { get; }
+        public virtual string Algorithm { get; }
 
         protected CryptBase(string algorithm)
         {
@@ -21,8 +21,8 @@ namespace ZzzLab.Crypt
         public virtual string EncryptToString(byte[] bytes)
             => Convert.ToBase64String(EncryptToBytes(bytes));
 
-        public virtual string EncryptToString(string s)
-            => Convert.ToBase64String(EncryptToBytes(s));
+        public virtual string EncryptToString(string s, Encoding encoding = null)
+            => Convert.ToBase64String(EncryptToBytes(s, encoding));
 
         public abstract byte[] EncryptToBytes(Stream stream);
 
@@ -34,8 +34,11 @@ namespace ZzzLab.Crypt
             }
         }
 
-        public virtual byte[] EncryptToBytes(string s)
-            => EncryptToBytes(Encoding.Default.GetBytes(s));
+        public virtual byte[] EncryptToBytes(string s, Encoding encoding = null)
+        {
+            encoding = encoding ?? Encoding.Default;
+            return EncryptToBytes(encoding.GetBytes(s));
+        }
 
         #endregion Encrypt
 
@@ -68,16 +71,12 @@ namespace ZzzLab.Crypt
         #region URL Safe
 
         public virtual string EncryptUrlSafe(string s)
-            => EncodeUrlSafeString(EncryptToString(s));
+            => EncryptToString(s).EncodeUrlSafeString();
 
         public virtual string DecryptUrlSafe(string s)
-            => Encoding.Default.GetString(DecryptToBytes(DecodeUrlSafeString(s)));
+            => Encoding.Default.GetString(DecryptToBytes(s.DecodeUrlSafeString()));
 
-        protected virtual string EncodeUrlSafeString(string s)
-            => s.Replace("=", ",").Replace("+", "-").Replace("/", "_");
 
-        protected virtual string DecodeUrlSafeString(string s)
-            => s.Replace(",", "=").Replace("-", "+").Replace("_", "/");
 
         #endregion URL Safe
     }

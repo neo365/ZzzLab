@@ -30,7 +30,7 @@ namespace ZzzLab.Web.Auth
         private string DecryptToken()
         {
             if (string.IsNullOrWhiteSpace(Configurator.CryptKey)) return Base64Crypt.FromBase64UrlSafe(Token);
-            else return AESCrypt.DecryptUrlSafe(Token, Configurator.CryptKey);
+            else return AESCrypt.Create(Configurator.CryptKey).DecryptUrlSafe(Token);
         }
 
         public static AuthTokenParser Decrypt(string? token)
@@ -77,7 +77,7 @@ namespace ZzzLab.Web.Auth
                 return Base64Crypt.ToBase64UrlSafe(tokenBase);
             }
 
-            return AESCrypt.EncryptUrlSafe(tokenBase, Configurator.CryptKey);
+            return AESCrypt.Create(Configurator.CryptKey).EncryptUrlSafe(tokenBase);
         }
     }
 }
