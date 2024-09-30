@@ -24,11 +24,11 @@ if EXIST ..\package\ (
 git pull --progress
 
 cd ZzzLab.Core
-call .\build.cmd %version% %ApiToken%
+call .\build.cmd %ApiToken% %version% 
 cd ..
 
 cd ZzzLab.Crypt
-call .\build.cmd %version% %ApiToken%
+call .\build.cmd %ApiToken% %version% 
 cd ..
 
 cd ZzzLab.DBClient
