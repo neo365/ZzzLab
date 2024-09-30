@@ -6,6 +6,7 @@ using System.Dynamic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using ZzzLab.IO;
 using ZzzLab.Json;
 
 namespace ZzzLab
@@ -551,16 +552,38 @@ namespace ZzzLab
 
         #region string
 
+        /// <summary>
+        /// Datarow Value To string
+        /// </summary>
+        /// <param name="row"></param>
+        /// <param name="columnName"></param>
+        /// <returns></returns>
+        /// <exception cref="InvalidCastException"></exception>
         public static string ToString(this DataRow row, string columnName)
             => ToStringNullable(row, columnName) ?? throw new InvalidCastException($"columnName: {columnName}");
 
+        /// <summary>
+        /// Datarow Value To string
+        /// </summary>
+        /// <param name="row"></param>
+        /// <param name="columnIndex"></param>
+        /// <returns></returns>
+        /// <exception cref="InvalidCastException"></exception>
         public static string ToString(this DataRow row, int columnIndex)
             => ToStringNullable(row, columnIndex) ?? throw new InvalidCastException($"columnIndex: {columnIndex}");
 
+        /// <summary>
+        /// Datarow Value To string
+        /// </summary>
+        /// <param name="row"></param>
+        /// <param name="columnName"></param>
+        /// <param name="throwOnError"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
         public static string ToStringNullable(this DataRow row, string columnName, bool throwOnError = true)
         {
             if (row == null) throw new ArgumentNullException(nameof(row));
-            if (string.IsNullOrWhiteSpace(columnName)) throw new ArgumentNullException(nameof(columnName));
 
             if (throwOnError) return convert();
 
@@ -575,6 +598,7 @@ namespace ZzzLab
 
             string convert()
             {
+                if (string.IsNullOrWhiteSpace(columnName)) throw new ArgumentNullException(nameof(columnName));
                 if (row.Table.Columns.Contains(columnName) == false) throw new ArgumentOutOfRangeException($"{nameof(columnName)}: {columnName}");
 
                 object obj = row[columnName];
@@ -584,10 +608,18 @@ namespace ZzzLab
             }
         }
 
+        /// <summary>
+        /// Datarow Value To string
+        /// </summary>
+        /// <param name="row"></param>
+        /// <param name="columnIndex"></param>
+        /// <param name="throwOnError"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="IndexOutOfRangeException"></exception>
         public static string ToStringNullable(this DataRow row, int columnIndex, bool throwOnError = true)
         {
             if (row == null) throw new ArgumentNullException(nameof(row));
-            if (row.Table.Columns.Count <= columnIndex) throw new IndexOutOfRangeException($"columnIndex: {columnIndex}");
 
             if (throwOnError) return convert();
 
@@ -602,6 +634,8 @@ namespace ZzzLab
 
             string convert()
             {
+                if (row.Table.Columns.Count <= columnIndex) throw new IndexOutOfRangeException($"columnIndex: {columnIndex}");
+
                 object obj = row[(int)columnIndex];
 
                 if (obj == null || obj == DBNull.Value || obj.GetType() == typeof(DBNull)) return null;
@@ -646,15 +680,43 @@ namespace ZzzLab
 
         #region Array
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="row"></param>
+        /// <param name="columnName"></param>
+        /// <param name="separator"></param>
+        /// <returns></returns>
         public static string[] ToArray(this DataRow row, string columnName, char separator = ',')
             => row.ToString(columnName).Split(separator);
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="row"></param>
+        /// <param name="columnIndex"></param>
+        /// <param name="separator"></param>
+        /// <returns></returns>
         public static string[] ToArray(this DataRow row, int columnIndex, char separator = ',')
             => row.ToString(columnIndex).Split(separator);
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="row"></param>
+        /// <param name="columnName"></param>
+        /// <param name="separator"></param>
+        /// <returns></returns>
         public static string[] ToArrayNullable(this DataRow row, string columnName, char separator = ',')
             => row.ToString(columnName)?.Split(separator);
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="row"></param>
+        /// <param name="columnIndex"></param>
+        /// <param name="separator"></param>
+        /// <returns></returns>
         public static string[] ToArrayNullable(this DataRow row, int columnIndex, char separator = ',')
             => row.ToString(columnIndex)?.Split(separator);
 
@@ -843,14 +905,43 @@ namespace ZzzLab
 
         #region json
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="row"></param>
+        /// <param name="columnName"></param>
+        /// <returns></returns>
+        /// <exception cref="InvalidCastException"></exception>
         public static T FromJson<T>(this DataRow row, string columnName) where T : class
             => FromJsonNullable<T>(row, columnName) ?? throw new InvalidCastException($"columnName: {columnName}");
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="row"></param>
+        /// <param name="columnIndex"></param>
+        /// <returns></returns>
+        /// <exception cref="InvalidCastException"></exception>
         public static T FromJson<T>(this DataRow row, int columnIndex) where T : class
             => FromJsonNullable<T>(row, columnIndex) ?? throw new InvalidCastException();
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="row"></param>
+        /// <param name="columnName"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
         public static T FromJsonNullable<T>(this DataRow row, string columnName) where T : class
         {
+            if (row == null) throw new ArgumentNullException(nameof(row));
+            if (string.IsNullOrWhiteSpace(columnName)) throw new ArgumentNullException(nameof(columnName));
+            if (row.Table.Columns.Contains(columnName) == false) throw new ArgumentOutOfRangeException($"{nameof(columnName)}: {columnName}");
+
             string json = row.ToStringNullable(columnName);
             if (string.IsNullOrWhiteSpace(json)) return null;
             if (json.StartsWith("{") == false) return null;
@@ -858,8 +949,20 @@ namespace ZzzLab
             return JsonConvert.DeserializeObject<T>(json);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="row"></param>
+        /// <param name="columnIndex"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="IndexOutOfRangeException"></exception>
         public static T FromJsonNullable<T>(this DataRow row, int columnIndex) where T : class
         {
+            if (row == null) throw new ArgumentNullException(nameof(row));
+            if (row.Table.Columns.Count <= columnIndex) throw new IndexOutOfRangeException($"columnIndex: {columnIndex}");
+
             string json = row.ToStringNullable(columnIndex);
             if (string.IsNullOrWhiteSpace(json)) return null;
             if (json.StartsWith("{") == false) return null;
@@ -869,10 +972,26 @@ namespace ZzzLab
 
         #endregion json
 
-        public static bool ToCSV(this DataTable table, string filePath, string dimiter = "|", bool hasHeader = false)
+        #region CSV
+
+        /// <summary>
+        /// DataTable To CSV File
+        /// </summary>
+        /// <param name="table"></param>
+        /// <param name="filePath"></param>
+        /// <param name="dimiter"></param>
+        /// <param name="hasHeader"></param>
+        /// <param name="isOverwrite"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="OperationFailedException"></exception>
+        public static bool ToCSV(this DataTable table, string filePath, string dimiter = "|", bool hasHeader = false, bool isOverwrite = true)
         {
+            if (table == null) throw new ArgumentNullException(nameof(table));
             // 경로가 비어있으면 에러처리
             if (string.IsNullOrWhiteSpace(filePath)) throw new ArgumentNullException(nameof(filePath));
+            // Overwrite가 아닌데 파일이 있는 경우
+            if (isOverwrite == false && File.Exists(filePath)) throw new FileFoundException("File Exist.", nameof(filePath));
 
             // 폴더가 없으면 만들자.
             if (Directory.Exists(Path.GetDirectoryName(filePath)) == false)
@@ -896,9 +1015,13 @@ namespace ZzzLab
                 sb.AppendLine(string.Join(dimiter, fields));
             }
 
+            if (File.Exists(filePath)) File.Delete(filePath);
+
             File.WriteAllText(filePath, sb.ToString());
 
             return true;
         }
+
+        #endregion CSV
     }
 }
