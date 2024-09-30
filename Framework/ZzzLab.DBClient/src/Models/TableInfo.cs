@@ -1,18 +1,14 @@
-﻿using Org.BouncyCastle.Asn1.X509;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Data;
 using System.Linq;
-using ZzzLab.Data.Configuration;
 
 namespace ZzzLab.Data.Models
 {
     public class TableInfo : ICopyable, ICloneable
     {
-        public virtual string DataBaseName { get; set; } = string.Empty;
-
-        public virtual string SchemaName { get; set; } = string.Empty;
+        public virtual string TableOwner { get; set; } = string.Empty;
 
         [Required]
         public virtual string TableName { get; set; } = string.Empty;
@@ -42,8 +38,7 @@ namespace ZzzLab.Data.Models
 
         public virtual TableInfo Set(DataRow row)
         {
-            this.DataBaseName = row.ToStringNullable("DATABASE_NAME");
-            this.SchemaName = row.ToString("SCHEMA_NAME");
+            this.TableOwner = row.ToString("TABLE_OWNER");
             this.TableName = row.ToString("TABLE_NAME");
             this.DBLink = row.ToStringNullable("DBLINK")?.TrimStart('@');
             this.TableType = row.ToString("TABLE_TYPE");
@@ -56,7 +51,7 @@ namespace ZzzLab.Data.Models
         }
 
         public override string ToString()
-            => $"{SchemaName}.{FullName} : {Comment}";
+            => $"{TableOwner}.{FullName} : {Comment}";
 
         #region ICopyable
 
@@ -64,8 +59,7 @@ namespace ZzzLab.Data.Models
         {
             if (target == null) throw new ArgumentNullException(nameof(target));
 
-            target.DataBaseName = this.DataBaseName;
-            target.SchemaName = this.SchemaName;
+            target.TableOwner = this.TableOwner;
             target.TableName = this.TableName;
             target.DBLink = this.DBLink;
             target.TableType = this.TableType;
@@ -83,8 +77,7 @@ namespace ZzzLab.Data.Models
         {
             if (source == null) throw new ArgumentNullException(nameof(source));
 
-            this.DataBaseName = source.DataBaseName;
-            this.SchemaName = source.SchemaName;
+            this.TableOwner = source.TableOwner;
             this.TableName = source.TableName;
             this.DBLink = source.DBLink;
             this.TableType = source.TableType;

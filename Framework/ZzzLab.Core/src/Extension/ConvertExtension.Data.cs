@@ -39,14 +39,32 @@ namespace ZzzLab
         /// </summary>
         /// <param name="row">The System.Data.Datarow</param>
         /// <param name="columnName">Column Name</param>
+        /// <param name="throwOnError">Whether to throw output</param>
         /// <returns></returns>
-        public static short? ToShortNullable(this DataRow row, string columnName)
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
+        public static short? ToShortNullable(this DataRow row, string columnName, bool throwOnError = true)
         {
             if (row == null) throw new ArgumentNullException(nameof(row));
-            if (string.IsNullOrWhiteSpace(columnName)) throw new ArgumentNullException(nameof(columnName));
-            if (row.Table.Columns.Contains(columnName) == false) throw new ArgumentOutOfRangeException($"{nameof(columnName)}: {columnName}"); ;
 
-            return ToShortNullable(row[columnName]);
+            if (throwOnError) return convert();
+
+            try
+            {
+                return convert();
+            }
+            catch
+            {
+                return null;
+            }
+
+            short? convert()
+            {
+                if (string.IsNullOrWhiteSpace(columnName)) throw new ArgumentNullException(nameof(columnName));
+                if (row.Table.Columns.Contains(columnName) == false) throw new ArgumentOutOfRangeException($"{nameof(columnName)}: {columnName}");
+
+                return ToShortNullable(row[columnName]);
+            }
         }
 
         /// <summary>
@@ -54,13 +72,31 @@ namespace ZzzLab
         /// </summary>
         /// <param name="row">The System.Data.Datarow</param>
         /// <param name="columnIndex">column Index</param>
+        /// <param name="throwOnError">Whether to throw output</param>
         /// <returns></returns>
-        public static short? ToShortNullable(this DataRow row, int columnIndex)
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="IndexOutOfRangeException"></exception>
+        public static short? ToShortNullable(this DataRow row, int columnIndex, bool throwOnError = true)
         {
             if (row == null) throw new ArgumentNullException(nameof(row));
-            if (row.Table.Columns.Count <= columnIndex) throw new IndexOutOfRangeException($"{nameof(columnIndex)}:{columnIndex}");
 
-            return ToShortNullable(row[columnIndex]);
+            if (throwOnError) return convert();
+
+            try
+            {
+                return convert();
+            }
+            catch
+            {
+                return null;
+            }
+
+            short? convert()
+            {
+                if (row.Table.Columns.Count <= columnIndex) throw new IndexOutOfRangeException($"Max Count : {row.Table.Columns.Count} | {nameof(columnIndex)}:{columnIndex}");
+
+                return ToShortNullable(row[columnIndex]);
+            }
         }
 
         #endregion short
@@ -90,14 +126,30 @@ namespace ZzzLab
         /// </summary>
         /// <param name="row">The System.Data.Datarow</param>
         /// <param name="columnName"></param>
+        /// <param name="throwOnError">Whether to throw output</param>
         /// <returns></returns>
-        public static ushort? ToUShortNullable(this DataRow row, string columnName)
+        public static ushort? ToUShortNullable(this DataRow row, string columnName, bool throwOnError = true)
         {
             if (row == null) throw new ArgumentNullException(nameof(row));
-            if (string.IsNullOrWhiteSpace(columnName)) throw new ArgumentNullException(nameof(columnName));
-            if (row.Table.Columns.Contains(columnName) == false) throw new ArgumentOutOfRangeException($"{nameof(columnName)}: {columnName}"); ;
 
-            return ToUShortNullable(row[columnName]);
+            if (throwOnError) return convert();
+
+            try
+            {
+                return convert();
+            }
+            catch
+            {
+                return null;
+            }
+
+            ushort? convert()
+            {
+                if (string.IsNullOrWhiteSpace(columnName)) throw new ArgumentNullException(nameof(columnName));
+                if (row.Table.Columns.Contains(columnName) == false) throw new ArgumentOutOfRangeException($"{nameof(columnName)}: {columnName}");
+
+                return ToUShortNullable(row[columnName]);
+            }
         }
 
         /// <summary>
@@ -105,40 +157,120 @@ namespace ZzzLab
         /// </summary>
         /// <param name="row">The System.Data.Datarow</param>
         /// <param name="columnIndex"></param>
+        /// <param name="throwOnError">Whether to throw output</param>
         /// <returns></returns>
-        public static ushort? ToUShortNullable(this DataRow row, int columnIndex)
+        public static ushort? ToUShortNullable(this DataRow row, int columnIndex, bool throwOnError = true)
         {
             if (row == null) throw new ArgumentNullException(nameof(row));
-            if (row.Table.Columns.Count <= columnIndex) throw new IndexOutOfRangeException($"{nameof(columnIndex)}:{columnIndex}"); ;
 
-            return ToUShortNullable(row[columnIndex]);
+            if (throwOnError) return convert();
+
+            try
+            {
+                return convert();
+            }
+            catch
+            {
+                return null;
+            }
+
+            ushort? convert()
+            {
+                if (row.Table.Columns.Count <= columnIndex) throw new IndexOutOfRangeException($"Max Count : {row.Table.Columns.Count} | {nameof(columnIndex)}:{columnIndex}");
+
+                return ToUShortNullable(row[columnIndex]);
+            }
         }
 
         #endregion ushort
 
         #region int
 
+        /// <summary>
+        ///  Datarow Value To int (int32)
+        /// </summary>
+        /// <param name="row"></param>
+        /// <param name="columnName"></param>
+        /// <returns></returns>
+        /// <exception cref="InvalidCastException"></exception>
+
         public static int ToInt(this DataRow row, string columnName)
             => ToIntNullable(row, columnName) ?? throw new InvalidCastException($"columnName: {columnName}");
 
+        /// <summary>
+        ///  Datarow Value To int (int32)
+        /// </summary>
+        /// <param name="row"></param>
+        /// <param name="columnIndex"></param>
+        /// <returns></returns>
+        /// <exception cref="InvalidCastException"></exception>
         public static int ToInt(this DataRow row, int columnIndex)
             => ToIntNullable(row, columnIndex) ?? throw new InvalidCastException($"columnIndex: {columnIndex}");
 
-        public static int? ToIntNullable(this DataRow row, string columnName)
+        /// <summary>
+        ///  Datarow Value To int (int32)
+        /// </summary>
+        /// <param name="row"></param>
+        /// <param name="columnName"></param>
+        /// <param name="throwOnError">Whether to throw output</param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
+
+        public static int? ToIntNullable(this DataRow row, string columnName, bool throwOnError = true)
         {
             if (row == null) throw new ArgumentNullException(nameof(row));
-            if (string.IsNullOrWhiteSpace(columnName)) throw new ArgumentNullException(nameof(columnName));
-            if (row.Table.Columns.Contains(columnName) == false) throw new ArgumentOutOfRangeException($"{nameof(columnName)}: {columnName}"); ;
 
-            return ToIntNullable(row[columnName]);
+            if (throwOnError) return convert();
+
+            try
+            {
+                return convert();
+            }
+            catch
+            {
+                return null;
+            }
+
+            int? convert()
+            {
+                if (string.IsNullOrWhiteSpace(columnName)) throw new ArgumentNullException(nameof(columnName));
+                if (row.Table.Columns.Contains(columnName) == false) throw new ArgumentOutOfRangeException($"{nameof(columnName)}: {columnName}");
+
+                return ToIntNullable(row[columnName]);
+            }
         }
 
-        public static int? ToIntNullable(this DataRow row, int columnIndex)
+        /// <summary>
+        ///  Datarow Value To int (int32)
+        /// </summary>
+        /// <param name="row"></param>
+        /// <param name="columnIndex"></param>
+        /// <param name="throwOnError">Whether to throw output</param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="IndexOutOfRangeException"></exception>
+        public static int? ToIntNullable(this DataRow row, int columnIndex, bool throwOnError = true)
         {
             if (row == null) throw new ArgumentNullException(nameof(row));
-            if (row.Table.Columns.Count <= columnIndex) throw new IndexOutOfRangeException($"{nameof(columnIndex)}:{columnIndex}"); ;
 
-            return ToIntNullable(row[columnIndex]);
+            if (throwOnError) return convert();
+
+            try
+            {
+                return convert();
+            }
+            catch
+            {
+                return null;
+            }
+
+            int? convert()
+            {
+                if (row.Table.Columns.Count <= columnIndex) throw new IndexOutOfRangeException($"Max Count : {row.Table.Columns.Count} | {nameof(columnIndex)}:{columnIndex}");
+
+                return ToIntNullable(row[columnIndex]);
+            }
         }
 
         #endregion int
@@ -155,7 +287,7 @@ namespace ZzzLab
         {
             if (row == null) throw new ArgumentNullException(nameof(row));
             if (string.IsNullOrWhiteSpace(columnName)) throw new ArgumentNullException(nameof(columnName));
-            if (row.Table.Columns.Contains(columnName) == false) throw new ArgumentOutOfRangeException($"{nameof(columnName)}: {columnName}"); ;
+            if (row.Table.Columns.Contains(columnName) == false) throw new ArgumentOutOfRangeException($"{nameof(columnName)}: {columnName}");
 
             return ToUIntNullable(row[columnName]);
         }
@@ -163,7 +295,7 @@ namespace ZzzLab
         public static uint? ToUIntNullable(this DataRow row, int columnIndex)
         {
             if (row == null) throw new ArgumentNullException(nameof(row));
-            if (row.Table.Columns.Count <= columnIndex) throw new IndexOutOfRangeException($"{nameof(columnIndex)}:{columnIndex}"); ;
+            if (row.Table.Columns.Count <= columnIndex) throw new IndexOutOfRangeException($"{nameof(columnIndex)}:{columnIndex}");
 
             return ToUIntNullable(row[columnIndex]);
         }
@@ -182,7 +314,7 @@ namespace ZzzLab
         {
             if (row == null) throw new ArgumentNullException(nameof(row));
             if (string.IsNullOrWhiteSpace(columnName)) throw new ArgumentNullException(nameof(columnName));
-            if (row.Table.Columns.Contains(columnName) == false) throw new ArgumentOutOfRangeException($"{nameof(columnName)}: {columnName}"); ;
+            if (row.Table.Columns.Contains(columnName) == false) throw new ArgumentOutOfRangeException($"{nameof(columnName)}: {columnName}");
 
             return ToLongNullable(row[columnName]);
         }
@@ -190,7 +322,7 @@ namespace ZzzLab
         public static long? ToLongNullable(this DataRow row, int columnIndex)
         {
             if (row == null) throw new ArgumentNullException(nameof(row));
-            if (row.Table.Columns.Count <= columnIndex) throw new IndexOutOfRangeException($"{nameof(columnIndex)}:{columnIndex}"); ;
+            if (row.Table.Columns.Count <= columnIndex) throw new IndexOutOfRangeException($"{nameof(columnIndex)}:{columnIndex}");
 
             return ToLongNullable(row[columnIndex]);
         }
@@ -209,7 +341,7 @@ namespace ZzzLab
         {
             if (row == null) throw new ArgumentNullException(nameof(row));
             if (string.IsNullOrWhiteSpace(columnName)) throw new ArgumentNullException(nameof(columnName));
-            if (row.Table.Columns.Contains(columnName) == false) throw new ArgumentOutOfRangeException($"{nameof(columnName)}: {columnName}"); ;
+            if (row.Table.Columns.Contains(columnName) == false) throw new ArgumentOutOfRangeException($"{nameof(columnName)}: {columnName}");
 
             return ToULongNullable(row[columnName]);
         }
@@ -217,7 +349,7 @@ namespace ZzzLab
         public static ulong? ToULongNullable(this DataRow row, int columnIndex)
         {
             if (row == null) throw new ArgumentNullException(nameof(row));
-            if (row.Table.Columns.Count <= columnIndex) throw new IndexOutOfRangeException($"{nameof(columnIndex)}:{columnIndex}"); ;
+            if (row.Table.Columns.Count <= columnIndex) throw new IndexOutOfRangeException($"{nameof(columnIndex)}:{columnIndex}");
 
             return ToULongNullable(row[columnIndex]);
         }
@@ -236,7 +368,7 @@ namespace ZzzLab
         {
             if (row == null) throw new ArgumentNullException(nameof(row));
             if (string.IsNullOrWhiteSpace(columnName)) throw new ArgumentNullException(nameof(columnName));
-            if (row.Table.Columns.Contains(columnName) == false) throw new ArgumentOutOfRangeException($"{nameof(columnName)}: {columnName}"); ;
+            if (row.Table.Columns.Contains(columnName) == false) throw new ArgumentOutOfRangeException($"{nameof(columnName)}: {columnName}");
 
             return ToDecimalNullable(row[columnName]);
         }
@@ -244,7 +376,7 @@ namespace ZzzLab
         public static decimal? ToDecimalNullable(this DataRow row, int columnIndex)
         {
             if (row == null) throw new ArgumentNullException(nameof(row));
-            if (row.Table.Columns.Count <= columnIndex) throw new IndexOutOfRangeException($"{nameof(columnIndex)}:{columnIndex}"); ;
+            if (row.Table.Columns.Count <= columnIndex) throw new IndexOutOfRangeException($"{nameof(columnIndex)}:{columnIndex}");
 
             return ToDecimalNullable(row[columnIndex]);
         }
@@ -263,7 +395,7 @@ namespace ZzzLab
         {
             if (row == null) throw new ArgumentNullException(nameof(row));
             if (string.IsNullOrWhiteSpace(columnName)) throw new ArgumentNullException(nameof(columnName));
-            if (row.Table.Columns.Contains(columnName) == false) throw new ArgumentOutOfRangeException($"{nameof(columnName)}: {columnName}"); ;
+            if (row.Table.Columns.Contains(columnName) == false) throw new ArgumentOutOfRangeException($"{nameof(columnName)}: {columnName}");
 
             return ToDoubleNullable(row[columnName]);
         }
@@ -271,7 +403,7 @@ namespace ZzzLab
         public static double? ToDoubleNullable(this DataRow row, int columnIndex)
         {
             if (row == null) throw new ArgumentNullException(nameof(row));
-            if (row.Table.Columns.Count <= columnIndex) throw new IndexOutOfRangeException($"{nameof(columnIndex)}:{columnIndex}"); ;
+            if (row.Table.Columns.Count <= columnIndex) throw new IndexOutOfRangeException($"{nameof(columnIndex)}:{columnIndex}");
 
             return ToDoubleNullable(row[columnIndex]);
         }
@@ -290,7 +422,7 @@ namespace ZzzLab
         {
             if (row == null) throw new ArgumentNullException(nameof(row));
             if (string.IsNullOrWhiteSpace(columnName)) throw new ArgumentNullException(nameof(columnName));
-            if (row.Table.Columns.Contains(columnName) == false) throw new ArgumentOutOfRangeException($"{nameof(columnName)}: {columnName}"); ;
+            if (row.Table.Columns.Contains(columnName) == false) throw new ArgumentOutOfRangeException($"{nameof(columnName)}: {columnName}");
 
             return ToBooleanNullable(row[columnName]);
         }
@@ -298,7 +430,7 @@ namespace ZzzLab
         public static bool? ToBooleanNullable(this DataRow row, int columnIndex)
         {
             if (row == null) throw new ArgumentNullException(nameof(row));
-            if (row.Table.Columns.Count <= columnIndex) throw new IndexOutOfRangeException($"{nameof(columnIndex)}:{columnIndex}"); ;
+            if (row.Table.Columns.Count <= columnIndex) throw new IndexOutOfRangeException($"{nameof(columnIndex)}:{columnIndex}");
 
             return ToBooleanNullable(row[columnIndex]);
         }
@@ -325,11 +457,11 @@ namespace ZzzLab
 
             DateTime convert()
             {
-                if (row.Table.Columns.Contains(columnName) == false) throw new ArgumentOutOfRangeException($"{nameof(columnName)}: {columnName}"); ;
+                if (row.Table.Columns.Contains(columnName) == false) throw new ArgumentOutOfRangeException($"{nameof(columnName)}: {columnName}");
 
                 object o = row[columnName];
 
-                if (o == null || o == DBNull.Value || o.GetType() == typeof(DBNull)) throw new InvalidCastException(); ;
+                if (o == null || o == DBNull.Value || o.GetType() == typeof(DBNull)) throw new InvalidCastException();
                 return System.Convert.ToDateTime(o);
             }
         }
@@ -425,27 +557,56 @@ namespace ZzzLab
         public static string ToString(this DataRow row, int columnIndex)
             => ToStringNullable(row, columnIndex) ?? throw new InvalidCastException($"columnIndex: {columnIndex}");
 
-        public static string ToStringNullable(this DataRow row, string columnName)
+        public static string ToStringNullable(this DataRow row, string columnName, bool throwOnError = true)
         {
             if (row == null) throw new ArgumentNullException(nameof(row));
-            if (string.IsNullOrEmpty(columnName?.Trim())) throw new ArgumentNullException(nameof(columnName));
-            if (row.Table.Columns.Contains(columnName) == false) throw new ArgumentOutOfRangeException($"{nameof(columnName)}: {columnName}");
+            if (string.IsNullOrWhiteSpace(columnName)) throw new ArgumentNullException(nameof(columnName));
 
-            object obj = row[columnName];
+            if (throwOnError) return convert();
 
-            if (obj == null || obj == DBNull.Value || obj.GetType() == typeof(DBNull)) return null;
-            return System.Convert.ToString(obj);
+            try
+            {
+                return convert();
+            }
+            catch
+            {
+                return null;
+            }
+
+            string convert()
+            {
+                if (row.Table.Columns.Contains(columnName) == false) throw new ArgumentOutOfRangeException($"{nameof(columnName)}: {columnName}");
+
+                object obj = row[columnName];
+
+                if (obj == null || obj == DBNull.Value || obj.GetType() == typeof(DBNull)) return null;
+                return System.Convert.ToString(obj);
+            }
         }
 
-        public static string ToStringNullable(this DataRow row, int columnIndex)
+        public static string ToStringNullable(this DataRow row, int columnIndex, bool throwOnError = true)
         {
             if (row == null) throw new ArgumentNullException(nameof(row));
             if (row.Table.Columns.Count <= columnIndex) throw new IndexOutOfRangeException($"columnIndex: {columnIndex}");
 
-            object obj = row[(int)columnIndex];
+            if (throwOnError) return convert();
 
-            if (obj == null || obj == DBNull.Value || obj.GetType() == typeof(DBNull)) return null;
-            return System.Convert.ToString(obj);
+            try
+            {
+                return convert();
+            }
+            catch
+            {
+                return null;
+            }
+
+            string convert()
+            {
+                object obj = row[(int)columnIndex];
+
+                if (obj == null || obj == DBNull.Value || obj.GetType() == typeof(DBNull)) return null;
+                return System.Convert.ToString(obj);
+            }
         }
 
         #endregion string
@@ -529,7 +690,7 @@ namespace ZzzLab
         {
             if (row == null) throw new ArgumentNullException(nameof(row));
             if (string.IsNullOrEmpty(columnName?.Trim())) throw new ArgumentNullException(nameof(columnName));
-            if (row.Table.Columns.Contains(columnName) == false) throw new ArgumentOutOfRangeException($"{nameof(columnName)}: {columnName}"); ;
+            if (row.Table.Columns.Contains(columnName) == false) throw new ArgumentOutOfRangeException($"{nameof(columnName)}: {columnName}");
 
             return ToEnumNullable<T>(row[columnName]);
         }
@@ -550,7 +711,7 @@ namespace ZzzLab
         {
             if (row == null) throw new ArgumentNullException(nameof(row));
             if (string.IsNullOrEmpty(columnName?.Trim())) throw new ArgumentNullException(nameof(columnName));
-            if (row.Table.Columns.Contains(columnName) == false) throw new ArgumentOutOfRangeException($"{nameof(columnName)}: {columnName}"); ;
+            if (row.Table.Columns.Contains(columnName) == false) throw new ArgumentOutOfRangeException($"{nameof(columnName)}: {columnName}");
 
             object obj = row[columnName];
 
@@ -577,7 +738,7 @@ namespace ZzzLab
         {
             if (row == null) throw new ArgumentNullException(nameof(row));
             if (string.IsNullOrEmpty(columnName?.Trim())) throw new ArgumentNullException(nameof(columnName));
-            if (row.Table.Columns.Contains(columnName) == false) throw new ArgumentOutOfRangeException($"{nameof(columnName)}: {columnName}"); ;
+            if (row.Table.Columns.Contains(columnName) == false) throw new ArgumentOutOfRangeException($"{nameof(columnName)}: {columnName}");
 
             object obj = row[columnName];
 

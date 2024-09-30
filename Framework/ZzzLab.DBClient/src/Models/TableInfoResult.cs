@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 
 namespace ZzzLab.Data.Models
 {
@@ -14,19 +15,19 @@ namespace ZzzLab.Data.Models
 
         public TableInfoResult(TableInfo tableInfo = null)
         {
-            if (tableInfo != null) Set(tableInfo);
+            if (tableInfo != null) this.Set(tableInfo);
         }
 
         public TableInfoResult Set(TableInfo tableInfo)
         {
-            DataBaseName = tableInfo.DataBaseName;
-            SchemaName = tableInfo.SchemaName;
-            TableName = tableInfo.TableName;
-            DBLink = tableInfo.DBLink;
-            TableType = tableInfo.TableType;
-            Comment = tableInfo.Comment;
-            CreatedDate = tableInfo.CreatedDate;
-            UpdatedDate = tableInfo.UpdatedDate;
+            base.CopyFrom(tableInfo);
+
+            return this;
+        }
+
+        public new TableInfoResult Set(DataRow row)
+        {
+            base.Set(row);
 
             return this;
         }

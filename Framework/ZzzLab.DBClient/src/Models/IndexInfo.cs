@@ -7,10 +7,12 @@ namespace ZzzLab.Data.Models
 {
     public class IndexInfo
     {
-        public virtual string Owner { get; set; }
+        public virtual string TableOwner { get; set; }
 
         [Required]
         public virtual string TableName { get; set; }
+
+        public virtual string IndexOwner { get; set; }
 
         [Required]
         public virtual string IndexName { get; set; }
@@ -40,10 +42,11 @@ namespace ZzzLab.Data.Models
 
         public virtual IndexInfo Set(DataRow row)
         {
-            this.Owner = row.ToString("OWNER");
+            this.TableOwner = row.ToString("TABLE_OWNER");
+            this.TableName = row.ToString("TABLE_NAME");
+            this.IndexOwner = row.ToString("INDEX_OWNER");
             this.IndexName = row.ToString("INDEX_NAME");
             this.IndexType = row.ToString("INDEX_TYPE");
-            this.TableName = row.ToString("TABLE_NAME");
             this.Uniqueness = row.ToString("UNIQUENESS");
 
             return this;
@@ -53,7 +56,7 @@ namespace ZzzLab.Data.Models
 
 public class IndexColumn
 {
-    protected virtual string Owner { get; set; }
+    protected virtual string TableOwner { get; set; }
     protected virtual string TableName { get; set; }
     protected virtual string IndexName { get; set; }
 
@@ -74,7 +77,7 @@ public class IndexColumn
 
     public virtual IndexColumn Set(DataRow row)
     {
-        this.Owner = row.ToString("OWNER");
+        this.TableOwner = row.ToString("OWNER");
         this.TableName = row.ToString("TABLE_NAME");
         this.IndexName = row.ToString("INDEX_NAME");
         this.OrderNo = row.ToInt("ORDER_NO");
