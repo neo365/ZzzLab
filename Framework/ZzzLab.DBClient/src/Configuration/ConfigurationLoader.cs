@@ -54,7 +54,7 @@ namespace ZzzLab.Configuration.DataBase
             {
                 if (string.IsNullOrWhiteSpace(Configurator.CryptKey)) throw new InitializeException();
 
-                json = AESCrypt.Decrypt(json, Configurator.CryptKey);
+                json = AESCrypt.Create(Configurator.CryptKey).Decrypt(json);
             }
 
             IEnumerable<ConnectionConfig> config = JsonConvert.DeserializeObject<IEnumerable<ConnectionConfig>>(json);
