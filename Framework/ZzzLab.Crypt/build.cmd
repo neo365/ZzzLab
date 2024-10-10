@@ -19,6 +19,7 @@ del *.bak
 
 cd .\src
 
+dotnet add package ZzzLab.Core
 dotnet add package Portable.BouncyCastle
 dotnet add package BCrypt.Net-Next
 dotnet add package Microsoft.CSharp
