@@ -23,7 +23,7 @@ dotnet add package Microsoft.AspNetCore.Authentication.JwtBearer
 dotnet add package Swashbuckle.AspNetCore                   
 dotnet add package Swashbuckle.AspNetCore.Filters              
 dotnet add package Swashbuckle.AspNetCore.Newtonsoft      
-dotnet add package ZzzLab.Core
+dotnet add package ZzzLab.Crypt
 
 dotnet list package
 

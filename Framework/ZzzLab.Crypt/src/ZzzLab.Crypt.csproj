@@ -23,7 +23,7 @@
 		<PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
 		<PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
 		<PackageReference Include="Portable.BouncyCastle" Version="1.9.0" />
-		<PackageReference Include="ZzzLab.Core" Version="0.2124.2020.2325" />
+		<PackageReference Include="ZzzLab.Core" Version="0.2124.2020.2331" />
 	</ItemGroup>
 
 </Project>
