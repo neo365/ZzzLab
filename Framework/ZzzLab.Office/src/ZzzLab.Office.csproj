@@ -23,16 +23,15 @@
 
   <ItemGroup>
 	<PackageReference Include="Microsoft.Win32.Registry" Version="5.0.0" />
-	<PackageReference Include="NPOI" Version="2.7.1" />
+	<PackageReference Include="NPOI" Version="2.7.2" />
 	<PackageReference Include="PdfSharpCore" Version="1.3.65" />
-	<PackageReference Include="SixLabors.ImageSharp" Version="2.1.9" />
-	<PackageReference Include="System.Security.Cryptography.Pkcs" Version="8.0.1" />
-	<PackageReference Include="ZzzLab.Core" Version="0.2124.2020.2331" />
-	<PackageReference Include="iTextSharp.LGPLv2.Core" Version="3.4.22" />
+	<PackageReference Include="System.Security.Cryptography.Pkcs" Version="9.0.0" />
+	<PackageReference Include="ZzzLab.Core" Version="0.2125.1113.2811" />
+	<PackageReference Include="iTextSharp.LGPLv2.Core" Version="3.5.1" />
 	<PackageReference Include="PDFium.Windows" Version="1.0.0" />
 	<PackageReference Include="PDFiumSharpV2" Version="1.1.4" />
-	<PackageReference Include="System.Drawing.Common" Version="8.0.10" />
-	<PackageReference Include="System.Memory" Version="4.5.5" />	  
+	<PackageReference Include="System.Drawing.Common" Version="9.0.0" />
+	<PackageReference Include="System.Memory" Version="4.6.0" />	  
   </ItemGroup>
 
 </Project>

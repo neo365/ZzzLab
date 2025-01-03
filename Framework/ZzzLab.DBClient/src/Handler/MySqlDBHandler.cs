@@ -11,7 +11,7 @@ namespace ZzzLab.Data
     {
         #region Construct
 
-        public MySqlDBHandler(string connectionString)
+        public MySqlDBHandler(string connectionString, string aliasName = null)
         {
             if (string.IsNullOrEmpty(connectionString?.Trim()))
             {
@@ -20,6 +20,7 @@ namespace ZzzLab.Data
 
             this.ConnectionString = connectionString;
             this.ServerType = DataBaseType.MySql;
+            this.AliasName = aliasName;
         }
 
         #endregion Construct
@@ -251,6 +252,13 @@ namespace ZzzLab.Data
            => throw new NotSupportedException();
 
         #endregion BulkCopy
+
+        public override string MakePagingQuery(string query, int pageNum, int pageSize)
+        {
+            if (pageNum <= 0) return query;
+
+            return $"SELECT * FROM (SELECT a.*, ROWNUM as rnum FROM ({query}) a)  WHERE rnum > {((pageNum - 1) * pageSize)} and rnum <= {pageNum * pageSize}";
+        }
 
         #region HELPER_FUNCTIONS
 

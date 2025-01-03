@@ -311,21 +311,57 @@ namespace ZzzLab
         public static long ToLong(this DataRow row, int columnIndex)
             => ToLongNullable(row, columnIndex) ?? throw new InvalidCastException($"columnIndex: {columnIndex}");
 
-        public static long? ToLongNullable(this DataRow row, string columnName)
+        public static long? ToLongNullable(this DataRow row, string columnName, bool throwOnError = true)
         {
             if (row == null) throw new ArgumentNullException(nameof(row));
-            if (string.IsNullOrWhiteSpace(columnName)) throw new ArgumentNullException(nameof(columnName));
-            if (row.Table.Columns.Contains(columnName) == false) throw new ArgumentOutOfRangeException($"{nameof(columnName)}: {columnName}");
 
-            return ToLongNullable(row[columnName]);
+            if (throwOnError) return convert();
+
+            try
+            {
+                return convert();
+            }
+            catch
+            {
+                return null;
+            }
+
+            long? convert()
+            {
+                if (string.IsNullOrWhiteSpace(columnName)) throw new ArgumentNullException(nameof(columnName));
+                if (row.Table.Columns.Contains(columnName) == false) throw new ArgumentOutOfRangeException($"{nameof(columnName)}: {columnName}");
+
+                object obj = row[columnName];
+
+                if (obj == null || obj == DBNull.Value || obj.GetType() == typeof(DBNull)) return null;
+                return ToLongNullable(obj);
+            }
         }
 
-        public static long? ToLongNullable(this DataRow row, int columnIndex)
+        public static long? ToLongNullable(this DataRow row, int columnIndex, bool throwOnError = true)
         {
             if (row == null) throw new ArgumentNullException(nameof(row));
-            if (row.Table.Columns.Count <= columnIndex) throw new IndexOutOfRangeException($"{nameof(columnIndex)}:{columnIndex}");
 
-            return ToLongNullable(row[columnIndex]);
+            if (throwOnError) return convert();
+
+            try
+            {
+                return convert();
+            }
+            catch
+            {
+                return null;
+            }
+
+            long? convert()
+            {
+                if (row.Table.Columns.Count <= columnIndex || columnIndex < 0) throw new IndexOutOfRangeException($"{nameof(columnIndex)}:{columnIndex}");
+
+                object obj = row[columnIndex];
+
+                if (obj == null || obj == DBNull.Value || obj.GetType() == typeof(DBNull)) return null;
+                return ToLongNullable(obj);
+            }
         }
 
         #endregion long
@@ -338,21 +374,57 @@ namespace ZzzLab
         public static ulong ToULong(this DataRow row, int columnIndex)
             => ToULongNullable(row, columnIndex) ?? throw new InvalidCastException($"columnIndex: {columnIndex}");
 
-        public static ulong? ToULongNullable(this DataRow row, string columnName)
+        public static ulong? ToULongNullable(this DataRow row, string columnName, bool throwOnError = true)
         {
             if (row == null) throw new ArgumentNullException(nameof(row));
-            if (string.IsNullOrWhiteSpace(columnName)) throw new ArgumentNullException(nameof(columnName));
-            if (row.Table.Columns.Contains(columnName) == false) throw new ArgumentOutOfRangeException($"{nameof(columnName)}: {columnName}");
 
-            return ToULongNullable(row[columnName]);
+            if (throwOnError) return convert();
+
+            try
+            {
+                return convert();
+            }
+            catch
+            {
+                return null;
+            }
+
+            ulong? convert()
+            {
+                if (string.IsNullOrWhiteSpace(columnName)) throw new ArgumentNullException(nameof(columnName));
+                if (row.Table.Columns.Contains(columnName) == false) throw new ArgumentOutOfRangeException($"{nameof(columnName)}: {columnName}");
+
+                object obj = row[columnName];
+
+                if (obj == null || obj == DBNull.Value || obj.GetType() == typeof(DBNull)) return null;
+                return ToULongNullable(obj);
+            }
         }
 
-        public static ulong? ToULongNullable(this DataRow row, int columnIndex)
+        public static ulong? ToULongNullable(this DataRow row, int columnIndex, bool throwOnError = true)
         {
             if (row == null) throw new ArgumentNullException(nameof(row));
-            if (row.Table.Columns.Count <= columnIndex) throw new IndexOutOfRangeException($"{nameof(columnIndex)}:{columnIndex}");
 
-            return ToULongNullable(row[columnIndex]);
+            if (throwOnError) return convert();
+
+            try
+            {
+                return convert();
+            }
+            catch
+            {
+                return null;
+            }
+
+            ulong? convert()
+            {
+                if (row.Table.Columns.Count <= columnIndex || columnIndex < 0) throw new IndexOutOfRangeException($"{nameof(columnIndex)}:{columnIndex}");
+
+                object obj = row[columnIndex];
+
+                if (obj == null || obj == DBNull.Value || obj.GetType() == typeof(DBNull)) return null;
+                return ToULongNullable(obj);
+            }
         }
 
         #endregion ulong
@@ -414,27 +486,69 @@ namespace ZzzLab
         #region boolean
 
         public static bool ToBoolean(this DataRow row, string columnName)
-            => ToBooleanNullable(row, columnName) ?? throw new InvalidCastException($"columnName: {columnName}");
+            => ToBooleanNullable(row, columnName, true) ?? throw new InvalidCastException($"columnName: {columnName}");
 
         public static bool ToBoolean(this DataRow row, int columnIndex)
-            => ToBooleanNullable(row, columnIndex) ?? throw new InvalidCastException($"columnIndex: {columnIndex}");
+            => ToBooleanNullable(row, columnIndex, true) ?? throw new InvalidCastException($"columnIndex: {columnIndex}");
 
-        public static bool? ToBooleanNullable(this DataRow row, string columnName)
+        public static bool? ToBooleanNullable(this DataRow row, string columnName, bool throwOnError)
         {
             if (row == null) throw new ArgumentNullException(nameof(row));
-            if (string.IsNullOrWhiteSpace(columnName)) throw new ArgumentNullException(nameof(columnName));
-            if (row.Table.Columns.Contains(columnName) == false) throw new ArgumentOutOfRangeException($"{nameof(columnName)}: {columnName}");
 
-            return ToBooleanNullable(row[columnName]);
+            if (throwOnError) return convert();
+
+            try
+            {
+                return convert();
+            }
+            catch
+            {
+                return null;
+            }
+
+            bool? convert()
+            {
+                if (string.IsNullOrWhiteSpace(columnName)) throw new ArgumentNullException(nameof(columnName));
+                if (row.Table.Columns.Contains(columnName) == false) throw new ArgumentOutOfRangeException($"{nameof(columnName)}: {columnName}");
+
+                object obj = row[columnName];
+
+                if (obj == null || obj == DBNull.Value || obj.GetType() == typeof(DBNull)) return null;
+                return ToBooleanNullable(obj);
+            }
+        }
+
+        public static bool? ToBooleanNullable(this DataRow row, string columnName)
+            => ToBooleanNullable(row, columnName, true);
+
+        public static bool? ToBooleanNullable(this DataRow row, int columnIndex, bool throwOnError)
+        {
+            if (row == null) throw new ArgumentNullException(nameof(row));
+
+            if (throwOnError) return convert();
+
+            try
+            {
+                return convert();
+            }
+            catch
+            {
+                return null;
+            }
+
+            bool? convert()
+            {
+                if (row.Table.Columns.Count <= columnIndex || columnIndex < 0) throw new IndexOutOfRangeException($"columnIndex: {columnIndex}");
+
+                object obj = row[columnIndex];
+
+                if (obj == null || obj == DBNull.Value || obj.GetType() == typeof(DBNull)) return null;
+                return ToBooleanNullable(obj);
+            }
         }
 
         public static bool? ToBooleanNullable(this DataRow row, int columnIndex)
-        {
-            if (row == null) throw new ArgumentNullException(nameof(row));
-            if (row.Table.Columns.Count <= columnIndex) throw new IndexOutOfRangeException($"{nameof(columnIndex)}:{columnIndex}");
-
-            return ToBooleanNullable(row[columnIndex]);
-        }
+            => ToBooleanNullable(row, columnIndex, true);
 
         #endregion boolean
 
@@ -560,7 +674,7 @@ namespace ZzzLab
         /// <returns></returns>
         /// <exception cref="InvalidCastException"></exception>
         public static string ToString(this DataRow row, string columnName)
-            => ToStringNullable(row, columnName) ?? throw new InvalidCastException($"columnName: {columnName}");
+            => ToStringNullable(row, columnName, true) ?? throw new InvalidCastException($"columnName: {columnName}");
 
         /// <summary>
         /// Datarow Value To string
@@ -570,14 +684,14 @@ namespace ZzzLab
         /// <returns></returns>
         /// <exception cref="InvalidCastException"></exception>
         public static string ToString(this DataRow row, int columnIndex)
-            => ToStringNullable(row, columnIndex) ?? throw new InvalidCastException($"columnIndex: {columnIndex}");
+            => ToStringNullable(row, columnIndex, true) ?? throw new InvalidCastException($"columnIndex: {columnIndex}");
 
         /// <summary>
         /// Datarow Value To string
         /// </summary>
         /// <param name="row"></param>
         /// <param name="columnName"></param>
-        /// <param name="throwOnError"></param>
+        /// <param name="throwOnError">에러시 exception 처리 할지 여부. false로 설정하면 null 또는 default 리턴</param>
         /// <returns></returns>
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
@@ -612,8 +726,19 @@ namespace ZzzLab
         /// Datarow Value To string
         /// </summary>
         /// <param name="row"></param>
+        /// <param name="columnName"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="IndexOutOfRangeException"></exception>
+        public static string ToStringNullable(this DataRow row, string columnName)
+            => ToStringNullable(row, columnName, true);
+
+        /// <summary>
+        /// Datarow Value To string
+        /// </summary>
+        /// <param name="row"></param>
         /// <param name="columnIndex"></param>
-        /// <param name="throwOnError"></param>
+        /// <param name="throwOnError">에러시 exception 처리 할지 여부. false로 설정하면 null 또는 default 리턴</param>
         /// <returns></returns>
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="IndexOutOfRangeException"></exception>
@@ -634,14 +759,26 @@ namespace ZzzLab
 
             string convert()
             {
-                if (row.Table.Columns.Count <= columnIndex) throw new IndexOutOfRangeException($"columnIndex: {columnIndex}");
+                if (row.Table.Columns.Count <= columnIndex || columnIndex < 0) throw new IndexOutOfRangeException($"columnIndex: {columnIndex}");
 
-                object obj = row[(int)columnIndex];
+                object obj = row[columnIndex];
 
                 if (obj == null || obj == DBNull.Value || obj.GetType() == typeof(DBNull)) return null;
                 return System.Convert.ToString(obj);
             }
         }
+
+        /// <summary>
+        /// Datarow Value To string
+        /// </summary>
+        /// <param name="row"></param>
+        /// <param name="columnIndex"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="IndexOutOfRangeException"></exception>
+
+        public static string ToStringNullable(this DataRow row, int columnIndex)
+            => ToStringNullable(row, columnIndex, true);
 
         #endregion string
 
@@ -906,7 +1043,7 @@ namespace ZzzLab
         #region json
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="row"></param>
@@ -917,7 +1054,7 @@ namespace ZzzLab
             => FromJsonNullable<T>(row, columnName) ?? throw new InvalidCastException($"columnName: {columnName}");
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="row"></param>
@@ -928,46 +1065,84 @@ namespace ZzzLab
             => FromJsonNullable<T>(row, columnIndex) ?? throw new InvalidCastException();
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="row"></param>
         /// <param name="columnName"></param>
+        /// <param name="throwOnError">에러시 exception 처리 할지 여부. false로 설정하면 null 또는 default 리턴</param>
         /// <returns></returns>
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
-        public static T FromJsonNullable<T>(this DataRow row, string columnName) where T : class
+        public static T FromJsonNullable<T>(this DataRow row, string columnName, bool throwOnError = true) where T : class
         {
             if (row == null) throw new ArgumentNullException(nameof(row));
-            if (string.IsNullOrWhiteSpace(columnName)) throw new ArgumentNullException(nameof(columnName));
-            if (row.Table.Columns.Contains(columnName) == false) throw new ArgumentOutOfRangeException($"{nameof(columnName)}: {columnName}");
 
-            string json = row.ToStringNullable(columnName);
-            if (string.IsNullOrWhiteSpace(json)) return null;
-            if (json.StartsWith("{") == false) return null;
+            if (throwOnError) return convert();
 
-            return JsonConvert.DeserializeObject<T>(json);
+            try
+            {
+                return convert();
+            }
+            catch
+            {
+                return null;
+            }
+
+            T convert()
+            {
+                if (string.IsNullOrWhiteSpace(columnName)) throw new ArgumentNullException(nameof(columnName));
+                if (row.Table.Columns.Contains(columnName) == false) throw new ArgumentOutOfRangeException($"{nameof(columnName)}: {columnName}");
+
+                object obj = row[columnName];
+
+                if (obj == null || obj == DBNull.Value || obj.GetType() == typeof(DBNull)) return null;
+                string json = row.ToStringNullable(columnName);
+                if (string.IsNullOrWhiteSpace(json)) return null;
+                if (json.StartsWithIgnoreCaseOr("{", "[") == false) return null;
+
+                return JsonConvert.DeserializeObject<T>(json);
+            }
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="row"></param>
         /// <param name="columnIndex"></param>
+        /// <param name="throwOnError">에러시 exception 처리 할지 여부. false로 설정하면 null 또는 default 리턴</param>
         /// <returns></returns>
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="IndexOutOfRangeException"></exception>
-        public static T FromJsonNullable<T>(this DataRow row, int columnIndex) where T : class
+        public static T FromJsonNullable<T>(this DataRow row, int columnIndex, bool throwOnError = true) where T : class
         {
             if (row == null) throw new ArgumentNullException(nameof(row));
-            if (row.Table.Columns.Count <= columnIndex) throw new IndexOutOfRangeException($"columnIndex: {columnIndex}");
 
-            string json = row.ToStringNullable(columnIndex);
-            if (string.IsNullOrWhiteSpace(json)) return null;
-            if (json.StartsWith("{") == false) return null;
+            if (throwOnError) return convert();
 
-            return JsonConvert.DeserializeObject<T>(json);
+            try
+            {
+                return convert();
+            }
+            catch
+            {
+                return null;
+            }
+
+            T convert()
+            {
+                if (row.Table.Columns.Count <= columnIndex || columnIndex < 0) throw new IndexOutOfRangeException($"columnIndex: {columnIndex}");
+
+                object obj = row[columnIndex];
+
+                if (obj == null || obj == DBNull.Value || obj.GetType() == typeof(DBNull)) return null;
+                string json = row.ToStringNullable(columnIndex);
+                if (string.IsNullOrWhiteSpace(json)) return null;
+                if (json.StartsWithIgnoreCaseOr("{", "[") == false) return null;
+
+                return JsonConvert.DeserializeObject<T>(json);
+            }
         }
 
         #endregion json

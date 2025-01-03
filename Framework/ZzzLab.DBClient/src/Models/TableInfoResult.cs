@@ -1,16 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
+using System.Runtime.Serialization;
 
 namespace ZzzLab.Data.Models
 {
+    [DataContract]
     public class TableInfoResult : TableInfo, ICopyable, ICloneable
     {
         public static TableInfoResult Create(TableInfo tableInfo = null)
             => new TableInfoResult(tableInfo);
 
-        public List<string> RefPath { set; get; } = new List<string>();
+        [DataMember]
         public virtual bool IsSuccess { set; get; } = true;
+
+        [DataMember]
         public virtual string Message { set; get; } = string.Empty;
 
         public TableInfoResult(TableInfo tableInfo = null)
@@ -18,7 +21,7 @@ namespace ZzzLab.Data.Models
             if (tableInfo != null) this.Set(tableInfo);
         }
 
-        public TableInfoResult Set(TableInfo tableInfo)
+        public new TableInfoResult Set(TableInfo tableInfo)
         {
             base.CopyFrom(tableInfo);
 
@@ -47,7 +50,6 @@ namespace ZzzLab.Data.Models
 
             base.CopyTo(target);
 
-            target.RefPath = this.RefPath;
             target.IsSuccess = this.IsSuccess;
             target.Message = this.Message;
 
@@ -60,7 +62,6 @@ namespace ZzzLab.Data.Models
 
             base.CopyFrom(source);
 
-            this.RefPath = source.RefPath;
             this.IsSuccess = source.IsSuccess;
             this.Message = source.Message;
 

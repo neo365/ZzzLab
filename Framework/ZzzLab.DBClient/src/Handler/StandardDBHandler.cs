@@ -1,9 +1,9 @@
-﻿using MySql.Data.MySqlClient;
+﻿using Microsoft.Data.SqlClient;
+using MySql.Data.MySqlClient;
 using Npgsql;
 using Oracle.ManagedDataAccess.Client;
 using System;
 using System.Data;
-using System.Data.SqlClient;
 using System.Data.SQLite;
 using System.Linq;
 
@@ -11,7 +11,7 @@ namespace ZzzLab.Data.Handler
 {
     public class StandardDBHandler : DataBaseHandlerBase, IDBHandler, IDisposable
     {
-        public StandardDBHandler(DataBaseType serverType, string connectionString)
+        public StandardDBHandler(DataBaseType serverType, string connectionString, string aliasName = null)
         {
             if (string.IsNullOrEmpty(connectionString?.Trim()))
             {
@@ -20,6 +20,7 @@ namespace ZzzLab.Data.Handler
 
             this.ConnectionString = connectionString;
             this.ServerType = serverType;
+            this.AliasName = aliasName;
         }
 
         protected override IDbConnection CreateConnection()
@@ -183,6 +184,9 @@ namespace ZzzLab.Data.Handler
         }
 
         #endregion Excute
+
+        public override string MakePagingQuery(string query, int pageNum, int pageSize)
+            => throw new NotSupportedException();
 
         #region HELPER_FUNCTIONS
 

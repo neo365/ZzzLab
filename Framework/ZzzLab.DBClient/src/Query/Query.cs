@@ -12,10 +12,29 @@ namespace ZzzLab.Data
     {
         internal const int DEFATLT_COMMAND_TIMEOUT = 30;
 
+        private string _CommandText = string.Empty;
+
         /// <summary>
         /// 실행될 SQL 쿼리
         /// </summary>
-        public string CommandText { private set; get; }
+        public string CommandText
+        {
+            private set
+            {
+                _CommandText = value;
+            }
+            get
+            {
+                if (Parameters == null || Parameters.Any() == false) return _CommandText;
+
+                string sql = _CommandText;
+                foreach (QueryParameter parameter in Parameters)
+                {
+                    sql = sql.ReplaceIgnoreCase("#{{" + parameter.Name + "}}", parameter.Value?.ToString());
+                }
+                return sql;
+            }
+        }
 
         /// <summary>
         /// Procedure 여부
@@ -103,7 +122,8 @@ namespace ZzzLab.Data
 
                             commandText = commandText.ReplaceIgnoreCase($"${{key}}", $"{(string.IsNullOrEmpty(value) ? string.Empty : $"{value}")}")
                                                  .ReplaceIgnoreCase($"#{{key}}", $"{(value == null ? "null" : $"'{value}'")}")
-                                                 .ReplaceIgnoreCase($"@{key}", $"{(value == null ? "null" : $"'{value}'")}");
+                                                 .ReplaceIgnoreCase($"@{key}", $"{(value == null ? "null" : $"'{value}'")}")
+                                                 .ReplaceIgnoreCase($":{key}", $"{(value == null ? "null" : $"'{value}'")}");
 
                             commandText = SQLUtils.Formatter(commandText);
                         }

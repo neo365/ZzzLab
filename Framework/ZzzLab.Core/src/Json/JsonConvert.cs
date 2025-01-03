@@ -40,6 +40,8 @@ namespace ZzzLab.Json
         /// <exception cref="NullReferenceException"></exception>
         public static T DeserializeObject<T>(string json, string path = null)
         {
+            if (string.IsNullOrWhiteSpace(json)) return default;
+
             if (string.IsNullOrWhiteSpace(path)) return Newtonsoft.Json.JsonConvert.DeserializeObject<T>(json);
             else
             {

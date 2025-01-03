@@ -1,6 +1,6 @@
-﻿using System;
+﻿using Microsoft.Data.SqlClient;
+using System;
 using System.Data;
-using System.Data.SqlClient;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -31,6 +31,13 @@ namespace ZzzLab.Data
             => $"Data Source={host},{port};Initial Catalog={database}; User ID={userid}; Password={password};Connect Timeout={timeout}";
 
         #endregion Connectionstring
+
+        #region Version
+
+        public override string GetVersion()
+            => SelectValue("SELECT 'MS SQL '& SERVERPROPERTY ('edition') & ' ' & SERVERPROPERTY ('productlevel') & ' ' & SERVERPROPERTY('productversion')")?.ToString();
+
+        #endregion Version
 
         #region Connection
 
@@ -282,6 +289,13 @@ namespace ZzzLab.Data
         }
 
         #endregion BulkCopy
+
+        public override string MakePagingQuery(string query, int pageNum, int pageSize)
+        {
+            if (pageNum <= 0) return query;
+
+            return $"SELECT * FROM (SELECT a.*, ROWNUM as rnum FROM ({query}) a)  WHERE rnum > {((pageNum - 1) * pageSize)} and rnum <= {pageNum * pageSize}";
+        }
 
         #region HELPER_FUNCTIONS
 

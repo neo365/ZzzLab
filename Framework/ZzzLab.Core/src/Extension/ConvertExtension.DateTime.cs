@@ -48,21 +48,49 @@ namespace ZzzLab
         public static string ToTimeString(this Stopwatch watch)
             => watch.ElapsedMilliseconds.ToTimeString();
 
-        public static DateTime ToDateTime(this string str)
-            => ToDateTimeNullable(str) ?? throw new InvalidCastException("\\" + str + "\\ is Not DateTime.");
-
-        public static DateTime ToDateTime(this string str, string format)
-            => ToDateTimeNullable(str, format) ?? throw new InvalidCastException("\\" + str + "\\ is Not DateTime.");
-
-        public static DateTime ToDateTime(this object obj)
-            => ToDateTime(obj.ToString());
-
-        public static DateTime? ToDateTimeNullable(this string str)
+        private static DateTime? ConvertDateTime(object obj, string dateFormat = null)
         {
+            if (obj == null || obj == DBNull.Value || obj.GetType() == typeof(DBNull)) return null;
+            if (obj is string str && string.IsNullOrWhiteSpace(str)) return null;
+
+            if (obj is DateTime datetime) return datetime;
+
+            DateTime convertedValue;
+            if (string.IsNullOrWhiteSpace(dateFormat) == false)
+            {
+                if (DateTime.TryParseExact(obj.ToString(), dateFormat, null, System.Globalization.DateTimeStyles.None, out convertedValue))
+                {
+                    return convertedValue;
+                }
+            }
+            if (DateTime.TryParse(obj.ToString(), out convertedValue)) return convertedValue;
+            return Convert.ToDateTime(obj);
+        }
+
+        private static DateTime? ConvertDateTime(long timestamp)
+        {
+            if (timestamp < 0) return null;
+
+            DateTime datetime = new DateTime(1970, 1, 1, 0, 0, 0, 0, System.DateTimeKind.Utc);
+            return datetime.AddSeconds(timestamp).ToLocalTime();
+        }
+
+        public static DateTime ToDateTime(this string str, string format = null)
+            => ToDateTimeNullable(str, format) ?? throw new InvalidCastException($"\\{str}\\ is Not DateTime.");
+
+        public static DateTime ToDateTime(this object obj, string format = null)
+            => ToDateTimeNullable(obj, format) ?? throw new InvalidCastException($"\\{obj}\\ is Not DateTime.");
+
+        public static DateTime? ToDateTimeNullable(this object obj, string format = null, bool throwOnError = true)
+        {
+            if (obj == null || obj == DBNull.Value || obj.GetType() == typeof(DBNull)) return null;
+            if (obj is string str && string.IsNullOrWhiteSpace(str)) return null;
+
+            if (throwOnError) return ConvertDateTime(obj, format);
+
             try
             {
-                if (string.IsNullOrWhiteSpace(str)) return null;
-                return str.ToDateTime();
+                return ConvertDateTime(obj, format);
             }
             catch
             {
@@ -70,30 +98,36 @@ namespace ZzzLab
             }
         }
 
-        public static DateTime? ToDateTimeNullable(this string str, string format)
+        public static DateTime? ToDateTimeNullable(this string str, string format = null, bool throwOnError = true)
         {
             if (string.IsNullOrWhiteSpace(str)) return null;
-            if (DateTime.TryParseExact(str, format, null, System.Globalization.DateTimeStyles.None, out DateTime convertedValue)) return convertedValue;
+            if (throwOnError) return ConvertDateTime(str, format);
 
-            return null;
+            try
+            {
+                return ConvertDateTime(str, format);
+            }
+            catch
+            {
+                return null;
+            }
         }
 
         public static DateTime ToDateTime(this long timestamp)
-        {
-            DateTime datetime = new DateTime(1970, 1, 1, 0, 0, 0, 0, System.DateTimeKind.Utc);
-            return datetime.AddSeconds(timestamp).ToLocalTime();
-        }
+            => ToDateTimeNullable(timestamp) ?? throw new InvalidCastException($"\\{timestamp}\\ is Not DateTime.");
 
-        public static DateTime? ToDateTimeNullable(this long v)
+        public static DateTime? ToDateTimeNullable(this long timestamp, bool throwOnError = true)
         {
+            if (throwOnError) return ConvertDateTime(timestamp);
+
             try
             {
-                return v.ToDateTime();
+                return ConvertDateTime(timestamp);
             }
 #if DEBUG && TRACE
             catch (Exception ex)
             {
-                Debug.WriteLine("ToDateTimeNullable : " + v);
+                Debug.WriteLine("ToDateTimeNullable : " + timestamp);
                 Debug.WriteLine(ex.ToString());
             }
 #else
@@ -253,12 +287,6 @@ namespace ZzzLab
         {
             DateTime origin = new DateTime(1970, 1, 1, 0, 0, 0, 0);
             return origin.AddSeconds(timestamp);
-        }
-
-        public static DateTime? ToDateTimeNullable(this object o)
-        {
-            if (o == null || o == DBNull.Value || o.GetType() == typeof(DBNull)) return null;
-            return System.Convert.ToDateTime(o);
         }
 
         /// <summary>

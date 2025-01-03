@@ -17,7 +17,7 @@ namespace ZzzLab.Data
             if (string.IsNullOrWhiteSpace(section)) throw new ArgumentNullException(nameof(section));
             if (string.IsNullOrWhiteSpace(label)) throw new ArgumentNullException(nameof(label));
 
-            return this.Items.FirstOrDefault(x => x.Section.EndsWithIgnoreCase(section) && x.Label.EndsWithIgnoreCase(label))?.Command ?? throw new NotFoundException($"Query Not Found: [{section}] {label}");
+            return this.Items.FirstOrDefault(x => x.Section.EqualsIgnoreCase(section) && x.Label.EqualsIgnoreCase(label))?.Command ?? throw new NotFoundException($"Query Not Found: [{section}] {label}");
         }
 
         public void Add(string section, string label, string command)
@@ -31,7 +31,7 @@ namespace ZzzLab.Data
                 if (string.IsNullOrWhiteSpace(query.Label)) throw new ArgumentNullException(nameof(query.Label));
                 if (string.IsNullOrWhiteSpace(query.Command)) throw new ArgumentNullException(nameof(query.Command));
 
-                SqlEntity item = this.Items.Find(x => x.Section.EndsWithIgnoreCase(query.Section) && x.Label.EndsWithIgnoreCase(query.Label));
+                SqlEntity item = this.Items.Find(x => x.Section.EqualsIgnoreCase(query.Section) && x.Label.EqualsIgnoreCase(query.Label));
 
                 if (item == null) this.Items.Add(query);
                 else item.Set(item.Command);
@@ -46,7 +46,7 @@ namespace ZzzLab.Data
 
         public override bool Remove(SqlEntity item)
         {
-            SqlEntity query = this.Items.Find(x => x.Section.EndsWithIgnoreCase(item.Section) && x.Label.EndsWithIgnoreCase(item.Label));
+            SqlEntity query = this.Items.Find(x => x.Section.EqualsIgnoreCase(item.Section) && x.Label.EqualsIgnoreCase(item.Label));
 
             if (query != null) return Items.Remove(query);
 
@@ -55,7 +55,7 @@ namespace ZzzLab.Data
 
         public bool RemoveAt(string section, string label)
         {
-            SqlEntity item = this.Items.Find(x => x.Section.EndsWithIgnoreCase(section) && x.Label.EndsWithIgnoreCase(label));
+            SqlEntity item = this.Items.Find(x => x.Section.EqualsIgnoreCase(section) && x.Label.EqualsIgnoreCase(label));
 
             if (item != null) return Items.Remove(item);
 
@@ -69,6 +69,6 @@ namespace ZzzLab.Data
             => Items.Clear();
 
         public override bool Contains(SqlEntity item)
-            => this.Items.Any(x => x.Section.EndsWithIgnoreCase(item.Section) && x.Label.EndsWithIgnoreCase(item.Label));
+            => this.Items.Any(x => x.Section.EqualsIgnoreCase(item.Section) && x.Label.EqualsIgnoreCase(item.Label));
     }
 }

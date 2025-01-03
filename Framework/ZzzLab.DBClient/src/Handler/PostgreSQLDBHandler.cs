@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics;
 using System.Linq;
 
 namespace ZzzLab.Data
@@ -26,9 +27,16 @@ namespace ZzzLab.Data
         #region Connectionstring
 
         internal static string CreateConnectionString(string host, int port, string database, string userid, string password, int timeout = 15)
-            => $"Host={host};Port={port};Database={database};User ID={userid};Password={password};Timeout={timeout}";
+            => $"Host={host};Port={port};Database={database};User ID={userid};Password={password};Timeout={timeout};";
 
         #endregion Connectionstring
+
+        #region Version
+
+        public override string GetVersion()
+            => SelectValue("select version()")?.ToString();
+
+        #endregion Version
 
         #region Connection
 
@@ -49,13 +57,6 @@ namespace ZzzLab.Data
         }
 
         #endregion Connection
-
-        #region Version
-
-        public override string GetVersion()
-            => SelectValue("SELECT VERSION()")?.ToString();
-
-        #endregion Version
 
         #region Select
 
@@ -124,7 +125,10 @@ namespace ZzzLab.Data
 
                 return (result != null && result.Rows.Count > 0 ? result : null);
             }
-            catch { throw; }
+            catch {
+                Debug.WriteLine(query.ToString());
+                throw; 
+            }
             finally
             {
                 CrearConnection(conn);
@@ -166,6 +170,7 @@ namespace ZzzLab.Data
                                 cmd.CommandType = q.CommandType;
                                 cmd.Parameters.Clear();
                                 MappingQuery(cmd, q);
+
                                 cmd.ExecuteNonQuery();
                                 resultcount++;
                             }
@@ -174,6 +179,8 @@ namespace ZzzLab.Data
                         }
                         catch
                         {
+                            Debug.WriteLine(query.ToString());
+
                             cmd.Transaction?.Rollback(); // 에러발생시rollback
                             cmd.Cancel();
                             throw;
@@ -283,6 +290,13 @@ namespace ZzzLab.Data
 
         #endregion BulkCopy
 
+        public override string MakePagingQuery(string query, int pageNum = 1, int pageSize = 100)
+        {
+            if (pageNum <= 0) return query;
+
+            return $"SELECT * FROM ({query}) OFFSET {((pageNum - 1) * pageSize)} ROWS FETCH NEXT {pageSize} ROWS ONLY";
+        }
+
         #region HELPER_FUNCTIONS
 
         private void MappingQuery(NpgsqlCommand cmd, Query query)
@@ -302,8 +316,10 @@ namespace ZzzLab.Data
                 {
                     ParameterName = p.Name,
                     Value = (p.Value ?? DBNull.Value),
-                    Direction = ToParameterDirection(p.Direction)
+                    Direction = ToParameterDirection(p.Direction),
                 };
+
+                //if(p.Value is IEnumerable) dbParameter.NpgsqlDbType = NpgsqlDbType.Jsonb;
 
                 cmd.Parameters.Add(dbParameter);
             }

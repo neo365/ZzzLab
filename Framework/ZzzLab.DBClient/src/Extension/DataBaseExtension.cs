@@ -167,7 +167,7 @@ namespace ZzzLab.Data
             switch (serverType)
             {
                 case DataBaseType.PostgreSQL: return typeof(Npgsql.NpgsqlConnection);
-                case DataBaseType.MSSql: return typeof(System.Data.SqlClient.SqlConnection);
+                case DataBaseType.MSSql: return typeof(Microsoft.Data.SqlClient.SqlConnection);
                 case DataBaseType.Oracle: return typeof(Oracle.ManagedDataAccess.Client.OracleConnection);
                 case DataBaseType.MySql: return typeof(MySql.Data.MySqlClient.MySqlConnection);
                 case DataBaseType.MariaDB: return typeof(MySql.Data.MySqlClient.MySqlConnection);

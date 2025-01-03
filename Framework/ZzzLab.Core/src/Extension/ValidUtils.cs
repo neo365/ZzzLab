@@ -168,7 +168,7 @@ namespace ZzzLab
         /// <param name="values">비교대상 string array</param>
         /// <returns>값이 하나라도 일치 하는지 여부 판단</returns>
         public static bool EqualsOr(this string str, params string[] values)
-            => EqualsOrIgnoreCase(str, (IEnumerable<string>)values);
+            => EqualsOr(str, (IEnumerable<string>)values);
 
         /// <summary>
         /// 값이 하나라도 일치 하는지 여부 판단.
@@ -203,8 +203,8 @@ namespace ZzzLab
         /// <param name="str">판단 대상</param>
         /// <param name="collection">비교대상 string array</param>
         /// <returns>값이 하나라도 일치 하는지 여부 판단</returns>
-        public static bool EqualsOrIgnoreCase(this string str, params string[] collection)
-            => EqualsOrIgnoreCase(str, (IEnumerable<string>)collection);
+        public static bool EqualsIgnoreCaseOr(this string str, params string[] collection)
+            => EqualsIgnoreCaseOr(str, (IEnumerable<string>)collection);
 
         /// <summary>
         /// 값이 하나라도 일치 하는지 대소문자를 무시하고 여부 판단.
@@ -212,7 +212,7 @@ namespace ZzzLab
         /// <param name="str">판단 대상</param>
         /// <param name="collection">비교대상 string collection</param>
         /// <returns>값이 하나라도 일치 하는지 여부 판단</returns>
-        public static bool EqualsOrIgnoreCase(this string str, IEnumerable<string> collection)
+        public static bool EqualsIgnoreCaseOr(this string str, IEnumerable<string> collection)
         {
             if (str is null) throw new ArgumentNullException(nameof(str));
             if (collection == null || collection.Any() == false) throw new ArgumentNullException(nameof(collection));
@@ -224,6 +224,15 @@ namespace ZzzLab
 
             return false;
         }
+
+        /// <summary>
+        /// 값이 다른지 대소문자를 무시하고 여부 판단.
+        /// </summary>
+        /// <param name="str">판단 대상</param>
+        /// <param name="value">비교대상 string</param>
+        /// <returns>값이 다른지 여부 판단</returns>
+        public static bool UnEqualsIgnoreCase(this string str, string value)
+            => !str.Equals(value, StringComparison.OrdinalIgnoreCase);
 
         #endregion Equals
 
@@ -360,6 +369,100 @@ namespace ZzzLab
         }
 
         #endregion EndWith
+
+        #region IndexOf
+
+        public static int IndexOfOr(this string str, IEnumerable<string> collection)
+        {
+            if (str is null) throw new ArgumentNullException(nameof(str));
+            foreach (string value in collection)
+            {
+                int index = str.IndexOf(value);
+
+                if (index >= 0) return index;
+            }
+
+            return -1;
+        }
+
+        public static int IndexOfOr(this string str, params string[] collection)
+            => IndexOfOr(str, (IEnumerable<string>)collection);
+
+        public static int IndexOfIgnoreCase(this string str, string val)
+        {
+            if (str is null) throw new ArgumentNullException(nameof(str));
+            return str.IndexOf(val, StringComparison.OrdinalIgnoreCase);
+        }
+
+        public static int IndexOfIgnoreCaseOr(this string str, IEnumerable<string> collection)
+        {
+            if (str is null) throw new ArgumentNullException(nameof(str));
+            foreach (string value in collection)
+            {
+                int index = str.IndexOf(value, StringComparison.OrdinalIgnoreCase);
+
+                if (index >= 0) return index;
+            }
+
+            return -1;
+        }
+
+        public static int IndexOfIgnoreCaseOr(this string str, params string[] collection)
+            => IndexOfIgnoreCaseOr(str, (IEnumerable<string>)collection);
+
+        #endregion IndexOf
+
+        #region InString
+
+        public static bool InString(this string str, string val)
+        {
+            if (str is null) throw new ArgumentNullException(nameof(str));
+            if (val is null) throw new ArgumentNullException(nameof(val));
+            if (str.IndexOf(val) >= 0) return true;
+
+            return false;
+        }
+
+        public static bool InStringIgnoreCase(this string str, string val)
+        {
+            if (str is null) throw new ArgumentNullException(nameof(str));
+            if (val is null) throw new ArgumentNullException(nameof(val));
+            if (str.IndexOfIgnoreCase(val) >= 0) return true;
+
+            return false;
+        }
+
+        public static bool InStringOr(this string str, params string[] collection)
+            => InStringOr(str, (IEnumerable<string>)collection);
+
+        public static bool InStringOr(this string str, IEnumerable<string> collection)
+        {
+            if (str is null) throw new ArgumentNullException(nameof(str));
+            if (collection == null || collection.Any() == false) throw new ArgumentNullException(nameof(collection));
+            foreach (string value in collection)
+            {
+                if (str.IndexOf(value) >= 0) return true;
+            }
+
+            return false;
+        }
+
+        public static bool InStringOrIgnoreCase(this string str, params string[] collection)
+            => InStringOrIgnoreCase(str, (IEnumerable<string>)collection);
+
+        public static bool InStringOrIgnoreCase(this string str, IEnumerable<string> collection)
+        {
+            if (str is null) throw new ArgumentNullException(nameof(str));
+            if (collection == null || collection.Any() == false) throw new ArgumentNullException(nameof(collection));
+            foreach (string value in collection)
+            {
+                if (str.IndexOfIgnoreCase(value) >= 0) return true;
+            }
+
+            return false;
+        }
+
+        #endregion InString
 
         #region Rex Support
 
@@ -699,7 +802,7 @@ namespace ZzzLab
         {
             if (string.IsNullOrWhiteSpace(str)) return false;
             if (bool.TryParse(str, out _)) return true;
-            else if (str.ToUpper().EqualsOrIgnoreCase("Y", "N", "YES", "NO", "TRUE", "FALSE", "1", "0")) return true;
+            else if (str.ToUpper().EqualsIgnoreCaseOr("Y", "N", "YES", "NO", "TRUE", "FALSE", "1", "0")) return true;
 
             return false;
         }

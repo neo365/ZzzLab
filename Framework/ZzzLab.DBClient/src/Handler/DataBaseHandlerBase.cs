@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 using System.Text;
 
 namespace ZzzLab.Data
@@ -11,8 +12,31 @@ namespace ZzzLab.Data
 
         public virtual bool IsDebug { set; get; } = false;
 
+        /// <summary>
+        /// 연결문자열
+        /// </summary>
+
         public virtual string ConnectionString { protected set; get; }
+
+        /// <summary>
+        /// 서버 종류
+        /// </summary>
         public virtual DataBaseType ServerType { protected set; get; }
+
+        /// <summary>
+        /// 서버그룹
+        /// </summary>
+        public virtual string Group { internal set; get; }
+
+        /// <summary>
+        /// 서버명(코드)
+        /// </summary>
+        public virtual string Name { internal set; get; }
+
+        /// <summary>
+        /// 서버별칭
+        /// </summary>
+        public virtual string AliasName { internal set; get; }
 
         #endregion property
 
@@ -125,10 +149,10 @@ namespace ZzzLab.Data
         public virtual void Vacuum(IDictionary<string, string> options = null)
             => throw new NotSupportedException();
 
-        public string GetQuery(string section, string label)
+        public virtual string GetQuery(string section, string label)
             => DBClient.Queries.Get(section, label);
 
-        public string GetQuery(string section, string label, QueryParameterCollection parameters)
+        public virtual string GetQuery(string section, string label, QueryParameterCollection parameters)
         {
             string sql = DBClient.Queries.Get(section, label);
 
@@ -136,12 +160,15 @@ namespace ZzzLab.Data
             {
                 foreach (QueryParameter p in parameters)
                 {
-                    sql = sql.ReplaceIgnoreCase("${" + p.Name + "}", p.Value?.ToString());
+                    sql = sql.ReplaceIgnoreCase("#{{" + p.Name + "}}", p.Value?.ToString());
+                    //sql = sql.ReplaceIgnoreCase("${{" + p.Name + "}}", $"'{p.Value?.ToString()}'");
                 }
             }
 
             return sql;
         }
+
+        public abstract string MakePagingQuery(string query, int pageNum, int pageSize);
 
         #region Utils
 
@@ -184,7 +211,7 @@ namespace ZzzLab.Data
         protected virtual string ConvertToExcuteSQL(Query query)
         {
             char parameterChar = GetParameterChar();
-            string commandText = CheckCommand(query.CommandText);
+            string commandText = CheckCommand(this.ServerType, query.CommandText, query.Parameters);
 
             string[] sqls = commandText.Split('\'');
 
@@ -211,8 +238,14 @@ namespace ZzzLab.Data
             return sb.ToString();
         }
 
-        protected virtual string CheckCommand(string commandText)
+        protected virtual string CheckCommand(DataBaseType serverType, string commandText, QueryParameterCollection parameters)
         {
+            if (parameters != null && parameters.Any())
+            {
+                foreach (QueryParameter parameter in parameters)
+                    commandText = commandText.ReplaceIgnoreCase("${{" + parameter.Name + "}}", $"{GetParameterChar()}{parameter.Name}");
+            }
+
             if (commandText.Trim().StartsWithIgnoreCaseOr("MERGE ")
                 && commandText.Trim().EndsWith(";") == false)
             {

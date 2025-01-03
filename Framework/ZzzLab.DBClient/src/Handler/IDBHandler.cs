@@ -14,6 +14,21 @@ namespace ZzzLab.Data
         DataBaseType ServerType { get; }
 
         /// <summary>
+        /// 서버그룹
+        /// </summary>
+        string Group { get; }
+
+        /// <summary>
+        /// 서버명(코드)
+        /// </summary>
+        string Name { get; }
+
+        /// <summary>
+        /// 서버별칭
+        /// </summary>
+        string AliasName { get; }
+
+        /// <summary>
         /// 연결문자열
         /// </summary>
         string ConnectionString { get; }
@@ -157,5 +172,7 @@ namespace ZzzLab.Data
         string GetQuery(string section, string label);
 
         string GetQuery(string section, string label, QueryParameterCollection parameters);
+
+        string MakePagingQuery(string query, int pageNum, int pageSize);
     }
 }

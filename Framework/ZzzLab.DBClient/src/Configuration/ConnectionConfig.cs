@@ -6,6 +6,8 @@ namespace ZzzLab.Data.Configuration
 {
     public class ConnectionConfig : ICopyable, ICloneable
     {
+        public virtual string Group { set; get; } = string.Empty;
+
         public virtual string Name { set; get; } = string.Empty;
 
         public virtual string AliasName { set; get; }

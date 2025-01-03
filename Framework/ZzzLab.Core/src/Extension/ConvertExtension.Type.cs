@@ -140,8 +140,8 @@ namespace ZzzLab
             string str = obj.ToString();
             if (string.IsNullOrWhiteSpace(str)) return null;
             else if (bool.TryParse(str, out bool rValue)) return rValue;
-            else if (str.EqualsOrIgnoreCase("Y", "YES", "TRUE", "1")) return true;
-            else if (str.EqualsOrIgnoreCase("N", "NO", "FALSE", "0")) return false;
+            else if (str.EqualsIgnoreCaseOr("Y", "YES", "TRUE", "1")) return true;
+            else if (str.EqualsIgnoreCaseOr("N", "NO", "FALSE", "0")) return false;
 
             return null;
         }

@@ -13,11 +13,15 @@ namespace ZzzLab.Data
             get => this.Handler.IsDebug;
         }
 
-        public ConnectionConfig Config { get; }
+        public virtual ConnectionConfig Config { get; }
 
-        public DataBaseType ServerType => this.Handler.ServerType;
+        public virtual DataBaseType ServerType => this.Handler.ServerType;
 
-        public string ConnectionString => this.Handler.ConnectionString;
+        public virtual string ConnectionString => this.Handler.ConnectionString;
+
+        public virtual string Group { protected set; get; }
+        public virtual string Name { protected set; get; }
+        public virtual string AliasName { protected set; get; }
 
         protected IDBHandler Handler;
 
@@ -27,6 +31,28 @@ namespace ZzzLab.Data
         {
             this.Config = config ?? throw new ArgumentNullException(nameof(config));
             this.Handler = GetDBHandler(this.Config.ServerType, this.Config.ConnectionString);
+
+            switch (config.ServerType)
+            {
+                case DataBaseType.Oracle:
+                    this.Handler = new OracleDBHandler(Config.ConnectionString);
+                    break;
+
+                case DataBaseType.MSSql:
+                    this.Handler = new MSSqlDBHandler(Config.ConnectionString);
+                    break;
+
+                case DataBaseType.PostgreSQL:
+                    this.Handler = new PostgreSQLDBHandler(Config.ConnectionString);
+                    break;
+
+                default:
+                    throw new NotSupportedException();
+            };
+
+            this.Group = config.Group;
+            this.Name = config.Name;
+            this.AliasName = config.AliasName;
         }
 
         public static IDBHandler Create(string name)
@@ -112,6 +138,9 @@ namespace ZzzLab.Data
 
         public string GetQuery(string section, string label, QueryParameterCollection parameters)
             => this.Handler.GetQuery(section, label, parameters);
+
+        public string MakePagingQuery(string query, int pageNum, int pageSize)
+            => this.Handler.MakePagingQuery(query, pageNum, pageSize);
 
         #region IDisposable
 

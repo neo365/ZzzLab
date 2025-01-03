@@ -19,14 +19,8 @@ del *.bak
 
 cd .\src
 
-dotnet add package NPOI   
-dotnet add package PdfSharpCore   
+dotnet add package NPOI  
 dotnet add package ZzzLab.Core
-dotnet add package iTextSharp.LGPLv2.Core
-dotnet add package PDFium.Windows   
-dotnet add package PDFiumSharpV2   
-dotnet add package System.Drawing.Common   
-dotnet add package System.Memory   
 
 dotnet list package
 

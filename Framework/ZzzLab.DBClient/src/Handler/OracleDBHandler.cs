@@ -29,7 +29,7 @@ namespace ZzzLab.Data
 
         #region Connectionstring
 
-        internal static string CreateConnectionString(string host, int port, string serviceName, string userid, string password, int timeout = 15)
+        internal static string CreateConnectionString(string host, int port, string serviceName, string userid, string password, int timeout = (60 * 60))
             => $"Data Source=(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST={host})(PORT={port}))(CONNECT_DATA=(SERVICE_NAME={serviceName})));User Id ={userid}; Password={password};;Connection Timeout={timeout};";
 
         #endregion Connectionstring
@@ -37,7 +37,8 @@ namespace ZzzLab.Data
         #region Version
 
         public override string GetVersion()
-            => SelectValue("SELECT DISTINCT VERSION FROM SYS.PRODUCT_COMPONENT_VERSION")?.ToString();
+            //=> SelectValue("SELECT DISTINCT VERSION FROM SYS.PRODUCT_COMPONENT_VERSION")?.ToString();
+            => SelectValue("SELECT BANNER_FULL WHERE banner LIKE 'Oracle%'")?.ToString();
 
         #endregion Version
 
@@ -110,14 +111,14 @@ namespace ZzzLab.Data
                         cmd.CommandText = ConvertToExcuteSQL(query);
                         cmd.CommandType = query.CommandType;
                         cmd.CommandTimeout = query.CommandTimeout;
+                        cmd.InitialLONGFetchSize = -1;
+                        cmd.InitialLOBFetchSize = -1;
 
                         if (query.Parameters != null && query.Parameters.Count > 0)
                         {
                             cmd.BindByName = true;
                             MappingQuery(cmd, query);
                         }
-
-                        cmd.InitialLOBFetchSize = -1;
 
                         using (var reader = cmd.ExecuteReader(CommandBehavior.CloseConnection))
                         {
@@ -131,7 +132,10 @@ namespace ZzzLab.Data
 
                 return (result != null && result.Rows.Count > 0 ? result : null);
             }
-            catch { throw; }
+            catch {
+                if (query != null) Logger.Debug(query.ToString());
+                throw; 
+            }
             finally
             {
                 CrearConnection(conn);
@@ -240,7 +244,7 @@ namespace ZzzLab.Data
                         }
                         catch
                         {
-                            Logger.Debug(query.ToString());
+                            if (query != null) Logger.Debug(query.ToString());
                             cmd.Transaction?.Rollback(); // 에러발생시rollback
                             cmd.Cancel();
                             throw;
@@ -295,6 +299,14 @@ namespace ZzzLab.Data
         }
 
         #endregion BulkCopy
+
+        public override string MakePagingQuery(string query, int pageNum = 1, int pageSize = 100)
+        {
+            if (pageNum <= 0) return query;
+
+            //return $"SELECT * FROM (SELECT a.*, ROWNUM as rnum FROM ({query}) a)  WHERE rnum > {((pageNum - 1) * pageSize)} and rnum <= {pageNum * pageSize}";
+            return $"SELECT * FROM ({query}) OFFSET  {((pageNum - 1) * pageSize)} ROWS FETCH NEXT {pageSize} ROWS ONLY";
+        }
 
         #region HELPER_FUNCTIONS
 

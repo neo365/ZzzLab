@@ -312,13 +312,13 @@ namespace System
         public static string Concat(this IEnumerable<string> collection, string delimiter = ",")
         {
             if (collection == null) throw new ArgumentNullException(nameof(collection));
-            if (string.IsNullOrWhiteSpace(delimiter)) throw new ArgumentNullException(nameof(delimiter));
+            //if (string.IsNullOrWhiteSpace(delimiter)) throw new ArgumentNullException(nameof(delimiter));
 
             string result = "";
 
             foreach (var value in collection)
             {
-                if (string.IsNullOrWhiteSpace(value) == false) result += $"{delimiter} {value}";
+                if (string.IsNullOrWhiteSpace(value) == false) result += $"{delimiter}{value}";
             }
 
             return result.Trim().TrimStart(delimiter.ToCharArray()).Trim();

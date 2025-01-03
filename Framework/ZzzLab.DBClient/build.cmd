@@ -19,9 +19,6 @@ del *.bak
 
 cd .\src
 
-dotnet add package Npgsql
-dotnet add package System.Configuration.ConfigurationManager
-dotnet add package System.Data.SqlClient
 dotnet add package NSQLFormatter
 dotnet add package ZzzLab.Core
 

@@ -9,7 +9,7 @@ namespace ZzzLab.Data.Handler
     {
         #region Construct
 
-        public SQLiteDBHandler(string connectionString)
+        public SQLiteDBHandler(string connectionString, string aliasName = null)
         {
             if (string.IsNullOrEmpty(connectionString?.Trim()))
             {
@@ -18,6 +18,7 @@ namespace ZzzLab.Data.Handler
 
             this.ConnectionString = connectionString;
             this.ServerType = DataBaseType.SQLite;
+            this.AliasName = aliasName;
         }
 
         #endregion Construct
@@ -44,6 +45,13 @@ namespace ZzzLab.Data.Handler
         }
 
         #endregion Connectionstring
+
+        #region Version
+
+        public override string GetVersion()
+            => SelectValue("select sqlite_version()")?.ToString();
+
+        #endregion Version
 
         #region Connection
 
@@ -206,6 +214,13 @@ namespace ZzzLab.Data.Handler
         }
 
         #endregion Excute
+
+        public override string MakePagingQuery(string query, int pageNum, int pageSize)
+        {
+            if (pageNum <= 0) return query;
+
+            return $"SELECT * FROM (SELECT * FROM ({query}) LIMIT (({pageNum} - 1) * {pageSize}), {pageSize};";
+        }
 
         #region HELPER_FUNCTIONS
 
