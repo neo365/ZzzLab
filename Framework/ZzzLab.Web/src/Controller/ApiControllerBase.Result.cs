@@ -60,6 +60,10 @@ namespace ZzzLab.Web.Controller
         public virtual IActionResult Grid(DataTable table, int recordsTotal = -1, int recordsFiltered = -1)
             => RestResult.Grid(table, recordsTotal: recordsTotal, recordsFiltered: recordsFiltered, trackingId: this.HttpContext.TraceIdentifier);
 
+        [NonAction]
+        public virtual IActionResult GridEmpty(int recordsTotal = -1, int recordsFiltered = -1)
+           => RestResult.GridEmpty(recordsTotal, recordsFiltered, trackingId: this.HttpContext.TraceIdentifier);
+
         #endregion Grid
 
         #region Fail

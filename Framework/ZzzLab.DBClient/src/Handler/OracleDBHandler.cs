@@ -60,6 +60,42 @@ namespace ZzzLab.Data
             OracleConnection.ClearPool(conn);
         }
 
+        #region ConnectionTest
+
+        public override bool ConnectionTest()
+        {
+            OracleConnection conn = null;
+            try
+            {
+                using (conn = CreateDBConnection())
+                {
+                    conn.Open();
+                    using (OracleCommand cmd = conn.CreateCommand())
+                    {
+                        cmd.CommandText = "SELECT SYSDATE FROM DUAL";
+                        cmd.CommandType = CommandType.Text;
+                        cmd.CommandTimeout = 10;
+
+                        cmd.ExecuteScalar();
+
+                        return true;
+                    }
+                }
+            }
+            catch
+            {
+                // Donothing
+            }
+            finally
+            {
+                CrearConnection(conn);
+            }
+
+            return false;
+        }
+
+        #endregion ConnectionTest
+
         #endregion Connection
 
         #region Select
@@ -132,9 +168,10 @@ namespace ZzzLab.Data
 
                 return (result != null && result.Rows.Count > 0 ? result : null);
             }
-            catch {
+            catch
+            {
                 if (query != null) Logger.Debug(query.ToString());
-                throw; 
+                throw;
             }
             finally
             {

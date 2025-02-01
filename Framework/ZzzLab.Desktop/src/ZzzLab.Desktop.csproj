@@ -29,7 +29,10 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <PackageReference Include="ZzzLab.Core" Version="0.2125.1113.2811" />
+	  <PackageReference Include="Microsoft.Extensions.Logging" Version="9.0.1" />
+	  <PackageReference Include="Microsoft.Extensions.Logging.Configuration" Version="9.0.1" />
+	  <PackageReference Include="System.Configuration.ConfigurationManager" Version="9.0.1" />
+	  <PackageReference Include="ZzzLab.Core" Version="0.2125.1211.2825" />
 	</ItemGroup>
 
 </Project>

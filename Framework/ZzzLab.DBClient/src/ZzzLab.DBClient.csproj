@@ -25,12 +25,14 @@
 	
 	<ItemGroup>
 		<PackageReference Include="BouncyCastle.Cryptography" Version="2.5.0" />
-		<PackageReference Include="Microsoft.Data.SqlClient" Version="5.2.2" />
-		<PackageReference Include="MySql.Data" Version="9.1.0" />
+		<PackageReference Include="Microsoft.Data.SqlClient" Version="6.0.1" />
+		<PackageReference Include="Microsoft.Extensions.Logging" Version="9.0.1" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Configuration" Version="9.0.1" />
+		<PackageReference Include="MySql.Data" Version="9.2.0" />
 		<PackageReference Include="Npgsql" Version="8.0.6" />
 		<PackageReference Include="NSQLFormatter" Version="2.0.0" />
 		<PackageReference Include="Oracle.ManagedDataAccess.Core" Version="2.19.260" />
-		<PackageReference Include="System.Configuration.ConfigurationManager" Version="9.0.0" />
+		<PackageReference Include="System.Configuration.ConfigurationManager" Version="9.0.1" />
 		<PackageReference Include="System.Data.SqlClient" Version="4.9.0" />
 		<PackageReference Include="System.Data.SQLite.Core" Version="1.0.119" />
 		<PackageReference Include="ZzzLab.Core" Version="0.2125.1113.2811" />

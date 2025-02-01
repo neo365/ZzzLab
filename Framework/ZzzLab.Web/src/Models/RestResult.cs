@@ -258,7 +258,7 @@ namespace ZzzLab.Web.Models
 
         public static IActionResult Grid(DataTable table, int recordsTotal = -1, int recordsFiltered = -1, int code = BASE_OK_CODE, string? trackingId = null)
         {
-            if (table == null || table.Rows.Count == 0) return Empty();
+            if (table == null || table.Rows.Count == 0) return GridEmpty();
 
             List<string> list = [];
             foreach (DataColumn c in table.Columns)
@@ -275,7 +275,7 @@ namespace ZzzLab.Web.Models
                 trackingId);
         }
 
-        public static IActionResult Empty(string? trackingId = null)
-            => Grid<dynamic>(null, [], 0, 0, BASE_OK_CODE, trackingId);
+        public static IActionResult GridEmpty(int recordsTotal = -1, int recordsFiltered = -1, string? trackingId = null)
+            => Grid<dynamic>(null, [], recordsTotal, recordsFiltered, BASE_OK_CODE, trackingId);
     }
 }
