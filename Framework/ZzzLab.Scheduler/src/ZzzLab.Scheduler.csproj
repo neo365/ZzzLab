@@ -23,7 +23,7 @@
     <PackageReference Include="Microsoft.Extensions.Logging" Version="9.0.1" />
     <PackageReference Include="Microsoft.Extensions.Logging.Configuration" Version="9.0.1" />
     <PackageReference Include="Quartz" Version="3.13.1" />
-    <PackageReference Include="ZzzLab.Core" Version="0.2125.1113.2811" />
+    <PackageReference Include="ZzzLab.Core" Version="0.2125.1213.1741" />
   </ItemGroup>
 
 </Project>
