@@ -231,7 +231,7 @@ namespace ZzzLab
         /// <param name="str">판단 대상</param>
         /// <param name="value">비교대상 string</param>
         /// <returns>값이 다른지 여부 판단</returns>
-        public static bool UnEqualsIgnoreCase(this string str, string value)
+        public static bool NotEqualsIgnoreCase(this string str, string value)
             => !str.Equals(value, StringComparison.OrdinalIgnoreCase);
 
         #endregion Equals

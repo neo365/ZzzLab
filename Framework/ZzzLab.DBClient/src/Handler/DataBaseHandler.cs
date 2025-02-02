@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using ZzzLab.Data.Configuration;
+using ZzzLab.Data.Handler;
 
 namespace ZzzLab.Data
 {
@@ -46,6 +47,15 @@ namespace ZzzLab.Data
                     this.Handler = new PostgreSQLDBHandler(Config.ConnectionString);
                     break;
 
+                case DataBaseType.MariaDB:
+                case DataBaseType.MySql:
+                    this.Handler = new MySqlDBHandler(Config.ConnectionString);
+                    break;
+
+                case DataBaseType.SQLite:
+                    this.Handler = new SQLiteDBHandler(Config.ConnectionString);
+                    break;
+
                 default:
                     throw new NotSupportedException();
             };
@@ -72,6 +82,9 @@ namespace ZzzLab.Data
                 case DataBaseType.Oracle: return new OracleDBHandler(connectionString);
                 case DataBaseType.MSSql: return new MSSqlDBHandler(connectionString);
                 case DataBaseType.PostgreSQL: return new PostgreSQLDBHandler(connectionString);
+                case DataBaseType.MariaDB: return new MySqlDBHandler(connectionString);
+                case DataBaseType.MySql: return new MySqlDBHandler(connectionString);
+                case DataBaseType.SQLite:  return new SQLiteDBHandler(connectionString);
             };
 
             throw new NotSupportedException();
