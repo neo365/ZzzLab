@@ -27,8 +27,8 @@ namespace ZzzLab.Data
 
         #region Connectionstring
 
-        internal static string CreateConnectionString(string host, int port, string database, string userid, string password, int timeout = 15)
-            => $"Host={host};Port={port};Database={database};User ID={userid};Password={password};Timeout={timeout}";
+        internal static string CreateConnectionString(string host, int port, string database, string userid, string password)
+            => $"Server={host};Port={port};Database={database};Uid={userid};Pwd={password}";
 
         #endregion Connectionstring
 

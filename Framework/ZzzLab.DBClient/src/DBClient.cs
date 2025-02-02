@@ -51,8 +51,8 @@ namespace ZzzLab.Data
                 case DataBaseType.PostgreSQL: return PostgreSQLDBHandler.CreateConnectionString(host, port, database, userid, password, timeout);
                 case DataBaseType.MSSql: return MSSqlDBHandler.CreateConnectionString(host, port, database, userid, password, timeout);
                 case DataBaseType.Oracle: return OracleDBHandler.CreateConnectionString(host, port, database, userid, password, timeout);
-                case DataBaseType.MariaDB: return MySqlDBHandler.CreateConnectionString(host, port, database, userid, password, timeout);
-                case DataBaseType.MySql: return MySqlDBHandler.CreateConnectionString(host, port, database, userid, password, timeout);
+                case DataBaseType.MariaDB: return MySqlDBHandler.CreateConnectionString(host, port, database, userid, password);
+                case DataBaseType.MySql: return MySqlDBHandler.CreateConnectionString(host, port, database, userid, password);
                 case DataBaseType.SQLite: return SQLiteDBHandler.CreateConnectionString(database, password, journalMode, timeout);
             };
 
