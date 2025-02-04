@@ -1,5 +1,4 @@
 ﻿using MySql.Data.MySqlClient;
-using Npgsql;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -78,7 +77,7 @@ namespace ZzzLab.Data
                         cmd.CommandTimeout = query.CommandTimeout;
                         cmd.Parameters.Clear();
                         // prepare the command, which is significantly faster
-                        cmd.Prepare();
+                        //cmd.Prepare();
 
                         MappingQuery(cmd, query);
 
@@ -112,9 +111,10 @@ namespace ZzzLab.Data
                         cmd.CommandType = query.CommandType;
                         cmd.CommandTimeout = query.CommandTimeout;
                         cmd.Parameters.Clear();
-                        cmd.Prepare();
+                        
 
                         MappingQuery(cmd, query);
+                        //cmd.Prepare();
 
                         using (var reader = cmd.ExecuteReader(CommandBehavior.CloseConnection))
                         {
@@ -275,7 +275,7 @@ namespace ZzzLab.Data
             {
                 if (cmd.Parameters.Contains(p.Name)) continue;
 
-                NpgsqlParameter dbParameter = new NpgsqlParameter()
+                MySqlParameter dbParameter = new MySqlParameter()
                 {
                     ParameterName = p.Name,
                     Value = (p.Value ?? DBNull.Value),
